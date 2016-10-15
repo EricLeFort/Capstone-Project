@@ -5,6 +5,7 @@
 \usepackage{ulem}
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+\date{}				%Removes the date from the title page.
 
 \title{\textbf{Project Title\\~\\Project Summary and Goals}}
 \author{
@@ -20,7 +21,11 @@ Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
 
 \begin{document}
 \maketitle
-\newpage
+
+\tableofcontents
+\listoffigures
+
+\vfill
 \begin{figure}[!htbp]
 \centering
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
@@ -29,9 +34,6 @@ Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
 \end{tabular}
 \caption{Revision History}
 \end{figure}
-
-\tableofcontents
-\listoffigures
 \newpage
 
 
