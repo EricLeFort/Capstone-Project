@@ -1,0 +1,39 @@
+3.3 Relevant Facts and Assumptions
+
+F - measurements and physical properties
+A - Table/balls uniform/flat/even
+A - No mid shot interference
+A - balls never leave lift off the table
+
+
+// 
+
+3.1 Mandated Constraints
+
+Only "standard" shots will be made
+System will be customized for specific table
+Not breaking
+No motion further than 2ft away from table (in the plane of the table)
+No motion/components further than 4ft above the surface of the table
+Speed cannot reach dangerous speed
+No applying chalk
+The microcontroller memory will be constraint relative to the hardware solution chosen (the arduino Uno is roughly 35 kb of total memory)
+
+
+//
+
+3.2 Scope of the project
+
+ - the scope of the project includes only the components of pool that require the player to attempt and take a shot
+
+
+
+//
+
+4.1 Funtional Requirements
+
+
+
+
+
+
