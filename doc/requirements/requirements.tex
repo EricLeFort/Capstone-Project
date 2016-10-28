@@ -1,0 +1,192 @@
+ \documentclass[titlepage]{article}
+ \usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+ \usepackage{framed}
+ \usepackage{imakeidx}
+ \usepackage{graphicx}
+ \usepackage{array}
+ 
+ \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+ 
+ \makeindex
+ 
+ \title{Project Title\\~\\Software Requirements Specification}
+ \author{
+ Eric Le Fort\\leforte@mcmaster.ca\\1308609\and
+ Max Moore\\moorem8@mcmaster.ca\\1320009
+ }
+ 
+ \begin{document}
+ \maketitle
+ 
+ 
+ \tableofcontents
+ \listoffigures
+ \listoftables
+ 
+ 
+ \vfill
+ \begin{table}[!htbp]
+ \centering
+ \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+ 	Date			&Revision \#	&Comments						&Authors\\\hline
+ 	DD/MM/YYYY		&0				&- Initial document creation	&~Eric Le Fort\newline Max Moore\\\hline
+ \end{tabular}
+ \caption{Revision History}
+ \end{table}
+ \newpage
+ 
+  \section{Introduction}
+  \subsection{Project Overview}
+  %TODO
+ -\subsection{Product Perspective}
+ -%TODO
+ -\subsubsection{System Interfaces}
+ -%TODO
+ -\subsubsection{Hardware Interfaces}
+ -%TODO
+ -\subsubsection{Software Interfaces}
+ -%TODO
+ -\subsubsection{Communications Interfaces}
+ -%TODO
+ -\subsubsection{Memory Constraints}
+ -%TODO
+  \subsection{Naming Conventions \& Definitions}
+  This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+  \subsubsection{Definitions}
+ Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+ \begin{table}[h!]
+ \centering
+ \caption{Definitions}
+     \begin{tabular}{| p{6cm} | p{6cm} |}\hline
+     \textbf{Term}	&\textbf{Meaning}\\\hline
+ 	x-axis					&Distance along length of pool table\\\hline
+ 	y-axis					&Distance across width of pool table\\\hline
+ 	z-axis					&Height above pool table\\\hline
+ 	$\theta$				&Rotational angle of robot arm end-effector\\\hline
+ 	cue 					&Robot arm end-effector\\\hline
+ 	direct shot				&No obstacles between cue ball and target ball\\\hline
+ 	straight shot			&A direct shot in which the cue ball, target ball, and target hole form a straight line\\\hline
+     %TODO Fill with necessary definitions.
+     \end{tabular}
+ \label{tab:Definitions}
+ \end{table}
+ 
+ \subsubsection{Acronyms \& Abbreviations}
+ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+ \begin{table}[h!]
+ \centering
+ \caption{Acronyms and Abbreviations}
+     \begin{tabular}{| p{6cm} | p{6cm} |}\hline
+     \textbf{Acronym/Abbreviation} &\textbf{Meaning}\\\hline
+     %TODO Fill with necessary acronyms/abbreviations.
+     \end{tabular}
+ \label{tab:Acronyms}
+ \end{table}
+ 
+ 
+ \section{Project Drivers}
+ \subsection{The Purpose of the Project}
+ %TODO
+ 
+ \subsection{The Clients, the Customers, and Other Stakeholders}
+ \subsubsection{The Clients}
+ \begin{itemize}
+ 	\item[-] Dr. Wassyng
+ \end{itemize}
+ 
+ \subsubsection{The Customers}
+ \begin{itemize}
+ 	\item[-] Professional pool players
+ 	\item[-] Amateur pool players
+ 	\item[-] Pool hall owners
+ \end{itemize}
+ 
+ \subsubsection{Other Stakeholders}
+ \begin{itemize}
+ 	\item[-] Team Members
+ 	\item[-] Pool Table Manufacturers
+ \end{itemize}
+ 
+ \subsection{Users of the Product}
+ \begin{itemize}
+ 	\item[-] Control test group
+ 	\item[-] Professional pool players
+ 	\item[-] Amateur pool players
+ 	\item[-] Demonstrators
+ \end{itemize}
+ 
+ 
+ \section{Project Constraints}
+ \subsection{Mandated Constraints}%TODO complete
+ \begin{itemize}
+  	\item[-] 750 dollars investment limit
+  \end{itemize}
+  
+ -\subsection{Scope}
+ -%TODO
+ -\subsubsection{The Scope of the Product}
+ -%TODO
+ -\subsubsection{The Scope of the Work}
+ +\subsection{The Scope of the Product}
+  %TODO
+  \subsection{Relevant Facts \& Assumptions}
+  %TODO
+ 
+ 
+ \section{Functional Requirements}
+ %TODO section description
+ \subsection{Functional \& Data Requirements}
+ \begin{framed}
+ \noindent\textbf{Requirement \#}: - \hfill \textbf{Requirement Type}: - \hfill\\\\
+ \noindent\textbf{Description}: -\\
+ \textbf{Rationale}: -\\
+ \textbf{Originator}: (Author)\\
+ \textbf{Fit Criterion}: -\\\\
+ \noindent\textbf{Customer Satisfaction}: (0-5) \hfill 	\textbf{Customer Dissatisfaction}: (0-5) \hfill\\
+ \textbf{Priority}: (low/medium/high) \hfill \textbf{Conflicts}: () \hfill 		\\
+ \textbf{Supporting Material}: (Other documents)\\\\
+ \noindent\textbf{History}: Created (DATE)
+ \end{framed}
+ 
+ 
+ \section{Non-Functional Requirements}
+ \subsection{Look \& Feel Requirements}
+ \textbf{LF1:} %TODO
+ 
+ \subsection{Usability \& Humanity Requirements}
+ \textbf{UH1:} %TODO
+ 
+ \subsection{Performance Requirements}
+ \textbf{PR1:} %TODO
+ 
+ \subsection{Operational \& Environmental Requirements}
+ \textbf{OE1:} %TODO
+ 
+ \subsection{Maintainability \& Support Requirements}
+ \textbf{MS1:} %TODO
+ 
+ \subsection{Security Requirements}
+ \textbf{S1:} %TODO
+ 
+ \subsection{Cultural \& Political Requirements}
+ \textbf{CP1:} %TODO
+ 
+ \subsection{Legal Requirements}
+ \textbf{L1:} %TODO
+ 
+ 
+ \section{Project Issues}
+ %TODO Section description
+ \subsection{Off-the-Shelf Solutions}
+ %TODO
+ 
+ \subsection{Risks}
+ %TODO
+ 
+ \subsection{User Documentation \& Training}
+ %TODO
+ 
+ 
+ \pagebreak
+ \printindex
+ \end{document}
