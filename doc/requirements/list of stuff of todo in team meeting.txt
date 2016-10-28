@@ -11,6 +11,7 @@ A - balls never leave lift off the table
 3.1 Mandated Constraints
 
 Only "standard" shots will be made
+	def "standard shots":	No backspin, curves, bounce, trick shots, etc.
 System will be customized for specific table
 Not breaking
 No motion further than 2ft away from table (in the plane of the table)
