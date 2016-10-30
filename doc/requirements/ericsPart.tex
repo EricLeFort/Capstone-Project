@@ -1,0 +1,173 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{framed}
+\usepackage{imakeidx}
+\usepackage{graphicx}
+\usepackage{array}
+ 
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+
+%Definitions:
+%State of the table/table state
+%standard shot
+
+%Definitions:
+%PC
+%$\mu$C
+%camera - image capture device, just so we can make it more vague without always saying "image capture device"
+
+%Acronyms:
+%VR
+
+%Constraints:
+%The system shall adhere to the rules of pool (e.g. only moving balls by taking shots with a cue, only striking the cue ball, etc.).
+ 
+
+
+\begin{document}
+\begin{framed}
+	\noindent\textbf{Requirement \#}: - \hfill \textbf{Requirement Type}: - \hfill\\\\
+	\noindent\textbf{Description}: A one sentence description of the intention of the requirement\\
+	\textbf{Rationale}: A justification of the requirement\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: A measurement of the requirement such that it is possible to test if the solution matches the original requirement\\\\
+	\noindent\textbf{Customer Satisfaction}: (0-5) \hfill 	\textbf{Customer Dissatisfaction}: (0-5) \hfill\\
+	\textbf{Priority}: (Low/Medium/High) \hfill \textbf{Conflicts}: () \hfill\\
+	\textbf{Supporting Material}: (Other documents)\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+ 
+  
+ 
+\section{Functional Requirements}
+This section will outline the various functional requirements for this system. Requirement types will correspond to the following table:
+
+ \begin{table}[!htbp]
+ \centering
+ \begin{tabular}{| C{2.2} | C{5} |}\hline
+ 	\textbf{Requirement Type}	&\textbf{Description}\\\hline
+	1							&Software Capability\\\hline
+	2							&Software Communication\\\hline
+ 	3							&Hardware\\\hline
+	4							&Electrical\\\hline
+ \end{tabular}
+ \caption{Requirement Types}
+ \end{table}
+ 
+ 
+\subsection{Functional \& Data Requirements}
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: Obtain visual data of the table.\\
+	\textbf{Rationale}: The system must be able to take in data to be used in the VR algorithm.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data obtained is of sufficient quality to be successfully used by the VR algorithm.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill 		\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
+	\noindent\textbf{Description}: Communicate image data from camera to PC.\\
+	\textbf{Rationale}: The system will have a separate device for image capture. It is imperative that that device can communicate its data to the PC in order to be used in the VR algorithm.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the PC is identical to the data transmitted by the camera.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: Create model of table state in software using VR.\\
+	\textbf{Rationale}: The table must be modelled such that the shot selection algorithm has information to work off of.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the modelling of each ball on the table is accurate to within 1 centimeter of their actual position.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: Select an optimal shot based off a series of simulations using the table state.\\
+	\textbf{Rationale}: The system must be able to come up with a shot to make given the table state.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if the system comes up with a shot that makes rational sense (i.e. analyzing the shot shows that it appears to have good probability of sinking a ball).\\\\
+	\noindent\textbf{Customer Satisfaction}: 2 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
+	\noindent\textbf{Description}: Communicate the model of the table state from MATLAB to the system's core programming language.\\
+	\textbf{Rationale}: MATLAB will only be used to compute VR calculations and a more suitable language will be utilized to handle the rest of the program's functionality. Therefore, the results that MATLAB arrives at must be passed to the other language.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the core programming language is identical to that computed in MATLAB.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 6 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: Create an instruction set for the embedded system based on the selected shot.\\
+	\textbf{Rationale}: Once a shot is selected, the system must then determine the necessary steps to take in order for the machine to be able to make the shot. This will include motion of all elements to position the end-effector at a suitable location from machine's current location as well as how the end-effector should strike the cue ball.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the instruction set provided contains all necessary information and that information does in fact instruct the embedded system on how to go about making the selected shot.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
+	\noindent\textbf{Description}: Communicate the instruction set to the $\mu$C.\\
+	\textbf{Rationale}: The system must be able to communicate the instruction set generated on the more computationally powerful PC to the $\mu$C in order to operate the machine.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the $\mu$C is identical to that computed in the PC.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 8 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
+	\noindent\textbf{Description}: Communicate a simple response back to the PC indicating the validity of the instruction set received by the $\mu$C.\\
+	\textbf{Rationale}: The $\mu$C should generate a response to the PC as to whether the instruction set provided is valid considering the current state of the system. This will act as a contingency if the machine was disturbed (e.g. forced out of position by the user) by alerting the PC that its assumption of the machine's location was wrong.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the response received is identical to the response sent and if the response is correct given the current state of the system.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 2 \hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 9 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: The $\mu$C must be able to interpret the instruction set to real-world controls.\\
+	\textbf{Rationale}: The instruction set will be in more abstract terms.  The embedded system must encode these instructions to the equivalent electrical signals.\\
+	\textbf{Originator}: Eric Le Fort\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the control signals generated from the instruction set are correct.\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+%10.	Move end-effector to desired location/orientation
+%11.	Keep track of machine location/orientation/information
+%12.	Take a shot
+%13.	Takes user input (take shot, move, cancel)
+%14.	Move to pre-determined location upon user request
+ 
+\end{document}
