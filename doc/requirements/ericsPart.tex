@@ -15,6 +15,7 @@
 %PC
 %$\mu$C
 %camera - image capture device, just so we can make it more vague without always saying "image capture device"
+%end-effector
 
 %Acronyms:
 %VR
@@ -25,43 +26,30 @@
 
 
 \begin{document}
-\begin{framed}
-	\noindent\textbf{Requirement \#}: - \hfill \textbf{Requirement Type}: - \hfill\\\\
-	\noindent\textbf{Description}: A one sentence description of the intention of the requirement\\
-	\textbf{Rationale}: A justification of the requirement\\
-	\textbf{Originator}: Eric Le Fort\\
-	\textbf{Fit Criterion}: A measurement of the requirement such that it is possible to test if the solution matches the original requirement\\\\
-	\noindent\textbf{Customer Satisfaction}: (0-5) \hfill 	\textbf{Customer Dissatisfaction}: (0-5) \hfill\\
-	\textbf{Priority}: (Low/Medium/High) \hfill \textbf{Conflicts}: () \hfill\\
-	\textbf{Supporting Material}: (Other documents)\\\\
-	\noindent\textbf{History}: Created 01-NOV-2016
-\end{framed}
- 
-  
+
+
  
 \section{Functional Requirements}
-This section will outline the various functional requirements for this system. Requirement types will correspond to the following table:
-
- \begin{table}[!htbp]
- \centering
- \begin{tabular}{| C{2.2} | C{5} |}\hline
- 	\textbf{Requirement Type}	&\textbf{Description}\\\hline
+The following section outlines the various functional requirements of this system. For each requirement, a description of the requirement, the rationale behind the requirement, and a fit criterion for when the requirement is satisfied are provided. The values given for customer satisfaction and dissatisfaction are from 0-5. The values for requirement priority are either high, medium or low.\\\\
+Functional requirement types will correspond to the following table:
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{2.2} | C{5} |}\hline
+	\textbf{Requirement Type}	&\textbf{Description}\\\hline
 	1							&Software Capability\\\hline
 	2							&Software Communication\\\hline
- 	3							&Hardware\\\hline
+ 	3							&Mechanical\\\hline
 	4							&Electrical\\\hline
- \end{tabular}
- \caption{Requirement Types}
- \end{table}
+\end{tabular}
+\caption{Functional Requirement Types}
+\end{table}
  
- 
-\subsection{Functional \& Data Requirements}
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Obtain visual data of the table.\\
 	\textbf{Rationale}: The system must be able to take in data to be used in the VR algorithm.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data obtained is of sufficient quality to be successfully used by the VR algorithm.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill 		\\
 	\textbf{Supporting Material}: None\\\\
@@ -72,8 +60,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate image data from camera to PC.\\
 	\textbf{Rationale}: The system will have a separate device for image capture. It is imperative that that device can communicate its data to the PC in order to be used in the VR algorithm.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the PC is identical to the data transmitted by the camera.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -84,8 +72,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Create model of table state in software using VR.\\
 	\textbf{Rationale}: The table must be modelled such that the shot selection algorithm has information to work off of.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the modelling of each ball on the table is accurate to within 1 centimeter of their actual position.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -96,8 +84,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Select an optimal shot based off a series of simulations using the table state.\\
 	\textbf{Rationale}: The system must be able to come up with a shot to make given the table state.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if the system comes up with a shot that makes rational sense (i.e. analyzing the shot shows that it appears to have good probability of sinking a ball).\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 2 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
 	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -108,8 +96,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate the model of the table state from MATLAB to the system's core programming language.\\
 	\textbf{Rationale}: MATLAB will only be used to compute VR calculations and a more suitable language will be utilized to handle the rest of the program's functionality. Therefore, the results that MATLAB arrives at must be passed to the other language.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the core programming language is identical to that computed in MATLAB.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -120,8 +108,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 6 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Create an instruction set for the embedded system based on the selected shot.\\
 	\textbf{Rationale}: Once a shot is selected, the system must then determine the necessary steps to take in order for the machine to be able to make the shot. This will include motion of all elements to position the end-effector at a suitable location from machine's current location as well as how the end-effector should strike the cue ball.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the instruction set provided contains all necessary information and that information does in fact instruct the embedded system on how to go about making the selected shot.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -132,8 +120,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate the instruction set to the $\mu$C.\\
 	\textbf{Rationale}: The system must be able to communicate the instruction set generated on the more computationally powerful PC to the $\mu$C in order to operate the machine.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the $\mu$C is identical to that computed in the PC.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -144,8 +132,8 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 8 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate a simple response back to the PC indicating the validity of the instruction set received by the $\mu$C.\\
 	\textbf{Rationale}: The $\mu$C should generate a response to the PC as to whether the instruction set provided is valid considering the current state of the system. This will act as a contingency if the machine was disturbed (e.g. forced out of position by the user) by alerting the PC that its assumption of the machine's location was wrong.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the response received is identical to the response sent and if the response is correct given the current state of the system.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 2 \hfill\\
 	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
@@ -156,18 +144,85 @@ This section will outline the various functional requirements for this system. R
 	\noindent\textbf{Requirement \#}: 9 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: The $\mu$C must be able to interpret the instruction set to real-world controls.\\
 	\textbf{Rationale}: The instruction set will be in more abstract terms.  The embedded system must encode these instructions to the equivalent electrical signals.\\
-	\textbf{Originator}: Eric Le Fort\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the control signals generated from the instruction set are correct.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
 	\noindent\textbf{History}: Created 01-NOV-2016
 \end{framed}
 
-%10.	Move end-effector to desired location/orientation
-%11.	Keep track of machine location/orientation/information
-%12.	Take a shot
-%13.	Takes user input (take shot, move, cancel)
-%14.	Move to pre-determined location upon user request
- 
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 10 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
+	\noindent\textbf{Description}: The system should be able to keep track of information pertaining to the machine's current physical state.\\
+	\textbf{Rationale}: If the system has a way of verifying the machine's current physical state, it will be able to detect unexpected disturbances. This will lead to higher accuracy of instructions being generated in certain cases as well as enabling the machine to self-correct as necessary.\\
+	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if it can be used to calibrate the system (i.e. a default starting point to return to when in doubt). Other levels of success would include more set points that can be used as reference.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 11 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
+	\noindent\textbf{Description}: The system must keep track of the machine's current physical state.\\
+	\textbf{Rationale}: In order to determine how to move the machine to take its next shot, the system must know the starting physical state of the machine.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the physical state of the machine is updated correctly as expected movements are made by the machine.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 12 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
+	\noindent\textbf{Description}: The machine must be able to move the end-effector to the determined location and orientation.\\
+	\textbf{Rationale}: The system must be able to relocate the end-effector in order to make a shot.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the machine successfully moves to the location specified by the system within 5 millimeters and orientation within half of a degree.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 5 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 13 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
+	\noindent\textbf{Description}: The machine must be able to move the end-effector to strike the cue ball, taking a shot.\\
+	\textbf{Rationale}: The system must be able to strike the cue ball in order to actually take a shot.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the machine actuates the end-effector within 5\% of the specified speed.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 5 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 14 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
+	\noindent\textbf{Description}: The machine must be able to take user input to indicate options such as: take a shot, move out of the way or stop operation.\\
+	\textbf{Rationale}: The user will need to indicate to the system what it needs it to do. Automatically knowing what the user would desire from the machine is outside of the scope of this project.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the embedded system can receive signals from the user signifying the specified functionalities.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 2 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 15 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
+	\noindent\textbf{Description}: The machine must be capable of moving out of the way to pre-determined locations upon user request.\\
+	\textbf{Rationale}: The system must be able to move the machine out of the way if the machine is in the user's way while they are attempting to make a shot.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if after the machine is instructed to move out of the user's way it moves to a pre-determined location.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 4 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 01-NOV-2016
+\end{framed}
+
+
 \end{document}
