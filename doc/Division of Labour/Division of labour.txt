@@ -1,3 +1,5 @@
+Division of Labour for Requirements Document:
+
 1,2,3,6 - Guy 
 
 4 	- Eric
@@ -6,3 +8,10 @@
 	
 5	- Max
 	- Derek
+
+1 - Intorduction
+2 - Project Drivers
+3 - Project Constraints
+4 - Functional Requirements
+5 - Non-Functional Requirements
+6 - Project Issues
