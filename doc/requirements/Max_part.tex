@@ -1,0 +1,182 @@
+  \documentclass[titlepage]{article}
+ \usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+ \usepackage{framed}
+ \usepackage{imakeidx}
+ \usepackage{graphicx}
+ \usepackage{array}
+
+
+
+
+
+\begin{document} 
+
+
+
+
+\section{Non-Functional Requirements}
+ \subsection{Look \& Feel Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: Look and Feel \hfill\\\\
+	\noindent\textbf{Description}: Players must be able to see the table setup upon their turn.\\
+	\textbf{Rationale}: The users must be able to make decisions about future shots.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be somewhat subjective, but essentially the majority of users should conclude that the position of the robot doesn't inhibit their ability to see the game-state when necessary.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 2 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+
+ 
+ \subsection{Usability \& Humanity Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:Usability \hfill\\\\
+	\noindent\textbf{Description}:The design of the robot shall not greatly inhibit a players ability to make a shot.\\
+	\textbf{Rationale}: The users must be able to play acceptably alongside the robot.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be somewhat subjective, but essentially the majority of users should conclude that the position of the robot doesn't inhibit their ability to make shots as well as they would be able to on a regular pool table.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}:Humanity \hfill\\\\
+	\noindent\textbf{Description}:The player should be able to freely interrupt the robots turn, or relinquish their turn.\\
+	\textbf{Rationale}: The user can have the freedom to choose to see the robots next move, or stop them for their own, at their will.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that the robot can be interrupted or freely started, 99% of the time.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: Possibly with enforcing rules of game \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+
+
+ 
+ \subsection{Performance Requirements}
+ \textbf{PR1:} %TODO
+ 
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}:Performance \hfill\\\\
+	\noindent\textbf{Description}:The System will take shots quickly.\\
+	\textbf{Rationale}: The user will not have to wait too long to play their turn.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that the robot will decide on a shot to take, and make that shot in under 90 seconds, 90 percent of the time.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}:Performance \hfill\\\\
+	\noindent\textbf{Description}:The System will take shots precisely.\\
+	\textbf{Rationale}: The user will feel challenged by the robot.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that the robot will decide on a shot to take, and make that shot in under, 50 percent of the time, assuming there was a reasonable, straight shot available.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 4 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+
+
+
+ \subsection{Operational \& Environmental Requirements}
+
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 6 \hfill \textbf{Requirement Type}:Environment \hfill\\\\
+	\noindent\textbf{Description}:The System will be in an environment in accordance to regular pool playing environments\\
+	\textbf{Rationale}: The robot will not have unnecessary difficulties in making precise shots.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that the system is indoors, and at room temperature while running, and be given a few feet of room on all sides.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}:Operational \hfill\\\\
+	\noindent\textbf{Description}:The system will be provided with an external source of power\\
+	\textbf{Rationale}: The robot will have power to function..\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that power is in no way a restriction to our system.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+ 
+ \subsection{Maintainability \& Support Requirements}
+ \textbf{MS1:} %TODO
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 8 \hfill \textbf{Requirement Type}:Maintainability \hfill\\\\
+	\noindent\textbf{Description}:The system will be tested weekly for its base functionality\\
+	\textbf{Rationale}: To ensure wear and tear of the system hasn't rendered it useless.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that a short weekly test of previously completed functionalities is performed.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 1 \hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+
+ 
+ \subsection{Security Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 9 \hfill \textbf{Requirement Type}:Security \hfill\\\\
+	\noindent\textbf{Description}:Even very advanced users will not be able to modify the power of a shot beyond a certain safe value\\
+	\textbf{Rationale}: The robot will not be able to be used as a weapon, or with mal-intent.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that with extensive personal testing without directly modifying the code our safety conditions cannot be broken.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+ 
+ \subsection{Cultural \& Political Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 10 \hfill \textbf{Requirement Type}:Cultural \hfill\\\\
+	\noindent\textbf{Description}:There will be no direct references to any political or religious groups\\
+	\textbf{Rationale}: This will avoid accidentally offending certain demographics.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that 99 percent of users say there is no noticeable political or cultural relevance.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 1 \hfill\\
+	\textbf{Priority}: low \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+ 
+ \subsection{Legal Requirements}
+ \textbf{L1:} %TODO
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 11 \hfill \textbf{Requirement Type}:Legall \hfill\\\\
+	\noindent\textbf{Description}:There will be no copyright infringement, or usage of non-open source, or services that have not been properly paid for\\
+	\textbf{Rationale}: This will avoid academic dishonesty, and maintain the moral integrity of the group.\\
+	\textbf{Fit Criterion}: The fit Criterion for this will be that 99 percent of users say there is no noticeable political or cultural relevance.\\\\
+	\textbf{Originator}: Maxwell Moore\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 1 \hfill\\
+	\textbf{Priority}: low \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+ 
+
+
+\end{document}
