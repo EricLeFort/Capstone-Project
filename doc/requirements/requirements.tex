@@ -196,7 +196,7 @@ Requirement types will correspond to the following table:
  	P							&Performance\\\hline
 	OE							&Operation \& Environmental\\\hline
 	MS							&Maintainability \& Support\\\hline
-	S							&Security\\\hline
+	S							&Safety\\\hline
 	CP							&Cultural \& Political\\\hline
 	L							&Legal\\\hline
 \end{tabular}
@@ -433,6 +433,42 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 20 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
+	\noindent\textbf{Description}: The machine must be able to adjust the force delivered from the actuator to the end-effector according to the shot.\\
+	\textbf{Rationale}: The system should be able to sink shots from any distance on the table and will therefore require the ability to adjust the force in each shot.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the end-effector is able to strike the cue ball within 5\% of the specified force.\\\\
+	\textbf{Originator}: Andrew Danha\\\\
+	\noindent\textbf{Customer Satisfaction}: 4 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 21 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
+	\noindent\textbf{Description}: Power supply for system will be transformed from AC to DC as necessary.\\
+	\textbf{Rationale}: DC actuators will be simpler to work with and the $\mu$C requires a DC power supply.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the necessary components can be successfully powered with an AC/DC converter.\\\\
+	\textbf{Originator}: Andrew Danha\\\\ 
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 22 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
+	\noindent\textbf{Description}: The main power line should be connected to a switch.\\
+	\textbf{Rationale}: All components of the system should be able to be powered on with one simple switch.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if all electrical components receive sufficient power supply when the switch is turned on.\\\\
+	\textbf{Originator}: Andrew Danha\\\\ 
+	\noindent\textbf{Customer Satisfaction}: 3 \hfill 	\textbf{Customer Dissatisfaction}: 2 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
 \subsection{Non-Functional Requirements}
 The following is a collection of the non-functional requirements of this system:
 \subsubsection{Look \& Feel Requirements}
@@ -501,7 +537,7 @@ The following is a collection of the non-functional requirements of this system:
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: P \hfill\\\\
 	\noindent\textbf{Description}: Body parts needs to be light \\
-	\textbf{Rationale}: Robot needs to be light due to posible relocation, easier handling by user and to decrease power needed to move parts. \\
+	\textbf{Rationale}: Robot needs to be light due to possible relocation, easier handling by user and to decrease power needed to move parts. \\
 	\textbf{Fit Criterion}: Requirement is satisfied if user can easily handle parts and acctuators don't overheat. \\\\
 	\textbf{Originator}: Ernest Selman\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
@@ -526,7 +562,7 @@ The following is a collection of the non-functional requirements of this system:
 \subsubsection{Operational \& Environmental Requirements}
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:OE \hfill\\\\
-	\noindent\textbf{Description}:The System will be in an environment in accordance to regular pool playing environments.\\
+	\noindent\textbf{Description}:The system will be in an environment in accordance to regular pool playing environments.\\
 	\textbf{Rationale}: The robot will not have unnecessary difficulties in making precise shots.\\
 	\textbf{Fit Criterion}: The system is indoors, at room temperature while running, and have a few feet of room on all sides.\\\\
 	\textbf{Originator}: Maxwell Moore\\\\
@@ -537,22 +573,22 @@ The following is a collection of the non-functional requirements of this system:
 \end{framed}
 
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:OE \hfill\\\\
-	\noindent\textbf{Description}:The system will be able to be powered using a standard power socket.\\
-	\textbf{Rationale}: The robot must have power to function.\\
-	\textbf{Fit Criterion}: A standard wall socket provides sufficient power to operate the system.\\\\
-	\textbf{Originator}: Maxwell Moore\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: OE \hfill\\\\
+	\noindent\textbf{Description}: Power supply should be a standard 120V AC 60Hz outlet.\\
+	\textbf{Rationale}: The system will be simple to power.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if all components of the system can be powered by one standard outlet.\\\\
+	\textbf{Originator}: Andrew Danha\\\\
+	\noindent\textbf{Customer Satisfaction}: 4 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 03-NOV-2016
+	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: OE\hfill\\\\
 	\noindent\textbf{Description}: Pool table properties need to be consistent throughout the table. \\
 	\textbf{Rationale}: In order to have proper functionality and consistent results, table properties, like rolling resistance and flatness need to be the same in all points of the table. \\
-	\textbf{Fit Criterion}: equirement is satisfied if the table has consistent properties. \\\\
+	\textbf{Fit Criterion}: Requirement is satisfied if the table has consistent properties. \\\\
 	\textbf{Originator}: Ernest Selman\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
 	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
@@ -573,7 +609,7 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
-\subsubsection{Security Requirements}
+\subsubsection{Safety Requirements}
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:S \hfill\\\\
 	\noindent\textbf{Description}:Even very advanced users will not be able to modify the power of a shot beyond a certain safe value\\
@@ -584,6 +620,42 @@ The following is a collection of the non-functional requirements of this system:
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
 	\textbf{Supporting Material}: None\\\\
 	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: S \hfill\\\\
+	\noindent\textbf{Description}: Sensitive electrical equipment needs to be isolated from high voltage.\\
+	\textbf{Rationale}: Sensitive electrical equipment like the $\mu$C and sensors can be damaged if connected to high voltage sources.\\
+	\textbf{Fit Criterion}: Requirement is satisfied if sensitive electrical equipment is not connected to high voltage sources. \\\\
+	\textbf{Originator}: Ernest Selman\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 03-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: S \hfill\\\\
+	\noindent\textbf{Description}: All high voltage components should have circuit breakers.\\
+	\textbf{Rationale}: The system should be safe to use.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the power supply is cut to all high voltage components of the system when the circuit is overloaded.\\\\
+	\textbf{Originator}: Andrew Danha\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: S \hfill\\\\
+	\noindent\textbf{Description}:The microcontroller requires a voltage regulator.\\
+	\textbf{Rationale}: The microcontroller requires sufficient voltage/current to operate, but may damage or break if too much voltage/current is supplied.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the microcontroller is provided with a regulated amount of voltage and current to sufficiently operate.\\\\
+	\textbf{Originator}: Andrew Danha\\\\ 
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
 \subsubsection{Cultural \& Political Requirements}
@@ -614,15 +686,28 @@ The following is a collection of the non-functional requirements of this system:
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: L \hfill\\\\
-	\noindent\textbf{Description}: Sensible electrical equipment needs to be isolated from high voltage.\\
-	\textbf{Rationale}: Sensible electrical equipment like microcontroler and sensors can be damaged if connected to high voltage sourses.\\
-	\textbf{Fit Criterion}: Requirement is satisfied if Sensible electrical equipment is not connected to high voltage sourses. \\\\
-	\textbf{Originator}: Ernest Selman\\\\
-	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
+	\noindent\textbf{Description}: High voltage components should be safely secured from users.\\
+	\textbf{Rationale}: In the interest of safety, the system should not present electrical hazards.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if high voltage components are inaccessible to users.\\\\
+	\textbf{Originator}: Andrew Danha\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 03-NOV-2016
+	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: L \hfill\\\\
+	\noindent\textbf{Description}: All high voltage components should have circuit breakers.\\
+	\textbf{Rationale}: The system should be safe to use.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the power supply is cut to all high voltage components of the system when the circuit is overloaded.\\\\
+	\textbf{Originator}: Andrew Danha\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
 
 
 
