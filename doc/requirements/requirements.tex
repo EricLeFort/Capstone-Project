@@ -80,7 +80,7 @@
 \centering
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
-	DD/MM/YYYY		&0				&- Initial document creation	&Eric Le Fort\newline Max Moore\newline Guy Meyer\newline Ernest Selman\newline Andrew Danha\newline Derek Savery\\\hline
+	03/06/2016		&0				&- Initial document creation	&Eric Le Fort\newline Max Moore\newline Guy Meyer\newline Ernest Selman\newline Andrew Danha\newline Derek Savery\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
@@ -110,7 +110,7 @@ This system will have two inter-system communication interfaces:
 \end{enumerate}
 \subsubsection{Memory Constraints}
 The PC will not be very limited in terms of memory since it will have large memory storage. The limitations of the PC will arise from its RAM memory which may cause the computations to take time.\\\\
-The $\mu$C is more heavily constrained by its memory since most uC use chip memory that is general in the order of Kilobytes.
+The $\mu$C is more heavily constrained by its memory since most $\mu$C use chip memory that is generally in the order of Kilobytes.
  
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
@@ -390,7 +390,7 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{Requirement \#}: 12 \hfill \textbf{Requirement Type}: 3 \hfill\\\\
 	\noindent\textbf{Description}: The machine must be able to move the end-effector to the determined location and orientation.\\
 	\textbf{Rationale}: The system must be able to relocate the end-effector in order to make a shot.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if the machine successfully moves to the location specified by the system within 5 millimeters and orientation within half of a degree.\\\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the machine moves close enough to the location specified by the system such that the shot can be made successfully 95\% of the time.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 5 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
@@ -711,41 +711,7 @@ In order to market the product the user will need to be provided with documentat
 	\noindent\textbf{History}: Created 04-NOV-2016
 \end{framed}
 
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}:UH \hfill\\\\
-	\noindent\textbf{Description}: The robot should take it's turn if signaled to do so by the user.\\
-	\textbf{Rationale}: If the robot does not take it's turn, the system is unusable.\\
-	\textbf{Fit Criterion}: The robot shall take it's turn 99.9\% of the time when signalled to do so by the user.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
-	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: Possibly with enforcing rules of game \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
 
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: OE\hfill\\\\
-	\noindent\textbf{Description}: The table top must be sufficiently flat and free of scratches, warps, or other such imperfections. \\
-	\textbf{Rationale}: The setup must not give an unfair advantage to the robot over the user. \\
-	\textbf{Fit Criterion}: 90\% of users must agree that the table top meets requirements. \\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
-	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: None \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: OE\hfill\\\\
-	\noindent\textbf{Description}: The pool balls must be suffieicntly spherical, uniform, and free of imperfections. \\
-	\textbf{Rationale}: The setup must not give an unfair advantage to the robot over the user. \\
-	\textbf{Fit Criterion}: 90\% of users must agree that the pool balls meets requirements. \\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
-	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: None \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:SA \hfill\\\\
@@ -759,7 +725,7 @@ In order to market the product the user will need to be provided with documentat
 	\noindent\textbf{History}: Created 04-NOV-2016
 \end{framed}
 
-\begin{framed}
+\begin{framed}%Add such that danger points have shutoff buttons
 	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:SA \hfill\\\\
 	\noindent\textbf{Description}: Controls allowing for manual control over the operation of the mechanism will be located at least 2ft outside the perimeter of the system.\\
 	\textbf{Rationale}: Users should stand at least 2ft outside the perimeter of the system while the mechanism is operational.\\
@@ -771,29 +737,5 @@ In order to market the product the user will need to be provided with documentat
 	\noindent\textbf{History}: Created 04-NOV-2016
 \end{framed}
 
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}:SA \hfill\\\\
-	\noindent\textbf{Description}: All electrical components will be properly insulated. There will be no exposed wiring or other electrical hazards present. \\
-	\textbf{Rationale}: The robot shall not be able to harm users.\\
-	\textbf{Fit Criterion}: An outside consultant will verify that all electrical components meet safety considerations.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
-	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}:SA \hfill\\\\
-	\noindent\textbf{Description}: No user shall interact with the mechanism without having at least one other user present to man the emergency shutoff control. \\
-	\textbf{Rationale}: The robot shall not be able to harm users.\\
-	\textbf{Fit Criterion}: No user shall interact with the mechanism without having at least one other user present to man the emergency shutoff control.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
-	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
 
 
