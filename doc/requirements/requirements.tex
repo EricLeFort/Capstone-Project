@@ -63,16 +63,6 @@
 %CP1: No direct reference to religious or political group.
 %L1: No copyright infringement, unlicensed software use, illegal use of services
 
-%***Removals***
-%Force from actuator should be adjustable -- A subset of the "move end-effector appropriately" requirement.
-%Small repeatability area (same spot every time) -- fit criterion for move end-effector appropriately.
-%End effector needs to provide enough force to shoot. -- not really a requirement, just a fit criterion for "move end effector appropriately"
-%UH: Player should be able to interrupt machine's turn. -- Functional, included in "take in user input"
-%OE: Will be in regular pool playing environments -- moved to a constraint
-%OE: Pool table properties must be consistent -- already constrained
-%MS: Tested weekly -- I don't know about this as a requirement
-%L: All high voltage components should have circuit breakers -- Remove, duplicate
-
 
 
 \vfill
@@ -131,13 +121,15 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 	Straight shot			&A direct shot in which the cue ball, target ball, and target hole form a straight line\\\hline
 	Break					&This refers to the first shot at the beginning of a game of pool when the cue ball is used to strike and separate the rest of the arranged balls\\\hline
 	Jump					&In reference to a pool ball, this means that the ball loses contact with the table surface\\\hline
-	Personal Computer (PC)	&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm.\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm.\\\hline
 	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
 	Table State				&The current positions of all the balls on the table.\\\hline
-	Standard Shot			&A shot that does not involve backspin, jumps, curving, etc. (I.e. trick shots)\\\hline
+	Standard Shot			&A shot that does not involve backspin, jumps, curving, etc. (i.e. trick shots)\\\hline
 \end{tabular}
 \label{tab:Definitions}
 \end{table}
+
+\newpage
 \subsubsection{Acronyms \& Abbreviations}
 Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
 \begin{table}[h!]
@@ -200,7 +192,7 @@ Other constraints that the development team decided would be necessary:
 	\item[-] The system shall only perform standard shots
 	\item[-] No motion further than 2ft away from table (in the plane of the table surface)
 	\item[-] No motion/components further than 4ft above the table surface
-	\item[-] Cannot move at a dangerous speed
+	\item[-] Cannot move at a dangerous speed other than striking the pool ball
 	\item[-] The system shall adhere to the rules of pool (e.g. only moving balls by taking shots with a cue, only striking the cue ball, etc.)
 	\item[-] Application of chalk to the cue will be handled manually
 	\item[-] The system will only operate in regular pool playing environments (i.e. indoors at room temperature with sufficient space and lighting)
@@ -213,10 +205,11 @@ The scope of the project includes only the components of pool that require the p
 This section will outline various facts and assumptions that will be leveraged in the design of this system.
 \subsubsection{Facts}
 \begin{itemize}
-	\item[-] Weight, size, and colour of the balls.
+	\item[-] Weight, size, and colour of the balls
 	\item[-] Table dimensions
-	\item[-] Table-ball coefficient of friction
-	\item[-] The spring constant of the table wall.
+	\item[-] Table-ball static and dynamic coefficients of friction
+	\item[-] Ball-ball static coefficient of friction
+	\item[-] The spring constant of the table wall
 \end{itemize}
 \subsubsection{Assumptions}
 \begin{itemize}
@@ -266,11 +259,12 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 01-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate image data from camera to PC.\\
 	\textbf{Rationale}: The system will have a separate device for image capture. It is imperative that that device can communicate its data to the PC in order to be used in the VR algorithm.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the PC is identical to the data transmitted by the camera.\\\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the PC is identical to the data transmitted by the camera 99.9\%.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
@@ -282,7 +276,7 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Create model of table state in software using VR.\\
 	\textbf{Rationale}: The table must be modelled such that the shot selection algorithm has information to work off of.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if the modelling of each ball on the table is accurate to within 1 centimeter of their actual position.\\\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the modelling of each ball on the table is accurate to within 1 centimeter of their actual position.\\\\%TODO number?
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
@@ -294,7 +288,7 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
 	\noindent\textbf{Description}: Select an optimal shot based off a series of simulations using the table state.\\
 	\textbf{Rationale}: The system must be able to come up with a shot to make given the table state.\\
-	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if the system comes up with a shot that makes rational sense (i.e. analyzing the shot shows that it appears to have good probability of sinking a ball).\\\\
+	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if the system comes up with a shot that makes objective rational sense according to the user.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 2 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
 	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: None \hfill\\
@@ -302,6 +296,7 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 01-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate the model of the table state from MATLAB to the system's core programming language.\\
@@ -326,11 +321,12 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 01-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
 	\noindent\textbf{Description}: Communicate the instruction set to the $\mu$C.\\
 	\textbf{Rationale}: The system must be able to communicate the instruction set generated on the more computationally powerful PC to the $\mu$C in order to operate the machine.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the $\mu$C is identical to that computed in the PC.\\\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the data received by the $\mu$C is identical to that computed in the PC 99.9\% of the time.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
@@ -340,9 +336,9 @@ The following is a collection of the functional requirements of this system:
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 8 \hfill \textbf{Requirement Type}: 2 \hfill\\\\
-	\noindent\textbf{Description}: Communicate a simple response back to the PC indicating the validity of the instruction set received by the $\mu$C.\\
-	\textbf{Rationale}: The $\mu$C should generate a response to the PC as to whether the instruction set provided is valid considering the current state of the system. This will act as a contingency if the machine was disturbed (e.g. forced out of position by the user) by alerting the PC that its assumption of the machine's location was wrong.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if the response received is identical to the response sent and if the response is correct given the current state of the system.\\\\
+	\noindent\textbf{Description}: $\mu$C should communicate a simple response back to the PC indicating receipt of the message.\\
+	\textbf{Rationale}: The PC should be able to verify that the $\mu$C received the message.\\
+	\textbf{Fit Criterion}: This requirement will be considered satisfied if the response received is identical to the response sent and if the response is correct given the current state of the system 99.9\% of the time.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 2 \hfill\\
 	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
@@ -352,8 +348,8 @@ The following is a collection of the functional requirements of this system:
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 9 \hfill \textbf{Requirement Type}: 1 \hfill\\\\
-	\noindent\textbf{Description}: The $\mu$C must be able to interpret the instruction set to real-world controls.\\
-	\textbf{Rationale}: The instruction set will be in more abstract terms.  The embedded system must encode these instructions to the equivalent electrical signals.\\
+	\noindent\textbf{Description}: The $\mu$C must be able to interpret the instruction to real-world controls.\\
+	\textbf{Rationale}: The instruction will be just tell the $\mu$C where to move. The embedded system must encode these instructions to the equivalent electrical signals.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the control signals generated from the instruction set are correct.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
@@ -362,11 +358,12 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 01-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 10 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
-	\noindent\textbf{Description}: The system should be able to detect the machine's current physical state.\\
+	\noindent\textbf{Description}: The system should be able to detect the machine's current physical state at certain location.\\
 	\textbf{Rationale}: If the system has a way of verifying the machine's current physical state, it will be able to detect unexpected disturbances. This will lead to higher accuracy of instructions being generated in certain cases as well as enabling the machine to self-correct as necessary.\\
-	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if it can be used to calibrate the system (i.e. a default starting point to return to when in doubt). Other levels of success would include more set points that can be used as reference.\\\\
+	\textbf{Fit Criterion}: This requirement will have various degrees of success. It will be considered satisfied on its simplest level if it can be used to calibrate the system within negligible error (i.e. a default starting point to return to when in doubt). Other levels of success would include more set points that can be used as reference.\\\\
 	\textbf{Originator}: Eric Le Fort\\\\
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0 \hfill\\
 	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
@@ -459,7 +456,7 @@ The following is a collection of the functional requirements of this system:
 \end{framed}
 
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 19 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
+	\noindent\textbf{Requirement \#}: 18 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
 	\noindent\textbf{Description}: Power supply for system must be transformed from AC to DC as necessary.\\
 	\textbf{Rationale}: Certain components will rely on DC power and the power source will only provide AC current.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the necessary components can be successfully powered using an AC to DC converter.\\\\
@@ -470,21 +467,22 @@ The following is a collection of the functional requirements of this system:
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 20 \hfill \textbf{Requirement Type}: 4 \hfill\\\\
-	\noindent\textbf{Description}: The main power line should be connected to a switch.\\
-	\textbf{Rationale}: All components of the system should be able to be powered on with one simple switch.\\
-	\textbf{Fit Criterion}: This requirement will be considered satisfied if all electrical components receive sufficient power when the switch is turned on and no power reaches the system when the switch is turned off.\\\\
-	\textbf{Originator}: Andrew Danha\\\\ 
-	\noindent\textbf{Customer Satisfaction}: 3 \hfill 	\textbf{Customer Dissatisfaction}: 2 \hfill\\
-	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 02-NOV-2016
-\end{framed}
 
+\newpage
 \subsection{Non-Functional Requirements}
 The following is a collection of the non-functional requirements of this system:
 \subsubsection{Look \& Feel Requirements}
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: LF \hfill\\\\
+	\noindent\textbf{Description}: The general look and feel of the setup must sufficiently resemble a standard pool table.\\
+	\textbf{Rationale}: The setup must be familiar to the player such that they feel comfortable playing against the robot. \\
+	\textbf{Fit Criterion}: 90\% of users should conclude that the look and feel of the setup sufficiently resembles a standard pool table.\\\\
+	\textbf{Originator}: Derek Savery\\\\
+	\noindent\textbf{Customer Satisfaction}: 1\hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 04-NOV-2016
+\end{framed}
 
 \subsubsection{Usability \& Humanity Requirements}
 \begin{framed}
@@ -499,8 +497,9 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:UH \hfill\\\\
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: UH \hfill\\\\
 	\noindent\textbf{Description}: The design of the machine shall not greatly inhibit a players ability to make a shot.\\
 	\textbf{Rationale}: The users must be able to play alongside the machine.\\
 	\textbf{Fit Criterion}: 90\% of users should conclude that the position of the machine does not inhibit their ability to make shots as well as they would be able to on a regular pool table.\\\\
@@ -511,9 +510,21 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: UH \hfill\\\\
+	\noindent\textbf{Description}: The robot should not interrupt the player's turn.\\
+	\textbf{Rationale}: If the user chooses to stop the robot, the robot should remain stopped until activated by the user.\\
+	\textbf{Fit Criterion}: The robot shall not interrupt the player's turn 99.9\% of the time.\\\\
+	\textbf{Originator}: Derek Savery\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
+	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: Possibly with enforcing rules of game \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 04-NOV-2016
+\end{framed}
+
 \subsubsection{Performance Requirements}
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:P\hfill\\\\
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: P\hfill\\\\
 	\noindent\textbf{Description}: The system will take shots within a reasonable amount of time.\\
 	\textbf{Rationale}: The user should not have to wait too long to play their turn.\\
 	\textbf{Fit Criterion}: The machine will make a shot in under 90 seconds after being instructed to 90\% of the time.\\\\
@@ -524,8 +535,9 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:P\hfill\\\\
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: P\hfill\\\\
 	\noindent\textbf{Description}: The system will take shots precisely.\\
 	\textbf{Rationale}: The user should feel challenged by the system.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the system performs to the minimum standards in terms of successful shots as set forth in the \textit{Summary and Goals} document associated with this project.\\\\
@@ -560,6 +572,7 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 03-NOV-2016
 \end{framed}
 
+\newpage
 \subsubsection{Operational \& Environmental Requirements}
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: OE \hfill\\\\
@@ -573,11 +586,12 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
-\subsubsection{Maintainability \& Support Requirements}%TODO remove?
+\subsubsection{Maintainability \& Support Requirements}
+No support will be provided.
 
-\subsubsection{Safety}
+\subsubsection{Security \& Safety Requirements}
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: SA \hfill\\\\
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}: High voltage components should be safely secured from users.\\
 	\textbf{Rationale}: The system should not present electrical hazards.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if all high voltage components are not readily accessible to users without tampering.\\\\
@@ -588,9 +602,9 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
-\subsubsection{Security Requirements}
+\newpage
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:SE \hfill\\\\
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}: Users should not be able to modify system to perform unsafe actions such as setting the power of a shot beyond a certain safe value.\\
 	\textbf{Rationale}: The machine will not be able to be used in a dangerous fashion.\\
 	\textbf{Fit Criterion}: This requirement is satisfied if 99.9\% of users must not be able to figure out a way of making the system perform an unsafe action.\\\\
@@ -602,7 +616,7 @@ The following is a collection of the non-functional requirements of this system:
 \end{framed}
 
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: SE \hfill\\\\
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}: Sensitive electrical equipment needs to be isolated from high voltage.\\
 	\textbf{Rationale}: Certain equipment like the $\mu$C and sensors can be damaged if connected to high voltage sources.\\
 	\textbf{Fit Criterion}: This requirement is satisfied if sensitive electrical equipment is not connected to high voltage sources that would cause damage.\\\\
@@ -614,7 +628,7 @@ The following is a collection of the non-functional requirements of this system:
 \end{framed}
 
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: SE \hfill\\\\
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}: All high voltage components should have circuit breakers.\\
 	\textbf{Rationale}: The system should be safe to use.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the power supply is cut to all high voltage components of the system when the circuit is overloaded.\\\\
@@ -625,8 +639,9 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
+\newpage
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: SE \hfill\\\\
+	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}:The $\mu$C must have a voltage regulator.\\
 	\textbf{Rationale}: The $\mu$C requires sufficient voltage/current to operate but may be damaged if too much voltage or current is supplied.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if the $\mu$C is provided with a regulated amount of voltage and current to operate.\\\\
@@ -637,9 +652,33 @@ The following is a collection of the non-functional requirements of this system:
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 6 \hfill \textbf{Requirement Type}: S \hfill\\\\
+	\noindent\textbf{Description}: Users standing at least 2ft outside the perimeter of the setup will be in no danger of being harmed by any action taken by the mechanism.\\
+	\textbf{Rationale}: The robot shall not be able to harm users.\\
+	\textbf{Fit Criterion}: No user standing at least 2ft outside of the perimeter of the setup shall come to harm by any action taken by the mechanism.\\\\
+	\textbf{Originator}: Derek Savery\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 04-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: S \hfill\\\\
+	\noindent\textbf{Description}: There will be shutdown buttons located near any moving parts.\\
+	\textbf{Rationale}: Users should be able to signal the system to stop if they feel they are in danger.\\
+	\textbf{Fit Criterion}: Shutdown switches are located within reach of any possible dangerous location.\\\\
+	\textbf{Originator}: Derek Savery\\\\
+	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 04-NOV-2016
+\end{framed}
+
 \subsubsection{Cultural \& Political Requirements}
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:CP \hfill\\\\
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: CP \hfill\\\\
 	\noindent\textbf{Description}: There will be no direct references to any political or religious groups.\\
 	\textbf{Rationale}: This will avoid accidentally offending certain members of society.\\
 	\textbf{Fit Criterion}: This requirement will be considered satisfied if 99\% of users say there is no noticeable political or cultural relevance.\\\\
@@ -652,7 +691,7 @@ The following is a collection of the non-functional requirements of this system:
 
 \subsubsection{Legal Requirements}
 \begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:L\hfill\\\\
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: L\hfill\\\\
 	\noindent\textbf{Description}: There will be no copyright infringement, unlicensed usage of software, or services that have not been properly licensed.\\
 	\textbf{Rationale}: This will avoid academic dishonesty and maintain the moral integrity of the group.\\
 	\textbf{Fit Criterion}: An outside consultant will verify that there has been no copyright infringement, unlicensed usage of software, or services that have not been properly licensed.\\\\
@@ -669,13 +708,13 @@ The following is a collection of the non-functional requirements of this system:
 The issues to be addressed consider marketability, competition, safety, liabilities, or any other noticeable concerns.\\
 Furthermore, visual recognition, creating a pool table and the structural stability of the machine will be major challenges that must be overcome.
 \subsection{Existing Products}
-All known existing products are not publicly available. Nevertheless, these projects may affect the clients? view of the product and the overall marketability of the product.
+All known existing products are not publicly available. Nevertheless, these projects may affect the clients' view of the product and the overall marketability of the product.
 
 \subsection{Off-the-Shelf Solutions}
 Certain concerns involved in the development of this project can be addressed by using what has been created by others. There are various MATLAB libraries that can be leveraged in order to aid in the visual recognition segment of this project. A pool table can be purchased to avoid difficulties in creating a high quality table environment. The structure of the system can be optimized by purchasing high quality metals that are already machined in the appropriate fashion.
 
 \subsection{Risks}
-The risks found in this project generally describe the safety considerations found with both the creation and operation of the product. This machine may have quite strong motor and actuators that may be high current/ high voltage devices. It is imperative that the user?s safety is taken into account and that even a player without any electrical experience will be able to at least be around the table.
+The risks found in this project generally describe the safety considerations found with both the creation and operation of the product. This machine may have quite strong motor and actuators that may be high current or high voltage devices. It is imperative that the user's safety is taken into account and that even a player without any electrical experience will be able to at least be around the table. Another risk is achieving high enough precision to actually make successful shots.
 
 \subsection{User Documentation \& Training}
 In order to market the product the user will need to be provided with documentation regarding the operation, safety, and maintenance of the system. Although the product should be designed in a way that promotes ease of use, there must be some form of training required before the user can comfortably use the product. This may include a user manual or videos.
@@ -686,56 +725,3 @@ In order to market the product the user will need to be provided with documentat
 \pagebreak
 \printindex
 \end{document}
-
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: LF \hfill\\\\
-	\noindent\textbf{Description}: The general look and feel of the setup must sufficiently resemble a standard pool table.\\
-	\textbf{Rationale}: The setup must be familiar to the player such that they feel comfortable playing against the robot. \\
-	\textbf{Fit Criterion}: 90\% of users should conclude that the look and feel of the setup sufficiently resembles a standard pool table.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1\hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
-	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}:UH \hfill\\\\
-	\noindent\textbf{Description}: The robot should not interrupt the player's turn.\\
-	\textbf{Rationale}: If the user chooses to stop the robot, the robot should remain stopped until activated by the user.\\
-	\textbf{Fit Criterion}: The robot shall not interrupt the player's turn 99.9\% of the time.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
-	\textbf{Priority}: Medium \hfill \textbf{Conflicts}: Possibly with enforcing rules of game \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-
-
-\begin{framed}
-	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}:SA \hfill\\\\
-	\noindent\textbf{Description}: Users standing at least 2ft outside the perimeter of the setup will be in no danger of being harmed by any action taken by the mechanism.\\
-	\textbf{Rationale}: The robot shall not be able to harm users.\\
-	\textbf{Fit Criterion}: No user standing at least 2ft outside of the perimeter of the setup shall come to harm by any action taken by the mechanism.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
-	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-\begin{framed}%Add such that danger points have shutoff buttons
-	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}:SA \hfill\\\\
-	\noindent\textbf{Description}: Controls allowing for manual control over the operation of the mechanism will be located at least 2ft outside the perimeter of the system.\\
-	\textbf{Rationale}: Users should stand at least 2ft outside the perimeter of the system while the mechanism is operational.\\
-	\textbf{Fit Criterion}: The placement of the manual controls will be sufficient or insufficient by the design team.\\\\
-	\textbf{Originator}: Derek Savery\\\\
-	\noindent\textbf{Customer Satisfaction}: 1 \hfill 	\textbf{Customer Dissatisfaction}: 4 \hfill\\
-	\textbf{Priority}: High \hfill \textbf{Conflicts}: none \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 04-NOV-2016
-\end{framed}
-
-
-
