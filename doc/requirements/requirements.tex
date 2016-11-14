@@ -21,48 +21,9 @@
  
 \begin{document}
 \maketitle
-
-
 \tableofcontents
 ~\\[15mm]
 \listoftables
-
-%Plaintext Functional Requirements List:
-%Obtain visual data of the table
-%Communicate image data from camera to PC
-%Create model of table state in software
-%Select optimal shot
-%Communicate table state from MATLAB to core programming language
-%Create instruction set
-%Communicate instruction set to microcontroller
-%Communicate response to PC
-%Microcontroller must interpret instruction set.
-%Keep track of current physical state
-%Move end-effector appropriately
-%Take in user input to take shot, move out of the way, cancel
-%Move out of user's way when told to
-%Actuators need to provide sufficient force to move machine
-%Machine should be able to hit cue ball regardless of cue ball's position
-
-%Power supply will transform from AC to DC as necessary
-%Main power line controlled by single switch
-
-%Non-Functional Requirements List:
-%UH1: Player should be able to see table setup on their turn
-%UH2: Machine shall not greatly inhibit a player's ability to make a shot
-%P1: The system will take shots quickly
-%P2: The system will take shots precisely
-%P3: Body parts should be as light as possible
-%P4: Machine should be as sturdy as possible
-%OE1: Power supply should be standard outlet
-%SA1: High voltage components safely secured from users 
-%SE1: Users cannot manually alter power of shot
-%SE2: Sensitive equipment must be isolated from high voltage 
-%SE3: High voltage components must have circuit breakers 
-%SE4: Microcontroller needs voltage regulator
-%CP1: No direct reference to religious or political group.
-%L1: No copyright infringement, unlicensed software use, illegal use of services
-
 
 
 \vfill
@@ -237,8 +198,7 @@ Requirement types will correspond to the following table:
  	P							&Performance\\\hline
 	OE							&Operation \& Environmental\\\hline
 	MS							&Maintainability \& Support\\\hline
-	SA							&Safety\\\hline
-	SE							&Security\\\hline
+	S							&Safety \& Security\\\hline
 	CP							&Cultural \& Political\\\hline
 	L							&Legal\\\hline
 \end{tabular}
@@ -587,7 +547,29 @@ The following is a collection of the non-functional requirements of this system:
 \end{framed}
 
 \subsubsection{Maintainability \& Support Requirements}
-No support will be provided.
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: MS \hfill\\\\
+	\noindent\textbf{Description}: The system software should separate safety critical components from other components.\\
+	\textbf{Rationale}: The system should be designed to allow for updates or patches without compromising previously tested safety-critical software components.\\
+	\textbf{Fit Criterion}: All safety critical operations are encapsulated within their own modules.\\\\
+	\textbf{Originator}: Eric Le Fort\\\\
+	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 0\hfill\\
+	\textbf{Priority}: Low \hfill \textbf{Conflicts}: None\hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: MS \hfill\\\\
+	\noindent\textbf{Description}: The machine must be able to stay in full working order over a reasonable amount of time.\\
+	\textbf{Rationale}: The machine is not of much use if it cannot last for some amount of time.\\
+	\textbf{Fit Criterion}: The machine remains in full working order or can be sufficiently repaired 6 months after construction.\\\\
+	\noindent\textbf{Customer Satisfaction}: 3 \hfill 	\textbf{Customer Dissatisfaction}: 5\hfill\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None\hfill\\
+	\textbf{Supporting Material}: None\\\\
+	\noindent\textbf{History}: Created 02-NOV-2016
+\end{framed}
+\newpage
 
 \subsubsection{Security \& Safety Requirements}
 \begin{framed}
@@ -602,7 +584,6 @@ No support will be provided.
 	\noindent\textbf{History}: Created 02-NOV-2016
 \end{framed}
 
-\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}: Users should not be able to modify system to perform unsafe actions such as setting the power of a shot beyond a certain safe value.\\
@@ -636,10 +617,9 @@ No support will be provided.
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 3 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 02-NOV-2016
+	\noindent\textbf{History}: Created 13-NOV-2016
 \end{framed}
 
-\newpage
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: S \hfill\\\\
 	\noindent\textbf{Description}:The $\mu$C must have a voltage regulator.\\
@@ -649,7 +629,7 @@ No support will be provided.
 	\noindent\textbf{Customer Satisfaction}: 0 \hfill 	\textbf{Customer Dissatisfaction}: 5 \hfill\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
 	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 02-NOV-2016
+	\noindent\textbf{History}: Created 13-NOV-2016
 \end{framed}
 
 \begin{framed}
@@ -663,6 +643,7 @@ No support will be provided.
 	\textbf{Supporting Material}: None\\\\
 	\noindent\textbf{History}: Created 04-NOV-2016
 \end{framed}
+\newpage
 
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: S \hfill\\\\
