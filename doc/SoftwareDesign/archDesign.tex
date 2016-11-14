@@ -1,0 +1,69 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{framed}
+\usepackage{imakeidx}
+\usepackage{graphicx}
+\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+
+\makeindex
+
+\title{Project Title\\~\\Software Requirements Specification}
+\author{
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
+	Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\
+}
+ 
+\begin{document}
+\maketitle
+\tableofcontents
+~\\[15mm]
+\listoftables
+
+
+\vfill
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+	Date			&Revision \#	&Comments						&Authors\\\hline
+	14/11/2016		&0				&- Initial document creation	&Eric Le Fort\newline Max Moore\\\hline
+\end{tabular}
+\caption{Revision History}
+\end{table}
+\newpage
+ 
+\section{Introduction}
+\subsection{Purpose}
+%TODO
+\subsection{System Description}
+%TODO
+\subsection{Overview}
+%TODO
+
+\section{Use Case Diagram}
+\subsection{}%TODO Enumerate over any possible use cases
+%TODO
+
+\section{Analysis Class Diagram}
+%TODO create this diagram in draw.io depending on how complicated it gets
+
+
+\section{Architectural Design}%TODO reference previous document for an idea, going to be fairly different due to the difference in architectural approach.
+\subsection{System Architecture}
+%TODO Batch sequential
+\subsection{Subsystems}
+%TODO
+\subsubsection{Camera}
+%TODO Event-Driven
+\subsubsection{PC Controller}
+%TODO Rule-Based
+\subsubsection{PC VR Program}
+%TODO Pipe & Filter
+\subsubsection{Microcontroller}
+%TODO Sensor-Controller-Actuator
+
+
+\pagebreak
+\printindex
+\end{document}
