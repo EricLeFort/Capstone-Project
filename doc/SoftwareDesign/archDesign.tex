@@ -9,10 +9,10 @@
 
 \makeindex
 
-\title{Project Title\\~\\Software Requirements Specification}
+\title{Autonomous Pool Playing Robot\\~\\High-Level Architectural Design}
 \author{
 	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
-	Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\
+	Max Moore\\moorem8@mcmaster.ca\\1320009
 }
  
 \begin{document}
@@ -34,19 +34,84 @@
 \newpage
  
 \section{Introduction}
-\subsection{Purpose}
-%TODO
+This document's purpose is to describe the architecture of the software controlling the Autonomous Pool Playing Robot. Both the architecture for the encompassing system as well as architectures for distinct subsystems will be discussed.
 \subsection{System Description}
-%TODO
+This system will provide a control system for an autonomous pool playing robot. It will include three separate computational units and four separate programs.\\~\\
+The first computational unit will be a camera (likely a camera phone). This device will be responsible for reacting to a request, taking an image and then relaying that image.\\~\\
+The next computational unit will be the PC. This device will have two separate programs that must execute for the system to be successful. One program will handle the VR and the other will handle shot selection as well as message passing between devices. The VR program will handle processing the image from the camera into a table state that can be used by the shot selection algorithm. The other program on the PC will handle performing an algorithm to determine which shot should be taken, where to move the cue in order to take that shot, instructing the camera to take pictures, receiving the image from the camera, receiving a signal to take a shot from the $\mu$C and communicating the shot that must be taken back to the $\mu$C.\\~\\
+The last computational unit, the $\mu$C, will be responsible for interpreting the shot instructions provided by the PC into signals to control the machine accordingly, receiving control signals from the system, providing signals to move the machine out of the way to predetermined locations when requested, and sending the signal to take a shot back to the PC.
 \subsection{Overview}
+This document has four sections not including this one. Each section contains either design diagrams or further explanations to further describe the architecture of this system and is intended to prepare the software team to implement the design.\\
+\begin{itemize}
+	\item \textbf{Use Cases}: Describes possible user interactions with the system as well as the intended results of those interactions through the use of simple diagrams. A Use Case Diagram is also provided for reference.\\
+	\item \textbf{Analysis Class Diagram}: Defines the various classes in the system, how they will be connected, and their type (boundary, controller, or entity).\\
+	\item \textbf{Architectural Design}: This section defines the overall system architecture as well as the architectures of all subprograms.\\
+	\item \textbf{CRC Cards}: Each program will be broken up into their specific classes. The responsibilities of each class as well as any collaboration required with other classes to fulfill each responsibility (if any) will be listed.\\
+\end{itemize}
+
+\subsection{Naming Conventions \& Definitions}
+This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\subsubsection{Definitions}
+Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+\begin{table}[h!]
+\centering
+\caption{Definitions}
+\begin{tabular}{| C{6} | p{6cm} |}\hline
+	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
+	X-axis					&Distance along the length of the pool table\\\hline
+	Y-axis					&Distance across the width of the pool table\\\hline
+	Z-axis					&Height above the pool table\\\hline
+	End-effector			&The end of the arm that will strike the cue ball\\\hline
+	$\theta$				&Rotational angle of end-effector\\\hline
+	Cue 					&End-effector\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
+	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
+	Table State				&The current positions of all the balls on the table\\\hline
+	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
+	Boundary				&Classes that interact with users or external systems\\\hline
+\end{tabular}
+\label{tab:Definitions}
+\end{table}
+
+\newpage
+\subsubsection{Acronyms \& Abbreviations}
+Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+\begin{table}[h!]
+\centering
+\caption{Acronyms and Abbreviations}
+\begin{tabular}{| p{6cm} | p{6cm} |}\hline
+	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
+	VR								&Visual Recognition\\\hline
+	PC								&Personal Computer\\\hline
+	$\mu$C							&Micro-Controller\\\hline
+	CRC								&Class Responsibility Collaboration\\\hline
+\end{tabular}
+\label{tab:Acronyms}
+\end{table}
+
+
+\section{Use Cases}
+%TODO
+\subsection{Use Case Diagram}
+%TODO
+\subsection{Move Instruction}
+%TODO
+\subsection{Cancel Instruction}
+%TODO
+\subsection{Take a Shot Instruction}
 %TODO
 
-\section{Use Case Diagram}
-\subsection{}%TODO Enumerate over any possible use cases
-%TODO
 
-\section{Analysis Class Diagram}
-%TODO create this diagram in draw.io depending on how complicated it gets
+\section{Analysis Class Diagrams}
+%TODO create these diagrams in draw.io depending on how complicated they get
+\subsection{Camera Analysis Class Diagram}
+%TODO 
+\subsection{PC Controller Analysis Class Diagram}
+%TODO
+\subsection{PC VR Program Analysis Class Diagram}
+%TODO
+\subsection{$\mu$C Analysis Class Diagram}
+%TODO
 
 
 \section{Architectural Design}%TODO reference previous document for an idea, going to be fairly different due to the difference in architectural approach.
@@ -54,16 +119,40 @@
 %TODO Batch sequential
 \subsection{Subsystems}
 %TODO
-\subsubsection{Camera}
+\subsubsection{Camera Architecture}
 %TODO Event-Driven
-\subsubsection{PC Controller}
+\subsubsection{PC Controller Architecture}
 %TODO Rule-Based
-\subsubsection{PC VR Program}
+\subsubsection{PC VR Program Architecture}
 %TODO Pipe & Filter
-\subsubsection{Microcontroller}
+\subsubsection{$\mu$C Architecture}
 %TODO Sensor-Controller-Actuator
+
+
+\section{Class Responsibility Collaboration (CRC) Cards}
+%TODO
+\subsection{Camera CRC Cards}
+%TODO
+\subsection{PC Controller CRC Cards}
+%TODO
+\subsection{PC VR Program CRC Cards}
+%TODO
+\subsection{$\mu$C CRC Cards}
+%TODO
 
 
 \pagebreak
 \printindex
 \end{document}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.6\textwidth} | p{0.3\textwidth} |} \hline 
+	\multicolumn{2}{|l|}{\textbf{Class Name: -}} \\\hline
+	\textbf{Responsibility:} & \textbf{Collaborators:} \\\hline
+	
+\end{tabular}
+\end{table}
+
+
+
