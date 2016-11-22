@@ -91,15 +91,17 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 
 
 \section{Use Cases}
-%TODO
+This section will outline the use cases that this system will be expected to handle. A Use Case Diagram will also be provided to help illustrate these cases. All use cases are initiated by the user interacting with a physical interface that will send a signal to the $\mu$C. Between operations, the various programs will revert to a dormant state to await the next instruction.
 \subsection{Use Case Diagram}
+The following diagram depicts the use cases of this system.
+%\includegraphics[width=\textwidth]{useCaseDiagram.png}
 %TODO
 \subsection{Move Instruction}
-%TODO
+This use case involves only the $\mu$C. Once the signal has been received, the $\mu$C will decide which predetermined set point to move to based on the current position of the machine that is stored in its memory. The $\mu$C will then determine the signals required to relocate the machine to the appropriate location and then send them to the machine. Once those signals are sent, the $\mu$C will update its memory to store the new position of the machine.
 \subsection{Cancel Instruction}
-%TODO
+This use case involves only the $\mu$C. Once the signal has been received, the $\mu$C will immediately stop the machine's motion. It will then update its memory to store the current position of the machine.
 \subsection{Take a Shot Instruction}
-%TODO
+This use case involves all four programs: the $\mu$C, the PC Controller Program, the Camera Program, and the PC VR Program in that order. Once the signal has been received, the $\mu$C will send a signal to the PC to begin its process and wait a small amount of time for the PC to send a receipt response. If the $\mu$C does not receive a response within the specified timeframe, it will resend its response. This process will be repeated until a response is received. The PC Controller Program will then send a signal to the camera to take a photo. Upon receiving this signal, the camera will take a picture of the table and send this back to the PC. If the picture was received correctly, the PC Controller Program will then start the PC VR Program and provide the picture to be used. Otherwise, the PC Controller Program will continue to resend the request to take a picture as necessary. The PC VR Program will utilize object detection to determine where the balls are on the table and which ball is which. Once collecting this information, it is provided to the PC Controller Program through an intermediate file. The PC Controller Program will then use its shot selection algorithm to determine how to strike the pool ball to take based on the table state provided and transmit that shot to the $\mu$C. After that, the $\mu$C will send a receipt signal back to the PC Controller Program. The $\mu$C will interpret the shot information to create an instruction set of signals to move the machine appropriately and take the shot.
 
 
 \section{Analysis Class Diagrams}
@@ -114,11 +116,13 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 %TODO
 
 
-\section{Architectural Design}%TODO reference previous document for an idea, going to be fairly different due to the difference in architectural approach.
+\section{Architectural Design}
+This section will discuss the architectures that are to be used while designing this system. The goal of these architectures is to promote the overall quality of the software for this system. In particular, the software should be more efficient, robust, and maintainable as a result of this architectural design.
 \subsection{System Architecture}
-%TODO Batch sequential
+The architecture of this system as a whole will be modelled using the batch sequential style. This architecture involves sending chunks of data after the program is completely done creating and promotes simple division of subsystems that can operate as independent programs. This creates a very strong separation of concerns within the larger system.\\~\\
+The shortcomings of this system are that it does not allow for concurrency and it has low throughput. Luckily, in this situation, the throughput is not intended to be very high. Also, each subsystem must wait for the previous system to fully complete its task in order to proceed regardless. Therefore, since this system does not even allow for concurrent operation, there is no loss in potential efficiency.
 \subsection{Subsystems}
-%TODO
+The subsystems will follow the batch sequential architecture on a system level but that architecture does not make sense for the subsystems themselves. This section will discuss the architectures that will be utilized on the subsystem level.
 \subsubsection{Camera Architecture}
 %TODO Event-Driven
 \subsubsection{PC Controller Architecture}
