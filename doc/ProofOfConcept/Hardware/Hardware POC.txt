@@ -10,3 +10,4 @@ Hardware POC:
 6. providing power supplies to all the necessary components
 7. Figure out if mottors will be able to move the robot. Make estimate of weight and see which motor specs do we need
 8. adequate emerg shut off controls
+9. rigid structure to avoid bending or unwanted motion
