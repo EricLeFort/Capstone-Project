@@ -1,9 +1,13 @@
 \documentclass[titlepage]{article}
 \usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
 \usepackage{framed}
+\usepackage{caption}
+\usepackage{amsmath}
 \usepackage{imakeidx}
 \usepackage{graphicx}
 \usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,decorations.pathmorphing,shapes}
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
 
@@ -20,6 +24,7 @@
 \tableofcontents
 ~\\[15mm]
 \listoftables
+\listoffigures
 
 
 \vfill
@@ -92,9 +97,13 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 
 \section{Use Cases}
 This section will outline the use cases that this system will be expected to handle. A Use Case Diagram will also be provided to help illustrate these cases. All use cases are initiated by the user interacting with a physical interface that will send a signal to the $\mu$C. Between operations, the various programs will revert to a dormant state to await the next instruction.
-\subsection{Use Case Diagram}
+\subsection{Use Case Diagram}%TODO include sensory input into use-case diagram and use-cases?
 The following diagram depicts the use cases of this system.\\
-\begin{center}\includegraphics[width=\textwidth]{useCaseDiagram.png}\end{center}
+\begin{center}
+	\includegraphics[width=\textwidth]{useCaseDiagram.png}
+\captionof{figure}{Use Case Diagram}
+\label{fig:use case diagram}
+\end{center}
 \subsection{Move Instruction}
 This use case involves only the $\mu$C. Once the signal has been received, the $\mu$C will decide which predetermined set point to move to based on the current position of the machine that is stored in its memory. The $\mu$C will then determine the signals required to relocate the machine to the appropriate location and then send them to the machine. Once those signals are sent, the $\mu$C will update its memory to store the new position of the machine.
 \subsection{Cancel Instruction}
@@ -104,7 +113,7 @@ This use case involves all four programs: the $\mu$C, the PC Controller Program,
 
 
 \section{Analysis Class Diagrams}
-%TODO create these diagrams in draw.io depending on how complicated they get
+%TODO create these diagrams in draw.io
 \subsection{Camera Analysis Class Diagram}
 %TODO 
 \subsection{PC Controller Analysis Class Diagram}
@@ -118,18 +127,82 @@ This use case involves all four programs: the $\mu$C, the PC Controller Program,
 \section{Architectural Design}
 This section will discuss the architectures that are to be used while designing this system. The goal of these architectures is to promote the overall quality of the software for this system. In particular, the software should be more efficient, robust, and maintainable as a result of this architectural design.
 \subsection{System Architecture}
-The architecture of this system as a whole will be modelled using the batch sequential style. This architecture involves sending chunks of data after the program is completely done creating and promotes simple division of subsystems that can operate as independent programs. This creates a very strong separation of concerns within the larger system.\\~\\
+The architecture of this system as a whole will be modelled using the \textit{Batch Sequential} style. This architecture involves sending chunks of data after each program is completely done processing and promotes simple division of subsystems that can operate as independent programs. This creates a strong separation of concerns within the larger system.\\~\\
 The shortcomings of this system are that it does not allow for concurrency and it has low throughput. Luckily, in this situation, the throughput is not intended to be very high. Also, each subsystem must wait for the previous system to fully complete its task in order to proceed regardless. Therefore, since this system does not even allow for concurrent operation, there is no loss in potential efficiency.
 \subsection{Subsystems}
 The subsystems will follow the batch sequential architecture on a system level but that architecture does not make sense for the subsystems themselves. This section will discuss the architectures that will be utilized on the subsystem level.
-\subsubsection{Camera Architecture}
-%TODO Event-Driven
-\subsubsection{PC Controller Architecture}
-%TODO Rule-Based
-\subsubsection{PC VR Program Architecture}
-%TODO Pipe & Filter
 \subsubsection{$\mu$C Architecture}
-%TODO Sensor-Controller-Actuator
+This subsystem will utilize a \textit{Sensor-Controller-Actuator} architecture style. This style is well-suited to embedded systems that deal with hardware which is optimal for this subsystem. The style breaks the subsystem up into four types of components: interfaces, sensors, actuators, and a controller. An illustration of the architecture is provided below:\\
+\begin{center}\begin{tikzpicture}[shorten >=1pt,on grid,auto]
+	\node[rectangle, draw, scale=1, minimum width=2cm,minimum height=1cm](0) []{Controller};
+	\node[circle, draw,node distance=2.0cm, minimum size=1.8cm](1) [above of=0]{Interface};
+   	\node[circle, draw,node distance=2.5cm, minimum size=1.8cm](2) [below left of=0]{Sensors};
+	\node[circle, draw,node distance=2.5cm, minimum size=1.8cm](3) [below right of=0]{Actuators};
+   	\draw (0) -- (1);
+	\draw (0) -- (2);
+	\draw (0) -- (3);
+\end{tikzpicture}
+\captionof{figure}{Sensor-Controller-Actuator Architecture}
+\label{fig:Sensor-Controller-Actuator Architecture}
+\end{center}~\\
+In the case of this subsystem, the breakdown of the components into these types will be as follows:
+\begin{itemize}
+	\item Sensors - System State
+	\begin{itemize}
+		\item Calibration sensors (quantity yet to be determined)
+	\end{itemize}
+	\item Sensors - Interface
+	\begin{itemize}
+		\item Stop buttons (multiple located throughout machine, quantity yet to be determined)
+		\item Move button
+		\item Take shot button
+	\end{itemize}
+	\item Logic
+	\begin{itemize}
+		\item Motion logic
+		\item Current state info
+	\end{itemize}
+	\item Actuators
+	\begin{itemize}
+		\item Translational motors ($\times2$)
+		\item Rotational motor
+		\item Pneumatic end-effector
+	\end{itemize}
+\end{itemize}
+\subsubsection{PC Controller Architecture}
+This subsystem will utilize a \textit{Rule-Based} architecture style. This style is well suited to making strategic moves while playing a game with rigid rules constraining actions. In other words, it is well-suited to decide which shot is the best to take given the current state of table and the rules of the game of pool. This style breaks down the subsystem into four types of modules: an interface, a rule-set,  working memory, and an inference engine. The interface will be where the system gets its input and sends its output. The rule-set is a particular sort of knowledge base that contains the rules constraining the acceptable actions. The working memory is temporary memory used by the subsystem. Lastly, the inference engine is what ties the subsystem together. Its job is to apply the rules appropriately and, using the working memory as a tool, generate the appropriate result to send as output.\\~\\
+In the case of this subsystem, the breakdown of these modules into these types will be as follows:
+\begin{itemize}
+	\item Interface
+	\begin{itemize}
+		\item Input -- table state
+		\item Output -- specification of shot (position, angle, and force)
+	\end{itemize}
+	\item Rule-Set
+	\begin{itemize}
+		\item Rules of pool
+		\item Mechanical constraints
+	\end{itemize}
+	\item Working Memory
+	\begin{itemize}
+		\item Table state
+		\item Current optimal shot
+	\end{itemize}
+	\item Inference Engine
+	\begin{itemize}
+		\item Simulate results of shots
+		\item Check rules against shot simulations at some incremental angle
+		\item Score shots based on weighted application of rules
+	\end{itemize}
+\end{itemize}
+\subsubsection{Camera Architecture}
+This subsystem will utilize an \textit{Event-Driven} architectural style. This will likely be the simplest subsystem present in the system. The role of this program is to sit idle waiting for a request to take a picture. Once it receives that request, it should take a picture and then communicate that image back to the PC Controller program. This request is the only event this program must respond to.
+\subsubsection{PC VR Program Architecture}
+This subsystem will also utilize a \textit{Batch Sequential} architecture style. This style has already been discussed in the system architecture and so will not be discussed again here. In this subsystem, the process is begun upon receipt of the request to start operation. The subsystem will then utilize a MATLAB VR library to detect the balls as objects on the table using the image provided. The results of this will be passed to the next step which will use the positions of the identified objects to determine which specific ball is which using colour comparison. Once this step completes, the table state has been computed and is then sent back to the PC Controller program. The issues of low throughput and lack of concurrency are not an issue in this case as the system would have to wait for the previous step to complete in order to begin the next step anyway.\\~\\
+An illustration of the specific implementation of this architecture is provided below:\\~\\
+$$\text{in } \xrightarrow{\text{image}} \text{ object detection } \overset{\text{image \&}}{\xrightarrow{\text{object positions}}} \text{ ball identification } \xrightarrow{\text{table state}} \text{ out}$$
+\captionof{figure}{PC VR Architecture}
+\label{fig:PC VR Architecture}
 
 
 \section{Class Responsibility Collaboration (CRC) Cards}

@@ -1,5 +1,5 @@
 %playing with Virtual Recognition Matlab libraries.
-[pic,mymap] = imread('C:\Users\Public\Pictures\Sample Pictures\good_balls.jpg');
+[pic,mymap] = imread('../../resources/good_balls.jpg');
 image(pic)
 %try
 %takes image read file, and if indexed changes it to RGB colour mapping
