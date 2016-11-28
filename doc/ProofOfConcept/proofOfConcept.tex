@@ -4,7 +4,7 @@
 \usepackage{imakeidx}
 \usepackage{graphicx}
 \usepackage{array}
-
+%\graphicspath{{./}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
 
 \makeindex
@@ -74,8 +74,20 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 This section will outline the major technical hurdles that must be overcome in order for this project to be a success. For each case, the concern will be discussed followed by the team's plan on how to overcome that issue.
 
 \subsection{Visual Recognition Software Usage}
-%TODO define facets of problem
-%TODO define how we will overcome problem
+For the visual recognition we need to be able to take a photo of the table, followed by having a script run that will recognize the position of balls, and finally be able to save that into a array of positions such that our decision making algorithm can operate easily and successfully. \\ \\
+We felt the best way to prove that we would be able to overcome this challenge would be for us to make a matlab script that at the very least: highlighted and recorded ball positions. As we expected this proved challenging, but after some work with it we have it identifying and recording the position of lightly coloured, or well-lit balls, in the future we will have to work towards recognizing dark balls, or maybe having a better lighting situation. Having said that for now we can be confident that we can recognize stationary balls via picture. \\ \\
+
+\includegraphics{gotsomeballs.PNG}
+\pagebreak
+
+Some problems that we ran into that we think we can easily solve are as follows
+\begin{itemize}
+\item more even lighting, so that we can better catch balls like the purple and green ball.
+\item a wider angle lens, or lens attachment so that we can take photos from closer to the table.
+\item some work on the algorithm so that it searches for both more relatively light and relatively dark "circles" in contrast to the background.
+\item save them as a position of the table, rather than a position  in the image, this could be done with either a more cropped photo (centered relatively well on the table) or simply by having Matlab recognize the position of the table (done more easily than the recognition of the balls.) 
+\end{itemize}
+
 
 \subsection{Inter-Device Communication}
 %TODO define facets of problem
