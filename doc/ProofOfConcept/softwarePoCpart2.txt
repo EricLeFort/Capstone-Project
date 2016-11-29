@@ -1,0 +1,92 @@
+intercommunication: 
+
+For the inter-device communication we need to have a phone recieve wirelessly 
+a message from the pc (so that it can be automated by our program) and take 
+a photo upon receiving this message. \\ \\
+
+We considered several ways of handling this, including using SCP and SSH
+clients alongside bash scripts that would communicate directly with the 
+shell of a rooted android device, such that we could move directly to the 
+directory with the hardware controls for the camera and issue commands from 
+there. The problem with this are the system requirements of the phone, since
+we would need to root any phone that we would want to use scalability 
+and security quickly become concerns that seem insurmountable inside of our 
+scope. As such we decided to do make an android app that would take photo's 
+upon recieving certain commands from the computer, or to adhere 
+to our even driven design, upon the completion of the micro controllers 
+task. The information can be sent from the hardware that we will be using 
+to the phone, which can independantly run the photo taking application, which
+upon completion can automatically use ftp without root permissions to send 
+the photo wireleslly to the computer. included are stack overflow links
+to credible, completed systems for file transfer from an android to a PC, 
+from hardware to an android machine, and for photo permissions and the like. 
+All of these in combination should fully allow for us to operate the system 
+as wanted. 
+
+
+hyperlink to android -> to pc file transfer.
+http://stackoverflow.com/questions/10417442/client-server-file-transfer-from-android-to-pc-connected-via-socket
+hyperlink to hardware -> android file transfer over wifi 
+http://stackoverflow.com/questions/20345155/android-receive-and-send-data-through-wifi-connection-to-hardware
+managing photo permissions and the like 
+http://www.howtogeek.com/230683/how-to-manage-app-permissions-on-android-6.0/
+
+As such we are fairly certain we can overcome any and all problems we come 
+upon in terms of device intercommunication.
+
+
+
+
+
+
+Shot Selection:
+
+
+Shot selection was the most difficult topic, and to be honest a hurdle we 
+can't exactly prove that we are going to be able to overcome easily, Eric
+Raises the point that given a set of possible angular shots to be made, as 
+a dimension, an amount of force as a dimension, and weighted goals as another 
+we would find a feasible-shot space of literally billions, each of which 
+which would need to be computed, and the maximum of which would need to be
+taken. This seems infeasible without a super computer backing our project,
+and also wildly outside of the scope of algorithms we are looking to design. 
+
+The idea was presented that perhaps we should limit the granularity of our 
+shots, and then eliminate them due to basic facts to limit the scope of the 
+decision our algorithm was going to make. for example we think we will limit 
+the shots to a 2 degree granularity, meaning that shots can be made at 
+2(degree)k, where k is an integer between and including, 0 and 180. First 
+we would check all of these positions at 100% power (what would be the safe
+limit if we were to actually use the value, which we will not) and see if 
+any of the basic rules are broken, that is if it hits an incorrect ball 
+first, or  sinking the cue ball without hitting any balls, or hitting 2 
+or more walls before hitting a similar coloured ball, or not hitting a ball 
+at all. This will drastically limit the remaining number of directions that we
+can shoot in. From here we will have to have to compute the remaining values 
+with a granularity of 2% power, that meaning that the power can reach from 
+(maximum safe value)*k*0.02 where K is an integer between 0 and 50. 
+this limits our worst-case scenario to comparisons between 18,000 different 
+values, but likely considerably better than that in practice. these 18000 
+different choices will be compared on different weighted values, like number
+of balls sunk on your team, number of balls sunk for the enemy team, number 
+of balls that lower in distance to the holes, and by how much, etc.
+
+Other ways we plan on lowering the likely number of comparisons: 
+
+- do a "binary search" on the appropriate power levels, start at 50%, and see if 
+it hits a ball hard enough, if it is certainly too hard or too soft (say 
+no ball is hit at 50%) then raise or lower is to 24%/76% respectively, and 
+only work within viable shot accuracies.
+ 
+- possibly implement a way to not use entire regions of directions (if the 
+cue ball is very near a wall, it could limit the direction by a full half)
+
+between all of these logical steps we think we can lower the number of decisions 
+to be made by the algorithm to a manageable amount, and as such be able to compute 
+this within our time specifications and have it make a reasonable decision. 
+
+Finally when we have made a decision we will have it fine-tune its answer by 
+seeing if shifting the shot right or left within the +-2 degree error 
+can improve the shot we are making easily. 
+
+
