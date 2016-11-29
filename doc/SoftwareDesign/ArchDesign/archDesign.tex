@@ -10,6 +10,7 @@
 \usetikzlibrary{automata,positioning,decorations.pathmorphing,shapes}
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+\graphicspath{{./img/}}
 
 \makeindex
 
@@ -22,7 +23,6 @@
 \begin{document}
 \maketitle
 \tableofcontents
-~\\[15mm]
 \listoftables
 \listoffigures
 
@@ -32,7 +32,8 @@
 \centering
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
-	14/11/2016		&0				&- Initial document creation	&Eric Le Fort\newline Max Moore\\\hline
+	14/11/2016		&0				&- Initial document creation	&Eric Le Fort\\\hline
+	28/11/2016		&1				&- First draft completion		&Eric Le Fort\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
@@ -78,7 +79,6 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 \label{tab:Definitions}
 \end{table}
 
-\newpage
 \subsubsection{Acronyms \& Abbreviations}
 Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
 \begin{table}[h!]
@@ -116,15 +116,22 @@ This use case involves all four programs: the $\mu$C, the PC Controller Program,
 
 
 \section{Analysis Class Diagrams}
-%TODO create these diagrams in draw.io
+The following section contains the analysis class diagrams for the $\mu$C and the PC Controller program. The PC VR program and Camera are not complicated enough to require the inclusion of these diagrams.
 \subsection{$\mu$C Analysis Class Diagram}
-%TODO
+The following is an analysis class diagram depicting the relationships between classes in the $\mu$C.\\
+\begin{center}
+	\includegraphics[scale = 0.75]{muCAnalysisClassDiagram.png}
+\captionof{figure}{$\mu$C Analysis Class Diagram}
+\label{fig:muC analysis class diagram}
+\end{center}~\\
+\newpage
 \subsection{PC Controller Analysis Class Diagram}
-%TODO
-\subsection{Camera Analysis Class Diagram}
-%TODO 
-\subsection{PC VR Program Analysis Class Diagram}
-%TODO
+The following is an analysis class diagram depicting the relationships between classes in the PC Controller program.\\
+\begin{center}
+	\includegraphics[scale = 0.75]{PCControllerAnalysisClassDiagram.png}%TODO create this diagram in draw.io
+\captionof{figure}{PC Controller Analysis Class Diagram}
+\label{fig:PC controller analysis class diagram}
+\end{center}~\\
 
 
 
@@ -216,21 +223,94 @@ $$\text{in } \xrightarrow{\text{image}} \text{ object detection } \overset{\text
 This section provides CRC cards for all classes in each of the programs. Each card will list the responsibilities as well as any classes the must be collaborated with to perform that responsibility.
 \subsection{$\mu$C CRC Cards}
 The following are the CRC cards for the $\mu$C program:\\
-%TODO
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{SensorMonitor}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}- Sensing signals from buttons	&\vspace{0mm}(None)\\&\\
+	- Sensing signals from calibration sensors\vspace{2mm}	&(None)\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+\newpage
 
-\subsection{PC Controller CRC Cards}
-The following are the CRC cards for the PC Controller program:\\
-\begin{table}[!htbp]%TODO collaborators
+\begin{table}[!htbp]
 \centering
 \begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
 	\multicolumn{2}{|l|}{}\\
 	\multicolumn{2}{|c|}{\large{\textbf{Communicator}}}\\
 	\multicolumn{2}{|l|}{}\\\hline
 	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
-	\vspace{0mm}- Listens for request from $\mu$C	&\vspace{0mm}-\\&\\
-	- Sends confirmation of receipt to $\mu$C		&-\\&\\
-	- Sends shot specification to $\mu$C			&-\\&\\
-	- Listen for receipt confirmation from $\mu$C	&-\\&\\
+	\vspace{0mm}- Send shot calculation request to the PC Controller Program	&\vspace{0mm}Communicator (PC)\\&\\
+	- Receive request receipt confirmation from PC Controller Program			&Communicator (PC)\\&\\
+	- Send shot receipt confirmation to PC Controller Program					&Communicator (PC)\\&\\
+	- Receive shot specification from PC Controller Program\vspace{2mm}			&Communicator (PC)\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{SignalGenerator}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}- Control translational motors		&\vspace{0mm}Shot Interpreter\\&\\
+	- Control rotational motor						&Shot Interpreter\\&\\
+	- Control pneumatic end-effector\vspace{2mm}	&Shot Interpreter\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{ShotInterpreter}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}Translate shot instruction into list of appropriate signals 	&\vspace{0mm}State, Communicator ($\mu$C)\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{State}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}Store and allow access to data regarding the current physical position of the machine	&\vspace{0mm}Communicator ($\mu$C)\vspace{2mm}\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+\newpage
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{Controller}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}Interrupt operation if that instruction is received	&\vspace{0mm}SensorMonitor \\&\\
+	Control flow of program operation\vspace{2mm}	&(None)\vspace{2mm}\\\hline
+\end{tabular}
+\end{table}
+
+\subsection{PC Controller CRC Cards}
+The following are the CRC cards for the PC Controller program:\\
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
+	\multicolumn{2}{|l|}{}\\
+	\multicolumn{2}{|c|}{\large{\textbf{Communicator}}}\\
+	\multicolumn{2}{|l|}{}\\\hline
+	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
+	\vspace{0mm}- Listens for request from $\mu$C	&\vspace{0mm}Communicator ($\mu$C)\\&\\
+	- Sends confirmation of receipt to $\mu$C		&Communicator ($\mu$C)\\&\\
+	- Sends shot specification to $\mu$C			&Communicator ($\mu$C), Shot, Vector\\&\\
+	- Listen for receipt confirmation from $\mu$C	&Communicator ($\mu$C)\\&\\
 	- Sends image capture request to camera			&EventHandler\\&\\
 	- Listens for response from camera				&EventHandler\\&\\
 	- Initiate the PC VR program					&(None)\\&\\
@@ -248,6 +328,7 @@ The following are the CRC cards for the PC Controller program:\\
 	\vspace{0mm}- Stores and allows access to an x- and y-component of a vector	&\vspace{0mm}(None)\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -286,6 +367,7 @@ The following are the CRC cards for the PC Controller program:\\
 	- Store and allow access to the number of both types of ball on the table\vspace{2mm}		&Ball\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -321,11 +403,12 @@ The following is the CRC card for the Camera program:\\
 	\multicolumn{2}{|c|}{\large{\textbf{Event Handler}}}\\
 	\multicolumn{2}{|l|}{}\\\hline
 	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
-	\vspace{0mm}- Listen for request from PC Controller	&\vspace{0mm}Communicator\\&\\
+	\vspace{0mm}- Listen for request from PC Controller	&\vspace{0mm}Communicator (PC)\\&\\
 	- Take a photo										&(None)\\&\\
-	- Communicate the photo\vspace{2mm}					&Communicator\vspace{2mm}\\\hline
+	- Communicate the photo\vspace{2mm}					&Communicator (PC)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \subsection{PC VR Program CRC Cards}
 The following is the CRC card for the PC VR program:\\
