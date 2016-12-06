@@ -1,0 +1,163 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{imakeidx}
+\usepackage{graphicx}
+\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+\graphicspath{{./img/}}
+
+\makeindex
+
+\title{Autonomous Pool Playing Robot\\~\\High-Level Architectural Design}
+\author{
+	Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
+	Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
+	Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
+	Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
+}
+ 
+\begin{document}
+\maketitle
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+\vfill
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+	Date			&Revision \#	&Comments					&Authors\\\hline
+	6/12/2016		&0				&- First draft completion	&Guy Meyer\newline Ernest Selman\newline Derek Savery\newline Andrew Danha\newline Eric Le Fort\\\hline
+\end{tabular}
+\caption{Revision History}
+\end{table}
+\newpage
+ 
+\section{Introduction}
+This document will describe the hardware architecture of the Autonomous Pool Playing Robot as a high level design.
+\subsection{System Description}
+This system will consist of the mechanical, electromechanical, and electrical components which in combination will form the physical makeup of an autonomous pool playing robot.\\\\
+The mechanical components will form the structure of the robot in order to allow the end effector to move in the X, Y and Z axis as well as rotate about the Z axis. The electromechanical components will facilitate motion of the robot including actuating the end-effector. The electrical components will power the entire system as well as deliver cpu signals to the electromechanical devices, thus driving the motion of the robot.
+\subsection{Overview}
+This document has three sections not including this one. The first section is dedicated to the mechanical components, the second section is dedicated to the electromechanical components, and the third section is dedicated to the electrical components.\\\\
+For each mechanical component there is a subsection containing a diagram of that component, a subsection dedicated to purpose and behaviour of that component, and a subsection dedicated to requirements for that component.\\\\
+For each electro-mechanical component there is a subsection dedicated to purpose and behaviour of that component, and a subsection dedicated to requirements of that component.\\\\
+For the electrical section there is a subsection containing a context diagram of all components. For each electrical component there is a subsection dedicated to I/O of that component.\\\\
+These subsections are intended to prepare the hardware team for implementation of each component.
+
+\subsection{Naming Conventions \& Definitions}
+This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\subsubsection{Definitions}
+Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+\begin{table}[h!]
+\centering
+\caption{Definitions}
+\begin{tabular}{| C{6} | p{6cm} |}\hline
+	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
+	X-axis					&Distance along the length of the pool table\\\hline
+	Y-axis					&Distance across the width of the pool table\\\hline
+	Z-axis					&Height above the pool table\\\hline
+	End-effector			&The end of the arm that will strike the cue ball\\\hline
+	$\theta$				&Rotational angle of the end-effector\\\hline
+	Cue 					&End-effector\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
+	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
+	Table State				&The current positions of all the balls on the table\\\hline
+	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
+	Boundary				&Classes that interact with users or external systems\\\hline
+\end{tabular}
+\label{tab:Definitions}
+\end{table}
+
+\subsubsection{Acronyms \& Abbreviations}
+Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+\begin{table}[h!]
+\centering
+\caption{Acronyms and Abbreviations}
+\begin{tabular}{| p{6cm} | p{6cm} |}\hline
+	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
+	VR								&Visual Recognition\\\hline
+	PC								&Personal Computer\\\hline
+	$\mu$C							&Micro-Controller\\\hline
+	EE								&End-Effector\\\hline
+	EEB								&End-Effector Base\\\hline
+	EEA								&End-Effector Arm\\\hline
+	PWM								&Pulse Width Modulation\\\hline
+\end{tabular}
+\label{tab:Acronyms}
+\end{table}
+
+
+
+\section{Mechanical System}
+%TODO
+\subsection{X-Rails}
+%TODO
+\subsection{Y-Rails}
+%TODO
+\subsection{Arm Base}
+%TODO
+\subsection{Arm}
+%TODO
+\subsection{Bridge}
+%TODO
+\subsection{End-Effector}
+%TODO
+\subsection{End-Effector Arm}
+%TODO
+\subsection{End-Effector Base}
+%TODO
+
+
+
+\section{Electromechanical System}
+%TODO
+\subsection{X-Rail Motors}
+%TODO
+\subsection{Y-Rail Motor}
+%TODO
+\subsection{Rotational Motor}
+%TODO
+\subsection{End-Effector Actuator}
+%TODO
+
+
+
+\section{Electrical System}
+%TODO
+\subsection{Power Supply}
+%TODO
+\subsection{Transformer}
+%TODO
+\subsection{AC to DC Converter}
+%TODO
+\subsection{$\mu$C}
+%TODO
+\subsection{Controllers}
+%TODO
+\subsection{Actuators}
+%TODO
+\subsection{Sensors}
+%TODO
+
+\end{document}
+
+%%%% TO BE USED AS LATEX CODING REFERENCE %%%%
+\begin{center}		%For including images. The default path is already "img" folder.
+	\includegraphics[scale = SCALING_FACTOR]{IMAGE_FILE_NAME}
+\captionof{figure}{CAPTION_NAME}
+\label{fig:FIGURE_NAME}
+\end{center}
+
+					%For having images or whatever captioned and included in the "List of Figures"
+\captionof{figure}{CAPTION_NAME}
+\label{fig:FIGURE_NAME}
+
+
+
