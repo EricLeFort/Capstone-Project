@@ -40,7 +40,6 @@
 \end{table}
 %TODO LAST: Confirm layout of document (i.e. no broken up sections)
 %TODO Mechanical section didn't describe the belts or however we plan to transfer movement from the motor to the machine.
-%TODO Electromechanical section doesn't describe the rotational motor.
 \section{Introduction}
 This document will describe the high-level hardware architecture of the Autonomous Pool Playing Robot. This document is intended to prepare the hardware team for implementation of each component discussed within.
 \subsection{System Description}
@@ -208,15 +207,15 @@ Based on the specifications of the components moved by the X-rail motor (physica
 
 \subsection{Y-Rail Motor}
 \textbf{Description}\\
-The Y-rail motor will power the movement required in the Y-direction. Only one motor is needed since the affected components will be supported at a single point on the Y-rail. Similar to the X-rail motors, a stepper motor will be used in order to keep track of the distance traveled along the rail. This motor will be geared as well which will result in a higher resolution of steps and reduce the torque applied on the motor. Additionally, belts will be used in this application as well (similar to the X-Rail Motors) where either a belt or a rotational (worm) gear will be used to tranlate the rotational motion of the rail gears onto a linear motion in the axis of the y axis.\\\\
+The Y-rail motor will power the movement required in the Y-direction. Only one motor is needed since the affected components will be supported at a single point on the Y-rail. Similar to the X-rail motors, a stepper motor will be used in order to keep track of the distance traveled along the rail. This motor will be geared as well which will result in a higher resolution of steps and reduce the torque applied on the motor. Additionally, belts will be used in this application as well (similar to the X-Rail Motors) where either a belt or a rotational (worm) gear will be used to translate the rotational motion of the rail gears onto a linear motion in the axis of the y axis.\\\\
 \textbf{Requirements}\\
 The electromechanical specifications are reliant on the physical properties of the affected system such as friction coefficients, mass, and size of the components. The motor is also required to have a sufficient number of steps but will be geared if found to require higher accuracy. Finally the motor is required to connect to the motion of the rail either through a belt or another means.
 
-\subsection{Rotational Motor}%TODO review
+\subsection{Rotational Motor}
 \textbf{Description}\\
-The Rotational Motor is responsible for properly orienting the EE in the proper direction. It will spin about the axis of the EEA which is attached to the EE at its bottom end. The Rotational Motor will be housed in the EEB since it provides the most support for a high torque motor. Furthermore, the shaft of the motor will be pointing straight down towards the table to allow the attached EE to reached closest to the table without ball interference. Once the proper orientation is acheived it will remain firmly in place to allow the EE to maintain accuracy whilst attempting a shot. There will be no belts required, only the use of steps or another feedback mechanism that will track the angle relative to the x-axis. \\\\
+The Rotational Motor is responsible for properly orienting the EE in the proper direction. It will spin about the axis of the EEA which is attached to the EE at its bottom end. The rotational motor will be housed in the EEB since it provides the most support for a high torque motor. Furthermore, the shaft of the motor will be pointing straight down towards the table to allow the attached EE to reach as close to the table as possible without ball interference. Once the proper orientation is achieved it must remain firmly in place to allow the EE to maintain accuracy whilst attempting a shot. The use of steps or another feedback mechanism will track the current angle of the EE.\\\\
 \textbf{Requirements}\\
-Since the motor's responsibilities are simple, there are not many requirements applied. First, the motor is required to spin a minimum of 360 degrees in order to cover all the possible orientation angles. The accuracy of this positioning must be sufficient so that an orientation is achieved within the available errors of angular direction, otherwise no final position may be met. As briefly mentioned in the description section above, the motor must resist disturbances from the EE so that its accuracy may be maintained. Although a stepper motor is prefered other motors may be used as long as they have the ability to track rotational displacement. 
+The motor is required to spin at least 360 degrees in order to cover all the possible shot angles. The positioning must have a high enough accuracy such that an orientation is achieved within acceptable error. As briefly mentioned in the description section above, the motor must also resist disturbances from the EE to avoid loss of accuracy. Although a stepper motor would be preferred any motor with the ability to track rotational displacement may be used.
 
 \subsection{End-Effector Actuator}
 \textbf{Description}\\
