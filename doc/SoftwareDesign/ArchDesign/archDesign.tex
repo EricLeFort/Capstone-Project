@@ -34,6 +34,7 @@
 	Date			&Revision \#	&Comments						&Authors\\\hline
 	14/11/2016		&0				&- Initial document creation	&Eric Le Fort\\\hline
 	28/11/2016		&1				&- First draft completion		&Eric Le Fort\\\hline
+	16/12/2016		&2				&- Added System Block Diagram	&Eric Le Fort\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
@@ -45,7 +46,14 @@ This document's purpose is to describe the architecture of the software controll
 This system will provide a control system for an autonomous pool playing robot. It will include three separate computational units and four separate programs.\\~\\
 The first computational unit will be a camera (likely a camera phone). This device will be responsible for reacting to a request, taking an image and then relaying that image.\\~\\
 The next computational unit will be the PC. This device will have two separate programs that must execute for the system to be successful. One program will handle the VR and the other will handle shot selection as well as message passing between devices. The VR program will handle processing the image from the camera into a table state that can be used by the shot selection algorithm. The other program on the PC will handle performing an algorithm to determine which shot should be taken, where to move the cue in order to take that shot, instructing the camera to take pictures, receiving the image from the camera, receiving a signal to take a shot from the $\mu$C and communicating the shot that must be taken back to the $\mu$C.\\~\\
-The last computational unit, the $\mu$C, will be responsible for interpreting the shot instructions provided by the PC into signals to control the machine accordingly, receiving control signals from the system, providing signals to move the machine out of the way to predetermined locations when requested, and sending the signal to take a shot back to the PC.
+The last computational unit, the $\mu$C, will be responsible for interpreting the shot instructions provided by the PC into signals to control the machine accordingly, receiving control signals from the system, providing signals to move the machine out of the way to predetermined locations when requested, and sending the signal to take a shot back to the PC.\\~\\
+\begin{center}
+	\includegraphics[width=0.87\textwidth]{blockDiagram.png}
+\captionof{figure}{System Block Diagram}
+\label{fig:block diagram}
+\end{center}
+
+
 \subsection{Overview}
 This document has four sections not including this one. Each section contains either design diagrams or further explanations to further describe the architecture of this system and is intended to prepare the software team to implement the design.\\
 \begin{itemize}
@@ -57,6 +65,7 @@ This document has four sections not including this one. Each section contains ei
 
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\newpage
 \subsubsection{Definitions}
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
 \begin{table}[h!]
@@ -221,6 +230,7 @@ $$\text{in } \xrightarrow{\text{image}} \text{ object detection } \overset{\text
 
 \section{Class Responsibility Collaboration (CRC) Cards}
 This section provides CRC cards for all classes in each of the programs. Each card will list the responsibilities as well as any classes the must be collaborated with to perform that responsibility.
+\newpage
 \subsection{$\mu$C CRC Cards}
 The following are the CRC cards for the $\mu$C program:\\
 \begin{table}[!htbp]
@@ -234,7 +244,6 @@ The following are the CRC cards for the $\mu$C program:\\
 	- Sensing signals from calibration sensors\vspace{2mm}	&(None)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -317,6 +326,7 @@ The following are the CRC cards for the PC Controller program:\\
 	- Read table state from file\vspace{2mm}		&(None)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -328,7 +338,6 @@ The following are the CRC cards for the PC Controller program:\\
 	\vspace{0mm}- Stores and allows access to an x- and y-component of a vector	&\vspace{0mm}(None)\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 \begin{table}[!htbp]
 \centering
