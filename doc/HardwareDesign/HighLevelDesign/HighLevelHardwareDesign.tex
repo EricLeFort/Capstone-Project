@@ -24,6 +24,7 @@
 \begin{document}
 \maketitle
 \tableofcontents
+\newpage
 \listoftables
 \listoffigures
 
@@ -38,8 +39,7 @@
 \end{tabular}
 \caption{Revision History}
 \end{table}
-%TODO LAST: Confirm layout of document (i.e. no broken up sections)
-%TODO Hardware design of the camera mount
+\newpage
 \section{Introduction}
 This document will describe the high-level hardware architecture of the Autonomous Pool Playing Robot. This document is intended to prepare the hardware team for implementation of each component discussed within.
 \subsection{System Description}
@@ -121,6 +121,18 @@ The purpose of the Y-rail is to provide motion of the end-effector base in the Y
 	\includegraphics[width = 0.9\textwidth]{yRail1.png}
 \captionof{figure}{Y Rail relative to the table (found in blue) }
 \label{fig:yRailFig}
+\end{center}
+
+\newpage
+\subsection{Camera Mount}
+\textbf{Description}\\
+The camera mount is the component that holds the device responsible for image capture to be used by the VR. The structure of the mount may either be a bridge that runs across the width of the table (y-axis) and over the arms or a crane-like structure that extends from one side to the center of the table. The design of the camera mount may also include a lamp to supplement the lighting for optimal pictures.\\\\
+\textbf{Requirements}\\
+The camera mount is required to ensure that the mobile device is located sufficiently high and parallel to the table. This is to allow the VR software to be able to consistently analyze the image properly. It is vital that the structure does not interfere with any of the moving mechanical components present. Furthermore, it will be designed in order to minimize the amount it gets in the user's way while they take their shot. The robot may sometimes interfere with getting an unobstructed view of the table. Therefore, the robot may be required to move out of the way for the image capture process.
+\begin{center}
+	\includegraphics[width = 0.9\textwidth]{cameraMountYAxis.png}
+\captionof{figure}{Camera Mount relative to the table (found in blue) }
+\label{fig:cameraMount}
 \end{center}
 
 \newpage
@@ -243,6 +255,7 @@ A single source of power that provides enough voltage and current to be distribu
 \textbf{Monitored \& Controlled Variables}\\
 None.
 
+\newpage
 \subsection{Transformer}
 \textbf{Description}\\
 A transformer is an electrical device that transforms the input voltage to a desired output voltage through electromagnetic induction.\\\\
@@ -251,7 +264,6 @@ The system will require a certain level of voltage, most likely less than 110 AC
 \textbf{Monitored \& Controlled Variables}\\
 The input voltage of the transformer will be 110 AC V from the standard outlet. The transformer will then reduce this voltage to the prescribed level for the system.
 
-\newpage
 \subsection{AC to DC Converter}
 \textbf{Description}\\
 This device converts an input AC voltage to an equivalent DC voltage.\\\\
@@ -276,11 +288,12 @@ The controllers must be able to operate under the required voltages of their res
 \textbf{Monitored \& Controlled Variables}\\
 They will receive appropriate power from the power supply and control signals (HIGH or LOW) from the $\mu$C. The control signals it receives from the $\mu$C will power the actuators accordingly.
 
+\newpage
 \subsection{Actuators}
 \textbf{Description}\\
 The actuators will be responsible for generating all motion within the system. They will consist of two motors responsible for moving the end-effector along the length of the table, one motor for moving along the width, one motor for rotating the end-effector, and an actuator responsible for the shooting motion of the end-effector.\\\\
 \textbf{Requirements}\\
-The motors must provide ample torque to move the system?s components along/about the axis of the system. The end-effector actuator must output enough force and momentum to shoot the cue-ball fast enough across the table as well as be able to adjust the amount of force appropriately.\\\\\newpage
+The motors must provide ample torque to move the system?s components along/about the axis of the system. The end-effector actuator must output enough force and momentum to shoot the cue-ball fast enough across the table as well as be able to adjust the amount of force appropriately.\\\\
 \noindent\textbf{Monitored \& Controlled Variables}\\
 All actuators in the system will receive power from their respective controllers. The actuators? output (in terms of force/torque) is reliant on the power received from the controllers.
 
