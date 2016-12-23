@@ -1,0 +1,174 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{imakeidx}
+\usepackage{graphicx}
+\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+\graphicspath{{./img/}}
+
+\makeindex
+
+\title{Autonomous Pool Playing Robot\\~\\High-Level Architectural Design}
+\author{
+	Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
+	Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
+	Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
+	Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
+}
+ 
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+\listoftables
+\listoffigures
+
+
+\vfill
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+	Date			&Revision \#	&Comments					&Authors\\\hline
+	22/12/2016		&1				&- Document initialized		&Eric Le Fort\\\hline
+\end{tabular}
+\caption{Revision History}
+\end{table}
+\newpage
+\section{Introduction}
+%TODO
+\subsection{System Description}
+%TODO -- Same as last document?
+%TODO CAD image of final system assembly.
+\subsection{Overview}
+%TODO
+
+\subsection{Naming Conventions \& Definitions}
+This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\newpage
+\subsubsection{Definitions}
+Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+\begin{table}[h!]
+\centering
+\caption{Definitions}
+\begin{tabular}{| C{6} | p{6cm} |}\hline
+	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
+	X-axis					&Distance along the length of the pool table\\\hline
+	Y-axis					&Distance across the width of the pool table\\\hline
+	Z-axis					&Height above the pool table\\\hline
+	End-effector			&The end of the arm that will strike the cue ball\\\hline
+	$\theta$				&Rotational angle of the end-effector\\\hline
+	Cue 					&End-effector\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
+	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
+	Table State				&The current positions of all the balls on the table\\\hline
+	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
+	Boundary				&Classes that interact with users or external systems\\\hline
+\end{tabular}
+\label{tab:Definitions}
+\end{table}
+
+\subsubsection{Acronyms \& Abbreviations}
+Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+\begin{table}[h!]
+\centering
+\caption{Acronyms and Abbreviations}
+\begin{tabular}{| p{6cm} | p{6cm} |}\hline
+	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
+	VR								&Visual Recognition\\\hline
+	PC								&Personal Computer\\\hline
+	$\mu$C							&Micro-Controller\\\hline
+	EE								&End-Effector\\\hline
+	EEB								&End-Effector Base\\\hline
+	EEA								&End-Effector Arm\\\hline
+	PWM								&Pulse Width Modulation\\\hline
+	I/O								&Input/Output\\\hline
+\end{tabular}
+\label{tab:Acronyms}
+\end{table}
+
+
+
+\newpage
+\section{Mechanical Components}
+%TODO section overview
+%TODO Each component in this section should list materials to be used, estimated weight, important dimensions, necessary parts to order (costs and suppliers) in whatever order makes sense (make it consistent though).
+%TODO describe how the component fits into the rest of the system (such as how it'll be installed).
+%TODO include CAD image showing all of that component
+\subsection{X-Rails}
+%TODO
+\subsection{Y-Rails}
+%TODO
+\subsection{Camera Mount}
+%TODO
+\subsection{Arm}
+%TODO
+\subsection{Arm Base}
+%TODO
+\subsection{Bridge}
+%TODO
+\subsection{End-Effector}
+%TODO
+\subsection{End-Effector Arm}
+%TODO
+\subsection{End-Effector Base}
+%TODO
+\subsection{Cable Management System}
+%TODO
+
+
+
+\section{Electromechanical Components}
+%TODO section overview
+%TODO each component in this section should list estimated weight, important dimensions, necessary parts to order (costs and suppliers) in whatever order makes sense (make it consistent though).
+%TODO describe the signals the component will require to operate (e.g. set-points for pneumatic, voltage inputs for motors, etc.)
+%TODO describe how the component fits into the rest of the system (such as how it'll be installed).
+\subsection{X-Rail Motors}
+%TODO
+\subsection{Y-Rail Motor}
+%TODO
+\subsection{Rotational Motor}
+%TODO
+\subsection{End-Effector Actuator}
+%TODO
+\subsection{User Controls}%move, take shot, cancel buttons
+%TODO
+
+
+
+\section{Electrical Components}
+%TODO section overview
+%TODO Each component in this section should list estimated weight, necessary parts to order (costs and suppliers) in whatever order makes sense (make it consistent though).
+%TODO describe how the component fits into the rest of the system (such as how it'll be installed).
+\subsection{Power Supply}
+%TODO
+\subsection{Transformer}
+%TODO
+\subsection{AC to DC Converter}
+%TODO
+\subsection{$\mu$C}
+%TODO
+\subsection{Controllers}
+%TODO
+\subsection{Actuators}
+%TODO
+\subsection{Sensors}
+%TODO
+
+
+
+\section{Circuit Design}
+%TODO any necessary circuit drawings and calculations.
+%TODO perhaps outline how certain use cases will happen
+
+
+%TODO PLEASE USE CRITICAL JUDGEMENT AS TO THE SECTIONS. WHAT ELSE WOULD BE GOOD TO INCLUDE??
+
+\end{document}
+
+
+
