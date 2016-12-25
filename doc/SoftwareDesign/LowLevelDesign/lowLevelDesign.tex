@@ -1,0 +1,115 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{framed}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{imakeidx}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,decorations.pathmorphing,shapes}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+\graphicspath{{./img/}}
+
+\makeindex
+
+\title{Autonomous Pool Playing Robot\\~\\Low-Level Software Design}
+\author{
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
+	Max Moore\\moorem8@mcmaster.ca\\1320009
+}
+ 
+\begin{document}
+\maketitle
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+\vfill
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+	Date			&Revision \#	&Comments						&Authors\\\hline
+	25/12/2016		&0				&- Initial document creation	&Eric Le Fort\\\hline
+\end{tabular}
+\caption{Revision History}
+\end{table}
+\newpage
+ 
+\section{Introduction}
+%TODO
+\subsection{System Description}
+%TODO same as other?
+
+
+\subsection{Overview}
+%TODO
+
+\subsection{Naming Conventions \& Definitions}
+This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\newpage
+\subsubsection{Definitions}
+Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+\begin{table}[h!]
+\centering
+\caption{Definitions}
+\begin{tabular}{| C{6} | p{6cm} |}\hline
+	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
+	X-axis					&Distance along the length of the pool table\\\hline
+	Y-axis					&Distance across the width of the pool table\\\hline
+	Z-axis					&Height above the pool table\\\hline
+	End-effector			&The end of the arm that will strike the cue ball\\\hline
+	$\theta$				&Rotational angle of end-effector\\\hline
+	Cue 					&End-effector\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
+	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
+	Table State				&The current positions of all the balls on the table\\\hline
+	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
+	Boundary				&Classes that interact with users or external systems\\\hline
+\end{tabular}
+\label{tab:Definitions}
+\end{table}
+
+\subsubsection{Acronyms \& Abbreviations}
+Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+\begin{table}[h!]
+\centering
+\caption{Acronyms and Abbreviations}
+\begin{tabular}{| p{6cm} | p{6cm} |}\hline
+	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
+	VR								&Visual Recognition\\\hline
+	PC								&Personal Computer\\\hline
+	$\mu$C							&Micro-Controller\\\hline
+	CRC								&Class Responsibility Collaboration\\\hline
+\end{tabular}
+\label{tab:Acronyms}
+\end{table}
+
+\section{State Charts}
+%TODO
+
+\section{Detailed Class Diagram}
+%TODO
+
+\section{Module Guide}
+%TODO
+\subsection{MODULE\_NAME}%For each module
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{Interface Specification}\\
+\\\\%TODO
+\textbf{Internal Design}\\
+\\\\%TODO
+
+\section{Sequence Diagram}
+%TODO
+
+\section{Scheduling of Tasks}
+%TODO
+
+\end{document}
+
