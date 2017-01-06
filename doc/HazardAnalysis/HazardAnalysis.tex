@@ -43,11 +43,11 @@
 \newpage
  
 \section{Overview}
-%TODO document overview, state that descriptions of system and/or components can be found in the appropriate documents.
+This document's purpose is to help illustrate potential hazards associated with the automated pool-playing robot and how those hazards are to be addressed. The Hazards section will describe the section in more detail as well as provide an overall Fault-Tree Analysis (FTA) for this system. Each hazard will have its own subsection which will describe the hazard, discuss mitigation and/or plans of avoidance as well as provide a more detailed view of the portion of the FTA it concerns.\\~\\
+Certain sections may refer to the supporting documents: \textit{High-Level Hardware Design} and \textit{High-Level Software Design} for this project.
 
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
-\newpage
 \subsubsection{Definitions}
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
 \begin{table}[h!]
@@ -61,11 +61,6 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 	End-effector			&The end of the arm that will strike the cue ball\\\hline
 	$\theta$				&Rotational angle of end-effector\\\hline
 	Cue 					&End-effector\\\hline
-	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
-	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
-	Table State				&The current positions of all the balls on the table\\\hline
-	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
-	Boundary				&Classes that interact with users or external systems\\\hline
 \end{tabular}
 \label{tab:Definitions}
 \end{table}
@@ -78,23 +73,45 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \begin{tabular}{| p{6cm} | p{6cm} |}\hline
 	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
 	VR								&Visual Recognition\\\hline
-	PC								&Personal Computer\\\hline
 	$\mu$C							&Micro-Controller\\\hline
-	CRC								&Class Responsibility Collaboration\\\hline
+	FTA								&Fault-Tree Analysis\\\hline 
 \end{tabular}
 \label{tab:Acronyms}
 \end{table}
 
-%List of hazards:
-%Person injured due to a ``pinch point''.
-%Pneumatic striking person, table, or machine.
-%Pool ball jumping off the table and injuring a person or damaging property.
-%Machine injures person while traversing the table.
-%Loose clothing/jewellery/long hair getting caught in the machine.
+\newpage
 \section{Hazards}
 %TODO section description, high-level system FTA diagram (each section will elaborate on its specific hazard tree.
-\subsection{HAZARD-NAME}
-%TODO Hazard description, plans for avoidance and/or mitigation, provide detailed subset of FTA for appropriate FTA section
+\subsection{Pinch Points}
+\textbf{Description}\\
+When parts in a machine move in close proximity to one another, there is always a risk of harmful pinching. In this project, there are two locations where this may pose a notable risk: where the x-rails meet the arm base and where the y-rail meets the end-effector base.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+%TODO plans for avoidance and/or mitigation
+%TODO detailed subset of FTA
+\subsection{Harmful Pneumatic Activation}
+\textbf{Description}\\
+The pneumatic actuator will involve a very fast-moving component in order to strike the cue ball with sufficient force. If there is something in the way of the end-effector other than the cue ball such as the table, other parts of the machine, or a person, there is likely to be resulting damage.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+%TODO plans for avoidance and/or mitigation
+%TODO detailed subset of FTA
+\subsection{Jumping Pool Balls}
+\textbf{Description}\\
+Pool balls have a tendency to jump off the table if struck in a certain way. If the ball bounces off of the table, there is potential for damage to the machine, the surrounding environment, or a person.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+%TODO plans for avoidance and/or mitigation
+%TODO detailed subset of FTA
+\subsection{Dangerous Machine Traversal}
+\textbf{Description}\\
+While the machine is traversing, anything in the way may be at risk. For example, depending on the speed, there could be damage due to impact. Another less severe example could involve knocking off items on the edges of the table.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+%TODO plans for avoidance and/or mitigation
+%TODO detailed subset of FTA
+\subsection{Snagging of Loose Objects}
+\textbf{Description}\\
+At various locations -- namely the pinch points listed earlier as well as the rotational motor on the end-effector base and the belts on the x- and y-rails -- loose clothing, jewellery or long hair may be caught and pulled in. If these objects are attached to a person, this can lead to strangulation or being pulled into dangerous areas of the machine.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+%TODO plans for avoidance and/or mitigation
+%TODO detailed subset of FTA
 
 \end{document}
 
