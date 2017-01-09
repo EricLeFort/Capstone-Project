@@ -39,17 +39,13 @@
 \newpage
  
 \section{Introduction}
-%TODO
+This document will outline the low-level software design for a autonomous pool-playing robot. The purpose of this document will be to document the decisions made concerning the system's design as well as provide enough detail so that the programming of the system can be as trivial as possible.
 \subsection{System Description}
-%TODO same as other?
-
-
+A system description can be found in the /textit{High-Level Software Design} document for this system.
 \subsection{Overview}
-%TODO
-
+This document will begin by providing a detailed class diagram of the classes in the system. Then, each module will be covered in more detail such as the module's responsibilities, secrets, Interface Specification (MIS), and Internal Design (MID). Lastly, the document will discuss the scheduling of tasks and provide state charts and sequence diagrams to help illustrate the scheduling.
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
-\newpage
 \subsubsection{Definitions}
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
 \begin{table}[h!]
@@ -71,6 +67,7 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 \end{tabular}
 \label{tab:Definitions}
 \end{table}
+\newpage
 
 \subsubsection{Acronyms \& Abbreviations}
 Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
@@ -87,28 +84,112 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \label{tab:Acronyms}
 \end{table}
 
-\section{State Charts}
-%TODO
-
-\section{Detailed Class Diagram}
-%TODO
+\section{Detailed Class Diagram}~\\
+\begin{center}
+	\includegraphics[width=\textwidth]{DetailedClassDiagram.png}
+\captionof{figure}{The system's detailed class diagram.}
+\label{fig:yRailFig}
+\end{center}
+\newpage
 
 \section{Module Guide}
 %TODO
-\subsection{MODULE\_NAME}%For each module
+\subsection{Camera Modules}
+The following are the modules contained within the Camera subsystem.
+\subsubsection{EventHandler}
 \textbf{Responsibilities}\\
 \\\\%TODO
 \textbf{Secrets}\\
 \\\\%TODO
-\textbf{Interface Specification}\\
+\textbf{MIS}\\
 \\\\%TODO
-\textbf{Internal Design}\\
+\textbf{MID}\\
+\\\\%TODO
+\subsection{PC VR Program Modules}
+The following are the modules contained within the PC VR subsystem.
+\subsubsection{TableStateVR}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsection{PC Controller Modules}
+The following are the modules contained within the PC Controller subsystem.
+\subsubsection{PCCommunicator}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{TableStateSimulationInstance}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{InferenceEngine}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsection{$\mu$C Modules}
+The following are the modules contained within the $\mu$C subsystem.
+\subsubsection{ShotInterpreter}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{$\mu$CCommunicator}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{SensorMonitor}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{Controller}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
 \\\\%TODO
 
-\section{Sequence Diagram}
-%TODO
 
 \section{Scheduling of Tasks}
+%TODO Describe scheduling, especially timing constraints and the like.
+\subsection{State Charts}
+%TODO
+\subsection{Sequence Diagram}
 %TODO
 
 \end{document}
