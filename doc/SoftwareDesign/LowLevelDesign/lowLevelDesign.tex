@@ -88,14 +88,14 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \begin{center}
 	\includegraphics[width=\textwidth]{DetailedClassDiagram.png}
 \captionof{figure}{The system's detailed class diagram.}
-\label{fig:yRailFig}
+\label{fig:detailedClassDiagram}
 \end{center}
 \newpage
 
 \section{Module Guide}
-%TODO
+This section discusses the various modules that this system is comprised of. The modules are divided based on which program they belong to. For each module, its responsibilities, secrets, MIS, and MID will be outlined.
 \subsection{Camera Modules}
-The following are the modules contained within the Camera subsystem.
+The following is the module contained within the Camera subsystem.
 \subsubsection{EventHandler}
 \textbf{Responsibilities}\\
 \\\\%TODO
@@ -106,7 +106,7 @@ The following are the modules contained within the Camera subsystem.
 \textbf{MID}\\
 \\\\%TODO
 \subsection{PC VR Program Modules}
-The following are the modules contained within the PC VR subsystem.
+The following is the module contained within the PC VR subsystem.
 \subsubsection{TableStateVR}
 \textbf{Responsibilities}\\
 \\\\%TODO
@@ -118,6 +118,15 @@ The following are the modules contained within the PC VR subsystem.
 \\\\%TODO
 \subsection{PC Controller Modules}
 The following are the modules contained within the PC Controller subsystem.
+\subsubsection{InferenceEngine}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
 \subsubsection{PCCommunicator}
 \textbf{Responsibilities}\\
 \\\\%TODO
@@ -127,16 +136,7 @@ The following are the modules contained within the PC Controller subsystem.
 \\\\%TODO
 \textbf{MID}\\
 \\\\%TODO
-\subsubsection{TableStateSimulationInstance}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
-\subsubsection{InferenceEngine}
+\subsubsection{SimulationInstance}
 \textbf{Responsibilities}\\
 \\\\%TODO
 \textbf{Secrets}\\
@@ -147,6 +147,24 @@ The following are the modules contained within the PC Controller subsystem.
 \\\\%TODO
 \subsection{$\mu$C Modules}
 The following are the modules contained within the $\mu$C subsystem.
+\subsubsection{Controller}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
+\subsubsection{SensorMonitor}
+\textbf{Responsibilities}\\
+\\\\%TODO
+\textbf{Secrets}\\
+\\\\%TODO
+\textbf{MIS}\\
+\\\\%TODO
+\textbf{MID}\\
+\\\\%TODO
 \subsubsection{ShotInterpreter}
 \textbf{Responsibilities}\\
 \\\\%TODO
@@ -165,31 +183,30 @@ The following are the modules contained within the $\mu$C subsystem.
 \\\\%TODO
 \textbf{MID}\\
 \\\\%TODO
-\subsubsection{SensorMonitor}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
-\subsubsection{Controller}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
 
 
 \section{Scheduling of Tasks}
+The goal of this section is to outline the ordering, maximum allowable time frames, and the prioritization of tasks in this program.
 %TODO Describe scheduling, especially timing constraints and the like.
 \subsection{State Charts}
 %TODO
-\subsection{Sequence Diagram}
+\subsection{Sequence Diagrams}
+The following are various sequence diagrams for different actions the system is required to perform.
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{MoveSequenceDiagram.png}
+\captionof{figure}{A sequence diagram for the ``move'' operation.}
+\label{fig:MoveSequenceDiagram}
+\end{center}
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{cancelSequenceDiagram.png}
+\captionof{figure}{A sequence diagram for the ``cancel'' operation.}
+\label{fig:CancelSequenceDiagram}
+\end{center}
+\begin{center}
+	\includegraphics[width=\textwidth]{TakeShotSequenceDiagram.png}
+\captionof{figure}{A sequence diagram for the ``take shot'' operation.}
+\label{fig:TakeShotSequenceDiagram}
+\end{center}
 %TODO
 
 \end{document}
