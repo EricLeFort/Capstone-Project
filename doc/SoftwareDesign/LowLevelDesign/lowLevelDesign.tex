@@ -3,14 +3,17 @@
 \usepackage{framed}
 \usepackage{caption}
 \usepackage{amsmath}
-\usepackage{imakeidx}
+\usepackage{multicol}
+\usepackage{color}
 \usepackage{graphicx}
 \usepackage{array}
-\usepackage{tikz}
-\usetikzlibrary{automata,positioning,decorations.pathmorphing,shapes}
+\usepackage[figuresleft]{rotating}
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
 \graphicspath{{./img/}}
+
+\setlength{\columnseprule}{1pt}
+\def\columnseprulecolor{\color{black}}
 
 \makeindex
 
@@ -183,31 +186,98 @@ The following are the modules contained within the $\mu$C subsystem.
 \\\\%TODO
 \textbf{MID}\\
 \\\\%TODO
-
+\newpage
 
 \section{Scheduling of Tasks}
 The goal of this section is to outline the ordering, maximum allowable time frames, and the prioritization of tasks in this program.
 %TODO Describe scheduling, especially timing constraints and the like.
 \subsection{State Charts}
-%TODO
+The following charts illustrate the lifecycle of all relevant classes in this system. This section is meant to depict a more isolated picture of how each class will operate.\\[15mm]
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{ControllerStateChart.png}
+\captionof{figure}{A state chart for the Controller class.}
+\label{fig:ControllerStateChart}
+\end{center}
+\newpage
+
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{ShotInterpreterStateChart.png}
+\captionof{figure}{A state chart for the ShotInterpreter class.}
+\label{fig:ShotInterpreterStateChart}
+\end{center}
+\begin{multicols}{2}
+~\vfill
+\begin{center}
+	\includegraphics[width=0.4\textwidth]{SensorMonitorStateChart.png}
+\captionof{figure}{A state chart for the SensorMonitor class.}
+\label{fig:SensorMonitorStateChart}
+\end{center}
+~\vfill
+\begin{center}
+	\includegraphics[width=0.35\textwidth]{uCCommunicatorStateChart.png}
+\captionof{figure}{A state chart for the $\mu$CCommunicator class.}
+\label{fig:uCCommunicatorStateChart}
+\end{center}
+\end{multicols}
+\newpage
+
+~\vfill
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{PCCommunicatorStateChart.png}
+\captionof{figure}{A state chart for the PCCommunicator class.}
+\label{fig:PCCommunicatorStateChart}
+\end{center}
+~\vfill
+\newpage
+
+~\vfill
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{InferenceEngineStateChart.png}
+\captionof{figure}{A state chart for the InferenceEngine class.}
+\label{fig:InferenceEngineStateChart}
+\end{center}
+~\vfill
+\newpage
+
+\begin{multicols}{2}
+\begin{center}
+	\includegraphics[width=0.175\textwidth]{TableStateVRStateChart.png}
+\captionof{figure}{A state chart for the TableStateVR class.}
+\label{fig:TableStateVRStateChart}
+\end{center}
+\columnbreak
+~\vspace{15mm}
+\begin{center}
+	\includegraphics[width=0.3\textwidth]{EventHandlerStateChart.png}
+\captionof{figure}{A state chart for the EventHandler class.}
+\label{fig:EventHandlerStateChart}
+\end{center}
+\end{multicols}
+\newpage
+
 \subsection{Sequence Diagrams}
-The following are various sequence diagrams for different actions the system is required to perform.
+The following are various sequence diagrams for different actions the system is required to perform. These diagrams are meant to provide better context for how the classes interact with each other to perform certain tasks.\vfill
 \begin{center}
 	\includegraphics[width=0.6\textwidth]{MoveSequenceDiagram.png}
 \captionof{figure}{A sequence diagram for the ``move'' operation.}
 \label{fig:MoveSequenceDiagram}
 \end{center}
+~\vfill
 \begin{center}
 	\includegraphics[width=0.6\textwidth]{cancelSequenceDiagram.png}
 \captionof{figure}{A sequence diagram for the ``cancel'' operation.}
 \label{fig:CancelSequenceDiagram}
 \end{center}
-\begin{center}
-	\includegraphics[width=\textwidth]{TakeShotSequenceDiagram.png}
-\captionof{figure}{A sequence diagram for the ``take shot'' operation.}
-\label{fig:TakeShotSequenceDiagram}
-\end{center}
-%TODO
+~\vfill
+\newpage
+
+\begin{sidewaysfigure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{TakeShotSequenceDiagram.png}
+	\captionof{figure}{A sequence diagram for the ``take shot'' operation.}
+	\label{fig:TakeShotSequenceDiagram}
+	\end{center}
+\end{sidewaysfigure}
 
 \end{document}
 
