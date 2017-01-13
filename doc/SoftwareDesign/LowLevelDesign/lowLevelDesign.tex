@@ -7,6 +7,7 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{array}
+\usepackage{listings}
 \usepackage[figuresleft]{rotating}
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
@@ -67,6 +68,7 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 	Table State				&The current positions of all the balls on the table\\\hline
 	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
 	Boundary				&Classes that interact with users or external systems\\\hline
+	Double					&Double-precision floating point numbers\\\hline
 \end{tabular}
 \label{tab:Definitions}
 \end{table}
@@ -100,92 +102,191 @@ This section discusses the various modules that this system is comprised of. The
 \subsection{Camera Modules}
 The following is the module contained within the Camera subsystem.
 \subsubsection{EventHandler}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Listen for request from PC Communicator
+	\item[-] Take a photo
+	\item[-] Communicate photo to PC Communicator
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Picture-taking process
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module is an always-running program which executes the function of taking a picture and communicating it back to the requesting program. While this module is not performing the previous function, it will be listening for a request to be made.
+\\\\
+\textbf{MID}\\[2mm]
+The state charts below provide a succinct depiction of this module's internal design.
+\\\\
 \subsection{PC VR Program Modules}
 The following is the module contained within the PC VR subsystem.
 \subsubsection{TableStateVR}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Read image from a file
+	\item[-] Locate balls using VR
+	\item[-] Determine ball identities
+	\item[-] Write table state to a file
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Object detection algorithm
+	\item[-] Ball identification algorithm
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module takes in an image of a pool table and analyzes it in order to return the locations and identities of each of the pool balls on the table.
+\\\\
+\textbf{MID}\\[2mm]
+This module has 4 main steps. First it must read in the image from a predetermined file location. Then it locates the pool balls in that picture using a Visual Recognition object detection algorithm (supplied by a MATLAB library). Next, it will identify which ball is which according to comparing pixel colours within the detected objects to the colours of different pool balls using a LAB colour space. Lastly it will write these results to a file.\\~\\
+The following pseudocode better describes this process:
+\begin{lstlisting}
+read image from file (path to file);
+locate balls (image);
+
+for every detected object:
+	sample pixels within;
+	
+	while (pixels not similar to ball archetype AND arcge);
+		increment archetype being checked;
+		
+	if (index out of range):
+		raise unidentifiable ball error;
+	else:
+		results[index for this ball] = this object's location;
+
+return results;
+\end{lstlisting}~\\
 \subsection{PC Controller Modules}
 The following are the modules contained within the PC Controller subsystem.
 \subsubsection{InferenceEngine}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Calculate the best shot to be made
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Algorithm to choose which shots to simulate
+	\item[-] The computer's ball type (i.e. stripes or solids)
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module allows for specification of a TableState through the use of a 2-D array of doubles. Using that TableState, the module will simulate various potential shots in order to determine an optimal one which is then accessible to other classes.
+\\\\
+\textbf{MID}\\[2mm]
 \\\\%TODO
 \subsubsection{PCCommunicator}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Listens for request from $\mu$C
+	\item[-] Sends confirmation of receipt to $\mu$C
+	\item[-] Sends shot specification to $\mu$C
+	\item[-] Listens for confirmation of receipt from $\mu$C
+	\item[-] Sends image capture request to camera
+	\item[-] Listens for response from camera
+	\item[-] Initiate the PC VR program
+	\item[-] Read table state from file
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Receipt confirmation message contents
+	\item[-] Maximum time awaiting a response
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module is an always-running process which communicates with the various programs in this system while also providing control flow for the PC Controller program.
+\\\\
+\textbf{MID}\\[2mm]
+The state charts below provide a succinct depiction of this module's internal design.
+\\\\
 \subsubsection{SimulationInstance}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Maintain the positions and velocities of the balls on the table at the current time step
+	\item[-] Update the positions and velocities of the balls on the table after a time step
+	\item[-] Keep track of whether there is still movement happening
+	\item[-] Keep track of the scoring of the simulation (of a shot)
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] The method of calculating a shot's score
+	\item[-] Shot simulation algorithm
+	\item[-] Physical constants
+	\item[-] Simulation time step
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module handles the physics simulation involved with taking a shot while also scoring the shot according to various criteria. The state is updated for a new time step by calling the appropriate command. Once it returns \textit{false}, there is no further motion and the simulation is complete.
+\\\\
+\textbf{MID}\\[2mm]
 \\\\%TODO
 \subsection{$\mu$C Modules}
 The following are the modules contained within the $\mu$C subsystem.
 \subsubsection{Controller}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Control flow of program operation
+	\item[-] Interrupt operation if cancel instruction is received
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Set movement positions (for ``move'' commands)
+	\item[-] Instruction dispatch process
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module handles the control flow for the $\mu$C Program including determining appropriate movement and creation of interrupts when necessary. 
+\\\\
+\textbf{MID}\\[2mm]
 \\\\%TODO
 \subsubsection{SensorMonitor}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Sensing signals from buttons
+	\item[-] Sensing signals from calibration sensors
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] The method of noticing signals
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module monitors the control signals coming from the buttons and calibration sensors and notifies the Controller when one of these sensors are activated.
+\\\\
+\textbf{MID}\\[2mm]
+The state charts below provide a succinct depiction of this module's internal design.
+\\\\
 \subsubsection{ShotInterpreter}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Translate shot instruction into list of appropriate signals
+	\item[-] Control translational motors
+	\item[-] Control rotational motor
+	\item[-] Control pneumatic end-effector
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Algorithm to determine appropriate movement
+	\item[-] Method of transmitting signals to machine
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module uses a movement specification that it is provided in order to compute and generate the signals necessary to have the machine perform the required motion.
+\\\\
+\textbf{MID}\\[2mm]
 \\\\%TODO
 \subsubsection{$\mu$CCommunicator}
-\textbf{Responsibilities}\\
-\\\\%TODO
-\textbf{Secrets}\\
-\\\\%TODO
-\textbf{MIS}\\
-\\\\%TODO
-\textbf{MID}\\
-\\\\%TODO
+\textbf{Responsibilities}
+\begin{itemize}
+	\item[-] Send shot calculation request to the PC Controller program
+	\item[-] Receive confirmation of receipt from PC Controller program
+	\item[-] Receive shot specification from PC Controller program
+	\item[-] Send confirmation of receipt to PC Controller program 
+\end{itemize}~\\
+\textbf{Secrets}
+\begin{itemize}
+	\item[-] Receipt confirmation message contents
+	\item[-] Maximum time awaiting a response
+\end{itemize}~\\
+\textbf{MIS}\\[2mm]
+This module handles communicating with the PC Controller Program in order to compute the optimal shot to take.
+\\\\
+\textbf{MID}\\[2mm]
+The state charts below provide a succinct depiction of this module's internal design.
+\\\\
 \newpage
 
 \section{Scheduling of Tasks}
