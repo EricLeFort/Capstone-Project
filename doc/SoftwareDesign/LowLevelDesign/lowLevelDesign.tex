@@ -167,12 +167,57 @@ The following are the modules contained within the PC Controller subsystem.
 \begin{itemize}
 	\item[-] Algorithm to choose which shots to simulate
 	\item[-] The computer's ball type (i.e. stripes or solids)
+	\item[-] The rules of pool
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
 This module allows for specification of a TableState through the use of a 2-D array of doubles. Using that TableState, the module will simulate various potential shots in order to determine an optimal one which is then accessible to other classes.
 \\\\
 \textbf{MID}\\[2mm]
-\\\\%TODO
+This module iterates through shots that are to be simulated by SimulationInstances. In order to minimize computation, it only looks at shots that have a hope of directly hitting another legal ball (e.g. the eight ball cannot be struck first unless all of the player's other balls are already sunk). At the end of this computation, this module returns the specification of the optimal shot.\\~\\
+The following pseudocode better describes this process:
+\begin{lstlisting}
+while (legal balls left to check){
+	calculate angle from cue ball to center of target ball;
+	
+	while (angle's trajectory still hits target ball){	//Check one direction
+		for (every power option){
+			create SimulationInstance for this shot;
+			
+			while (simulation not finished){
+				simulation.update();
+			}
+			
+			update current shot's score;
+			
+			if (score of new shot > optimal shot score):
+				update optimal shot;
+		}		
+		current angle -= ANGULAR_STEP;
+	}
+
+	current angle = angle from cue ball to center of target ball - ANGULAR_STEP;
+	
+	while (angle's trajectory still hits target ball){	//Check other direction
+		for (every power option){
+			create SimulationInstance for this shot;
+			
+			while (simulation not finished){
+				simulation.update();
+			}
+			
+			update current shot's score;
+			
+			if (score of new shot > optimal shot score):
+				update optimal shot;
+		}		
+		current angle -= ANGULAR_STEP;
+	}
+}
+
+return new Shot(calculated X, calculated Y, optimal shot's angle, optimal shot's power);
+\end{lstlisting}
+\newpage
+
 \subsubsection{PCCommunicator}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -215,7 +260,29 @@ The state charts below provide a succinct depiction of this module's internal de
 This module handles the physics simulation involved with taking a shot while also scoring the shot according to various criteria. The state is updated for a new time step by calling the appropriate command. Once it returns \textit{false}, there is no further motion and the simulation is complete.
 \\\\
 \textbf{MID}\\[2mm]
-\\\\%TODO
+This module handles performing a discrete time step simulation of a shot according to a shot and initial state of the table. In order to achieve this, it updates to the next snapshot of the simulation until every ball remaining on the table is stationary.\\~\\
+First, the following pseudocode describes how this object is created:
+\begin{lstlisting}
+Given:
+	An array of balls
+	The x and y components of the cue ball's initial velocity
+	
+inMotion = true;
+score = 0;
+
+Initialize the velocities array;
+
+velocities[Ball.CUE__NUM][0] = initial x component;
+velocities[Ball.CUE__NUM][1] = initial y component;
+\end{lstlisting}~\\\\
+The following pseudocode describes one possibility for how the simulation will update itself to the next time step. This possibility assumes a very fine time step but may not be feasible depending on how long this algorithm requires (which will be tested empirically):
+\begin{lstlisting}
+
+\end{lstlisting}~\\\\%TODO pseudocode
+The following pseudocode describes the other possibility for updating the simulation. This possibility uses a much more granular time step and corrections are made regressively if a collision was meant to happen mid-time step.
+\begin{lstlisting}
+
+\end{lstlisting}~\\%TODO pseudocode
 \subsection{$\mu$C Modules}
 The following are the modules contained within the $\mu$C subsystem.
 \subsubsection{Controller}
@@ -233,7 +300,8 @@ The following are the modules contained within the $\mu$C subsystem.
 This module handles the control flow for the $\mu$C Program including determining appropriate movement and creation of interrupts when necessary. 
 \\\\
 \textbf{MID}\\[2mm]
-\\\\%TODO
+The state charts below provide a succinct depiction of most of this module's internal design. The only other notable component in this module is how it selects where to move when a ``move'' command is received. In that event, it compares the current location to the two set locations at either end of the table. Whichever one is furthest is the one which the machine is moved towards. This is designed in a way such that the machine moves as far away as possible from where it was in the way of the user.
+\\\\
 \subsubsection{SensorMonitor}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -267,7 +335,8 @@ The state charts below provide a succinct depiction of this module's internal de
 This module uses a movement specification that it is provided in order to compute and generate the signals necessary to have the machine perform the required motion.
 \\\\
 \textbf{MID}\\[2mm]
-\\\\%TODO
+The state charts below provide a succinct depiction of this module's internal design.
+\\\\
 \subsubsection{$\mu$CCommunicator}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -287,11 +356,15 @@ This module handles communicating with the PC Controller Program in order to com
 \textbf{MID}\\[2mm]
 The state charts below provide a succinct depiction of this module's internal design.
 \\\\
-\newpage
 
 \section{Scheduling of Tasks}
-The goal of this section is to outline the ordering, maximum allowable time frames, and the prioritization of tasks in this program.
-%TODO Describe scheduling, especially timing constraints and the like.
+The goal of this section is to outline the ordering and maximum allowable time frames of tasks in this program.
+\subsection{Allocation of Time}
+From the requirements document, there is only 90 seconds allowed between pressing a button and a shot being made. The most difficult computational step will be the shot simulations and so this section will deduce how much time the machine will have for that step.\\~\\
+Firstly we must account for how long the physical machine would need in the worst case (moving all the way across both axes and rotating 180 degrees). To be fair, we will allocate 20 seconds to this operation.\\~\\
+From here we can divvy up the remaining time among the various computational blocks. The smaller tasks such as communication, recognizing the button press, and other such operations will be allocated a total of 5 seconds. The process of object detection and identification will be given 15 seconds. This leaves 50 seconds to process the necessary simulations.
+\newpage
+
 \subsection{State Charts}
 The following charts illustrate the lifecycle of all relevant classes in this system. This section is meant to depict a more isolated picture of how each class will operate.\\[15mm]
 \begin{center}
@@ -381,4 +454,6 @@ The following are various sequence diagrams for different actions the system is 
 \end{sidewaysfigure}
 
 \end{document}
+
+%TODO double check for split sections
 
