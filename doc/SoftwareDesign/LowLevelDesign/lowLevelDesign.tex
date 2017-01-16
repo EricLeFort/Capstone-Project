@@ -20,8 +20,7 @@
 
 \title{Autonomous Pool Playing Robot\\~\\Low-Level Software Design}
 \author{
-	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
-	Max Moore\\moorem8@mcmaster.ca\\1320009
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609
 }
  
 \begin{document}
@@ -37,6 +36,7 @@
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
 	25/12/2016		&0				&- Initial document creation	&Eric Le Fort\\\hline
+	14/01/2017		&0				&- First draft completion		&Eric Le Fort\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
@@ -50,6 +50,8 @@ A system description can be found in the /textit{High-Level Software Design} doc
 This document will begin by providing a detailed class diagram of the classes in the system. Then, each module will be covered in more detail such as the module's responsibilities, secrets, Interface Specification (MIS), and Internal Design (MID). Lastly, the document will discuss the scheduling of tasks and provide state charts and sequence diagrams to help illustrate the scheduling.
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\newpage
+
 \subsubsection{Definitions}
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
 \begin{table}[h!]
@@ -72,8 +74,6 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 \end{tabular}
 \label{tab:Definitions}
 \end{table}
-\newpage
-
 \subsubsection{Acronyms \& Abbreviations}
 Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
 \begin{table}[h!]
@@ -88,6 +88,7 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \end{tabular}
 \label{tab:Acronyms}
 \end{table}
+\newpage
 
 \section{Detailed Class Diagram}~\\
 \begin{center}
@@ -176,28 +177,13 @@ This module allows for specification of a TableState through the use of a 2-D ar
 This module iterates through shots that are to be simulated by SimulationInstances. In order to minimize computation, it only looks at shots that have a hope of directly hitting another legal ball (e.g. the eight ball cannot be struck first unless all of the player's other balls are already sunk). At the end of this computation, this module returns the specification of the optimal shot.\\~\\
 The following pseudocode better describes this process:
 \begin{lstlisting}
-while (legal balls left to check){
-	calculate angle from cue ball to center of target ball;
-	
-	while (angle's trajectory still hits target ball){	//Check one direction
-		for (every power option){
-			create SimulationInstance for this shot;
-			
-			while (simulation not finished){
-				simulation.update();
-			}
-			
-			update current shot's score;
-			
-			if (score of new shot > optimal shot score):
-				update optimal shot;
-		}		
-		current angle -= ANGULAR_STEP;
-	}
+determine balls to shoot;
 
-	current angle = angle from cue ball to center of target ball - ANGULAR_STEP;
+while (legal balls left to check){
+	calculate smallest angle from cue ball to target ball;
+	calculate largest angle from cue ball to target ball;
 	
-	while (angle's trajectory still hits target ball){	//Check other direction
+	for (all angles from smallest to largest angle){
 		for (every power option){
 			create SimulationInstance for this shot;
 			
@@ -210,7 +196,7 @@ while (legal balls left to check){
 			if (score of new shot > optimal shot score):
 				update optimal shot;
 		}		
-		current angle -= ANGULAR_STEP;
+		current angle += ANGULAR_STEP;
 	}
 }
 
@@ -275,14 +261,40 @@ Initialize the velocities array;
 velocities[Ball.CUE__NUM][0] = initial x component;
 velocities[Ball.CUE__NUM][1] = initial y component;
 \end{lstlisting}~\\\\
-The following pseudocode describes one possibility for how the simulation will update itself to the next time step. This possibility assumes a very fine time step but may not be feasible depending on how long this algorithm requires (which will be tested empirically):
+The following pseudocode assumes a very fine time step but may not not be feasible given the imposed time constraints (which will be tested empirically):
 \begin{lstlisting}
+for (all balls on table){
+	update position according to velocity;
+	update velocity according to friction;
+}
 
-\end{lstlisting}~\\\\%TODO pseudocode
-The following pseudocode describes the other possibility for updating the simulation. This possibility uses a much more granular time step and corrections are made regressively if a collision was meant to happen mid-time step.
-\begin{lstlisting}
+for (all balls on table){
+	if (in pocket AND sufficiently slow){
+		if (cue ball):
+			score reduced;
+		else if (8 ball AND not shooting 8):
+			score reduced;
+		else if (wrong type):
+			score reduced;
+		else:
+			score increased;
+			
+		set position to be off table;
+		set velocity to 0;
+	}else{
+		for (current ball to last ball){
+			if (collision):
+				compute resulting velocities;
+		}
+}
 
-\end{lstlisting}~\\%TODO pseudocode
+for (all balls on table){
+	if (velocity != 0){
+		inMotion = true;
+		return inMotion;
+	}
+}
+\end{lstlisting}~\\\\
 \subsection{$\mu$C Modules}
 The following are the modules contained within the $\mu$C subsystem.
 \subsubsection{Controller}
