@@ -24,4 +24,11 @@ public class TableState{
 			balls[i] = new Ball(positions[i][0], positions[i][1], i);
 		}
 	}//Constructor
+	
+	/**
+	 * Returns the ball at index <code>i</code>.
+	 * @param i - The index of the ball to be returned.
+	 * @return The ball at index <code>i</code>.
+	 */
+	Ball getBall(int i){ return balls[i]; }//getBall()
 }//TableState
