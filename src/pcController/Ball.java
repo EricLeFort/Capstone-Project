@@ -6,7 +6,7 @@ package pcController;
  */
 public class Ball{
 	public static final int EIGHT_BALL_NUM = 8, CUE_NUM = 0;
-	public static final double RADIUS = .028575,	//radius in m
+	public static final double RADIUS = 0.028575,	//radius in m
 			MASS = 0.163;							//mass in kg
 	private double xPosition, yPosition;
 	private byte value;
@@ -33,6 +33,18 @@ public class Ball{
 	}//Constructor
 	
 	//    GETTERS & SETTERS    //
+	/**
+	 * Alters the current x-coordinate according to the change given.
+	 * @param change - The amount to alter the x-coordinate.
+	 */
+	public void alterX(double change){ xPosition += change; }//alterX()
+	
+	/**
+	 * Alters the current x-coordinate according to the change given.
+	 * @param change - The amount to alter the x-coordinate.
+	 */
+	public void alterY(double change){ yPosition += change; }//alterY()
+	
 	public double getXPosition(){ return xPosition; }//getXPosition()
 	public double getYPosition(){ return yPosition; }//getYPosition()
 	public byte getValue(){ return value; }//getValue()

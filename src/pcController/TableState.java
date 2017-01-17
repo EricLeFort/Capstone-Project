@@ -9,7 +9,7 @@ public class TableState{
 	
 	/**
 	 * Constructs a new <code>TableState</code> according to the parameters passed in.<br>
-	 * Passing in a position (-1, -1) signifies the ball is not on the table.
+	 * Passing in a position (-x, -y) signifies the ball is not on the table.
 	 * @param positions - A 16-by-2 array containing the coordinates of each ball.
 	 */
 	public TableState(double[][] positions){
@@ -31,4 +31,17 @@ public class TableState{
 	 * @return The ball at index <code>i</code>.
 	 */
 	Ball getBall(int i){ return balls[i]; }//getBall()
+	
+	/**
+	 * Creates and returns a deep copy of the array of <code>Balls</code> in the current <code>TableState</code>.
+	 * @return An array of type <code>Ball</code> with length 16.
+	 */
+	Ball[] deepCopy(){
+		Ball[] balls = new Ball[16];
+		
+		for(byte i = 0; i < balls.length; i++){
+			balls[i] = new Ball(balls[i].getXPosition(), balls[i].getYPosition(), i);
+		}
+		return balls;
+	}//deepCopy
 }//TableState

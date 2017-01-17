@@ -2,12 +2,12 @@ package pcController;
 
 public class InferenceEngine{
 	public static final double MAX_X_COORDINATE = 0, MAX_Y_COORDINATE = 0;		//TODO max coordinates in m
+	public static BallType myBallType;
 	private static final double ANGULAR_STEP = 0.0031416,						//minimum step size in radians
 			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;					//power levels in %
 	private static TableState currentTableState;
 	private static double[][] positions;
 	private static Shot bestShot;
-	private static BallType myBallType;
 	
 	/**
 	 * Updates the current <code>TableState</code> to represent the new positions passed in.
