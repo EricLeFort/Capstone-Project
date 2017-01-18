@@ -40,7 +40,7 @@ public class TableState{
 		Ball[] balls = new Ball[16];
 		
 		for(byte i = 0; i < balls.length; i++){
-			balls[i] = new Ball(balls[i].getXPosition(), balls[i].getYPosition(), i);
+			balls[i] = new Ball(this.balls[i].getXPosition(), this.balls[i].getYPosition(), i);
 		}
 		return balls;
 	}//deepCopy

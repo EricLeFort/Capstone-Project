@@ -5,7 +5,7 @@ package pcController;
  * @version 1.0
  */
 public class Ball{
-	public static final int EIGHT_BALL_NUM = 8, CUE_NUM = 0;
+	public static final int CUE_NUM = 0, EIGHT_BALL_NUM = 8;
 	public static final double RADIUS = 0.028575,	//radius in m
 			MASS = 0.163;							//mass in kg
 	private double xPosition, yPosition;

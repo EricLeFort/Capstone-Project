@@ -1,23 +1,41 @@
 package pcController;
 
 /*
- * TODO Possible errors:
- * Balls might end up in collision loop if they don't have time to escape one another's proximity.
+ * Notes:
+ * soft shots last < 3s
+ * medium shots last < 6s
+ * hard shots last < 9s
+ * 
+ * If a continuous set of shots result in the same score, it might be wise to choose the shot in the middle of that
+ * set. This will minimize the effect of precision errors on the shot.
  */
+
+/*
+ * TODO Possible errors:
+ * Physical constants might be inaccurate or unusable, certain ones should be measured:
+ * 		- pocket openings,
+ * 		- initial speeds/
+ * Equations may not be correct, especially:
+ * 		- slowdown of balls,
+ * 		- friction slowdown from hitting wall/ball at an angle
+ * 		- 
+ */
+
 public class SimulationInstance extends TableState{
-	private final static double TIME_STEP = 0,										//Simulation time step in s TODO find acceptable value
-			BALL_SLOWDOWN_FACTOR = 0.7143,											//The rate at which balls slow down in m/s TODO found from website. Accurate?
-			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,				//Elastic coefficients TODO found from website. Accurate?
-			INITIAL_LOW_SPEED = 0, INITIAL_MED_SPEED = 0, INITIAL_HI_SPEED = 0,		//Initial speeds in m/s TODO solve for value
-			MIN_MOTION = 0.01,														//Motion below this is considered stopped//TODO get value
-			CORNER_MOUTH_WIDTH = 0, SIDE_MOUTH_WIDTH = 0,							//Pocket openings //TODO measure
+	private final static double TIME_STEP = 0.1,									//Simulation time step in s
+			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,				//Elastic coefficients
+			BALL_TABLE_FRICTION = 0.01,
+			GRAVITATIONAL_CONSTANT = 9.807,											//in m/s/s
+			INITIAL_LOW_SPEED = 1.2, INITIAL_MED_SPEED = 2.25, INITIAL_HI_SPEED = 3,//Initial speeds in m/s
+			MIN_MOTION = 0.05,														//Motion below this is considered stopped
+			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,						//Pocket openings
 			CORNER_PLAY = CORNER_MOUTH_WIDTH - Ball.RADIUS, SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
-			SINK_PROXIMITY = 0.001,													//Distance at which a ball is sunk in m //TODO verify
-			MAX_SINK_SPEED = 1;														//Speed when balls bounce out of hole in m/s //TODO verify
+			SINK_PROXIMITY = 0.01,													//Distance at which a ball is sunk in m
+			MAX_SINK_SPEED = 2;														//Speed when balls bounce out of hole in m/s
 	private final static int CUE_SCORE = -20,										//Scoring for sinking certain balls
 			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3;
+	Ball[] balls;
 	private double[][] velocities = new double[16][2];
-	private int score;
 	private boolean inMotion, shooting8;
 	
 	/**
@@ -31,6 +49,8 @@ public class SimulationInstance extends TableState{
 		
 		double radAngle = Math.toRadians(shotAngle), speed;
 		int start, end;
+		
+		balls = super.deepCopy();
 		
 		if(InferenceEngine.myBallType == BallType.SOLID){
 			start = 1;
@@ -68,33 +88,36 @@ public class SimulationInstance extends TableState{
 	 * @return The score earned or lost in this update.
 	 */
 	public int update(){
-		Ball[] balls = super.deepCopy();
-		double distance;
+		double distance, fullVelocity;
 		int updateScore = 0;
+		System.out.println();
+		System.out.println("(" + balls[0].getXPosition() + ", " + balls[0].getYPosition() + ")");
+		System.out.println("<" + velocities[0][0] + ", " + velocities[0][1] + ">");
 		
 		for(int i = 0; i < velocities.length; i++){		//Move balls appropriately
 			balls[i].alterX(velocities[i][0] * TIME_STEP);
 			balls[i].alterY(velocities[i][1] * TIME_STEP);
+			fullVelocity = Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2));
 			
 			if(velocities[i][0] > 0){					//Slow down from friction in the x-direction
-				velocities[i][0] *= BALL_SLOWDOWN_FACTOR;
+				velocities[i][0] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 				if(velocities[i][0] < MIN_MOTION){		//Slowed to a full stop
 					velocities[i][0] = 0;
 				}
 			}else if(velocities[i][0] < 0){
-				velocities[i][0] *= BALL_SLOWDOWN_FACTOR;
+				velocities[i][0] += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 				if(velocities[i][0] > -1*MIN_MOTION){
 					velocities[i][0] = 0;
 				}
 			}
 			
 			if(velocities[i][1] > 0){					//Slow down from friction in the y-direction
-				velocities[i][1] *= BALL_SLOWDOWN_FACTOR;
+				velocities[i][1] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 				if(velocities[i][1] < MIN_MOTION){
 					velocities[i][1] = 0;
 				}
 			}else if(velocities[i][1] < 0){
-				velocities[i][1]  *= BALL_SLOWDOWN_FACTOR;
+				velocities[i][1]  += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 				if(velocities[i][1] > -1*MIN_MOTION){
 					velocities[i][1] = 0;
 				}
@@ -110,26 +133,27 @@ public class SimulationInstance extends TableState{
 					}
 				}
 				if(inPocket(balls[i], velocities[i])){					//Ball sunk
+					System.out.println("Ball sunk!");
 					if(shooting8){
 						if(balls[i].getValue() == 0){					//Sunk cue ball
-							score = Integer.MIN_VALUE;
+							updateScore = Integer.MIN_VALUE;
 							break outerloop;
 						}else if(balls[i].getValue() == 8){
-							score = Integer.MAX_VALUE;
+							updateScore = Integer.MAX_VALUE;
 						}else{
-							score -= WRONG_BALLTYPE_SUNK;
+							updateScore -= WRONG_BALLTYPE_SUNK;
 						}
 					}else{
 						if(balls[i].getValue() == 0){					//Sunk cue ball
-							score += CUE_SCORE;
+							updateScore += CUE_SCORE;
 						}else if(balls[i].getValue() == 8){				//Sunk eight ball
-							score = Integer.MIN_VALUE;
+							updateScore = Integer.MIN_VALUE;
 							break outerloop;							//Sunk right type of ball
 						}else if(balls[i].getValue() > 8 && InferenceEngine.myBallType == BallType.STRIPE
 								|| balls[i].getValue() < 8 && InferenceEngine.myBallType == BallType.SOLID){
-							score += RIGHT_BALLTYPE_SUNK;
+							updateScore += RIGHT_BALLTYPE_SUNK;
 						}else{											//Sunk wrong type of ball
-							score += WRONG_BALLTYPE_SUNK;
+							updateScore += WRONG_BALLTYPE_SUNK;
 						}
 					}
 					balls[i].alterX(-1*balls[i].getXPosition() - 1);	//Sinks the ball
@@ -141,22 +165,26 @@ public class SimulationInstance extends TableState{
 						distance = Math.sqrt(
 								Math.pow(Math.abs(balls[i].getXPosition() - balls[j].getXPosition()),2) +
 								Math.pow(Math.abs(balls[i].getYPosition() - balls[j].getYPosition()), 2));
-						if(distance < Ball.RADIUS){						//BALL-BALL collision
+						if(i != j && distance < Ball.RADIUS){				//BALL-BALL collision TODO verify movement is towards ball
 							velocities[i][0] = ballToBallCollision(velocities[i][0], velocities[j][0]);
 							velocities[i][1] = ballToBallCollision(velocities[i][1], velocities[j][1]);
 							velocities[j][0] = ballToBallCollision(velocities[j][0], velocities[i][0]);
 							velocities[j][1] = ballToBallCollision(velocities[j][1], velocities[i][1]);
 						}
-						if(balls[j].getXPosition() - Ball.RADIUS <= 0 ||	//BALL-BUMPER collision (x)
-								balls[j].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE){
-							ballToWallCollision(velocities[j][0], true);
-							ballToWallCollision(velocities[j][1], false);
+						if((balls[j].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x)
+								velocities[j][0] < 0) ||
+								(balls[j].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE &&
+								velocities[j][0] > 0)){
+							velocities[j][0] = ballToWallCollision(velocities[j][0], true);
+							velocities[j][1] = ballToWallCollision(velocities[j][1], false);
 						}
 						
-						if(balls[j].getYPosition() - Ball.RADIUS <= 0 ||	//BALL-BUMPER collision (y)
-								balls[j].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE){
-							ballToWallCollision(velocities[j][0], false);
-							ballToWallCollision(velocities[j][1], true);
+						if((balls[j].getYPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (y)
+								velocities[j][1] < 0) ||
+								(balls[j].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE &&
+								velocities[j][1] > 0)){
+							velocities[j][0] = ballToWallCollision(velocities[j][0], false);
+							velocities[j][1] = ballToWallCollision(velocities[j][1], true);
 						}
 					}
 				}
@@ -164,7 +192,7 @@ public class SimulationInstance extends TableState{
 		
 		inMotion = false;
 		for(int i = 0; i < velocities.length; i++){
-			if(velocities[i][0] + velocities[i][1] > 0){
+			if(Math.abs(velocities[i][0]) + Math.abs(velocities[i][1]) > 0){
 				inMotion = true;
 				break;
 			}
@@ -181,7 +209,7 @@ public class SimulationInstance extends TableState{
 	 * @return The resulting one-dimensional velocity of the first ball.
 	 */
 	private double ballToBallCollision(double v1, double v2){
-		return (BALL_BALL_COEFFICIENT*(v2-v1) + v1 + v2) / Ball.MASS;
+		return (0.5*BALL_BALL_COEFFICIENT*(v2-v1) + v1 + v2);
 	}//ballToBallCollision()
 	
 	/**
@@ -213,14 +241,10 @@ public class SimulationInstance extends TableState{
 				ball.getXPosition() > lowMidpoint && ball.getXPosition() < hiMidpoint ||
 				ball.getXPosition() > InferenceEngine.MAX_X_COORDINATE - SINK_PROXIMITY) &&
 				(ball.getYPosition() < SINK_PROXIMITY ||
-				ball.getYPosition() > InferenceEngine.MAX_Y_COORDINATE - SINK_PROXIMITY) &&
+						ball.getYPosition() > InferenceEngine.MAX_Y_COORDINATE - SINK_PROXIMITY) &&
 				(Math.sqrt(Math.pow(v[0],2) + Math.pow(v[1], 2)) <= MAX_SINK_SPEED);
-			
-		//First check if the ball is sufficiently close to a pocket
-		//Check if tangential velocity is slow enough and in correct direction.
 	}//inPocket()
 	
 	//    Getters & Setters    //
-	public int getScore(){ return score; }//getScore()
 	public boolean inMotion(){ return inMotion; }//inMotion()
 }//SimulationInstance
