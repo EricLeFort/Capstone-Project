@@ -85,14 +85,13 @@ public class InferenceEngine{
 			lowAngle = (startAngle - deltaAngle) % pi2;									//prevents angle over/underflow
 			highAngle = (startAngle + deltaAngle) % pi2;
 
-			simulateShot(new Shot(0, 0, lowAngle+50*ANGULAR_STEP, LOW_POWER));//TODO temp
-			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
-				simulateShot(new Shot(0, 0, j, LOW_POWER));
-				simulateShot(new Shot(0, 0, j, MID_POWER));
-				simulateShot(new Shot(0, 0, j, HI_POWER));
-			}
+			simulateShot(new Shot(0, 0, 1.39, HI_POWER));
+//			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
+//				simulateShot(new Shot(0, 0, j, LOW_POWER));
+//				simulateShot(new Shot(0, 0, j, MID_POWER));
+//				simulateShot(new Shot(0, 0, j, HI_POWER));
+//			}
 		}
-		
 		bestShot.setXPosition(currentTableState.getBall(0).getXPosition() +
 				Ball.RADIUS * Math.cos((Math.PI + bestShot.getAngle()) % pi2));			//opposite angle
 		bestShot.setYPosition(currentTableState.getBall(0).getYPosition() +
@@ -104,13 +103,10 @@ public class InferenceEngine{
 	 * @param shot - The <code>Shot</code> to be simulated.
 	 */
 	private static void simulateShot(Shot shot){
-		int count = 0;//TODO temp
 		SimulationInstance instance = new SimulationInstance(positions, shot.getAngle(), shot.getPower());
 		
 		while(instance.inMotion()){				//Updates until the balls have stopped moving.
-			System.out.println(count);
 			shot.alterScore(instance.update());
-			count++;
 		}
 		
 		if(bestShot == null || shot.getScore() > bestShot.getScore()){
