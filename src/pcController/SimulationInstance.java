@@ -1,5 +1,12 @@
 package pcController;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
+
 /*
  * Notes:
  * soft shots last < 3s
@@ -8,6 +15,8 @@ package pcController;
  * 
  * If a continuous set of shots result in the same score, it might be wise to choose the shot in the middle of that
  * set. This will minimize the effect of precision errors on the shot.
+ * Should we use a different method of updating the cue ball for the first few instants due to the nature of shots
+ * our machine will be forced to take?
  */
 
 /*
@@ -15,20 +24,22 @@ package pcController;
  * Physical constants might be inaccurate or unusable, certain ones should be measured:
  /* 	- pocket openings,
  * 		- initial speeds/
+ * 		- friction coefficient
  * Equations may not be correct, especially:
  * 		- slowdown of balls,
  * 		- friction slowdown from hitting wall/ball at an angle
  * 		- Ball-Ball collisions -- No consideration of angle of contact.
  * 		- Whether a ball is sunk -- might bounce out from angled side pockets
+ * When both balls are moving, they should only both get a portion of the original speed.
  */
 
 public class SimulationInstance extends TableState{
 	private final static double TIME_STEP = 0.01,									//Simulation time step in s
 			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,				//Elastic coefficients
-			BALL_TABLE_FRICTION = 0.01,
+			BALL_TABLE_FRICTION = 0.05,
 			GRAVITATIONAL_CONSTANT = 9.807,											//in m/s/s
-			INITIAL_LOW_SPEED = 1.2, INITIAL_MED_SPEED = 2.25, INITIAL_HI_SPEED = 3,//Initial speeds in m/s
-			MIN_MOTION = 0.015,														//Motion below this is considered stopped
+			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,	//Initial speeds in m/s
+			MIN_MOTION = 0.02,														//Motion below this is considered stopped
 			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,						//Pocket openings
 			CORNER_PLAY = CORNER_MOUTH_WIDTH - Ball.RADIUS, SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
 			SINK_PROXIMITY = 0.01,													//Distance at which a ball is sunk in m
@@ -39,6 +50,12 @@ public class SimulationInstance extends TableState{
 	private double[][] velocities = new double[16][2];
 	private boolean inMotion, shooting8;
 	
+	/*
+	 * TESTING VARIABLES
+	 */
+	JFrame f;
+	PointPanel panel;
+	
 	/**
 	 * Constructs a new <code>SimulationInstance</code> according to the parameters passed in.<br>
 	 * @param positions - A 16-by-2 array containing the coordinates of each ball.
@@ -47,6 +64,14 @@ public class SimulationInstance extends TableState{
 	 */
 	public SimulationInstance(double[][] positions, double shotAngle, double shotPower){
 		super(positions);
+		
+		f = new JFrame();
+		panel = new PointPanel();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.getContentPane().add(panel);
+		f.setSize(1300, 648);
+		f.setLocation(75,0);
+		f.setVisible(true);
 		
 		double radAngle = shotAngle, speed;
 		int start, end;
@@ -60,6 +85,9 @@ public class SimulationInstance extends TableState{
 			start = 9;
 			end = 15;
 		}
+		
+		panel.addPoint(balls[0].getXPosition(), balls[0].getYPosition(), true);
+		panel.addPoint(balls[1].getXPosition(), balls[1].getYPosition(), false);
 		
 		shooting8 = true;
 		for(int i = start; i <= end; i++){			//If all balls sunk, shooting 8
@@ -89,34 +117,33 @@ public class SimulationInstance extends TableState{
 	 * @return The score earned or lost in this update.
 	 */
 	public int update(){
+		double[] temp;
 		double distance, nextDistance, fullVelocity;
 		int updateScore = 0;
-		if(Math.random() < 0.05){
-//			System.out.println();
-//			System.out.println("(" + balls[0].getXPosition() + ", " + balls[0].getYPosition() + ")");
-//			System.out.println("<" + velocities[0][0] + ", " + velocities[0][1] + ">");
-//			System.out.println("(" + balls[1].getXPosition() + ", " + balls[1].getYPosition() + ")");
-//			System.out.println("<" + velocities[1][0] + ", " + velocities[1][1] + ">");
-		}
 		
-		for(int i = 0; i < velocities.length; i++){		//Move balls appropriately
-			balls[i].alterX(velocities[i][0] * TIME_STEP);
-			balls[i].alterY(velocities[i][1] * TIME_STEP);
+		for(int i = 0; i < velocities.length; i++){
 			fullVelocity = Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2));
 			
-			if(velocities[i][0] > 0){					//Slow down from friction in the x-direction
+			if(velocities[i][0] > 0){						//Slow down from friction in the x-direction
 				velocities[i][0] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 			}else if(velocities[i][0] < 0){
 				velocities[i][0] += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 			}
 			
-			if(velocities[i][1] > 0){					//Slow down from friction in the y-direction
+			if(velocities[i][1] > 0){						//Slow down from friction in the y-direction
 				velocities[i][1] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 			}else if(velocities[i][1] < 0){
-				velocities[i][1]  += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
+				velocities[i][1] += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
 			}
 			if(Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2)) < MIN_MOTION){
 				velocities[i][0] = velocities[i][1] = 0;
+			}
+			
+			balls[i].alterX(velocities[i][0] * TIME_STEP);	//Move balls appropriately
+			balls[i].alterY(velocities[i][1] * TIME_STEP);
+			
+			if(velocities[i][0] != 0 || velocities[i][1] != 0){
+				panel.addPoint(balls[i].getXPosition(), balls[i].getYPosition(), i == 0);
 			}
 		}
 		
@@ -130,7 +157,6 @@ public class SimulationInstance extends TableState{
 				}
 				if(inPocket(balls[i], velocities[i])){					//Ball sunk
 					if(shooting8){
-						System.out.println("Oh..");
 						if(balls[i].getValue() == 0){					//Sunk cue ball
 							System.out.println("Cue ball sunk! (shooting 8)");
 							updateScore = Integer.MIN_VALUE;
@@ -166,19 +192,19 @@ public class SimulationInstance extends TableState{
 				}else{
 					for(int j = i; j < balls.length; j++){
 						distance = Math.sqrt(
-								Math.pow(Math.abs(balls[i].getXPosition() - balls[j].getXPosition()),2) +
+								Math.pow(Math.abs(balls[i].getXPosition() - balls[j].getXPosition()), 2) +
 								Math.pow(Math.abs(balls[i].getYPosition() - balls[j].getYPosition()), 2));
 						nextDistance = Math.sqrt(
 								Math.pow(Math.abs(balls[i].getXPosition() + velocities[i][0]*TIME_STEP -
 										balls[j].getXPosition() - velocities[j][0]*TIME_STEP),2) +
 								Math.pow(Math.abs(balls[i].getYPosition() + velocities[i][1]*TIME_STEP  -
 										balls[j].getYPosition() - velocities[j][1]*TIME_STEP), 2));
-						if(i != j && distance < Ball.RADIUS &&				//BALL-BALL collision
-							nextDistance < distance){
-							velocities[i][0] = ballToBallCollision(velocities[i][0], velocities[j][0]);
-							velocities[i][1] = ballToBallCollision(velocities[i][1], velocities[j][1]);
-							velocities[j][0] = ballToBallCollision(velocities[j][0], velocities[i][0]);
-							velocities[j][1] = ballToBallCollision(velocities[j][1], velocities[i][1]);
+						if(i != j && distance < Ball.RADIUS + Ball.RADIUS &&//BALL-BALL collision
+								nextDistance < distance){
+							System.out.println("Ball collision");
+							temp = velocities[i];
+							velocities[i] = ballToBallCollision(velocities[i][0], velocities[i][1], velocities[j][0], velocities[j][1]);
+							velocities[j] = ballToBallCollision(velocities[j][0], velocities[j][1], temp[0], temp[1]);
 						}
 						if((balls[j].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x)
 								velocities[j][0] < 0) ||
@@ -187,6 +213,7 @@ public class SimulationInstance extends TableState{
 							velocities[j][0] = ballToWallCollision(velocities[j][0], true);
 							velocities[j][1] = ballToWallCollision(velocities[j][1], false);
 							System.out.println(j+ ": Y-Wall collision");
+							System.out.println(balls[j].getXPosition());
 						}
 						
 						if((balls[j].getYPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (y)
@@ -196,6 +223,7 @@ public class SimulationInstance extends TableState{
 							velocities[j][0] = ballToWallCollision(velocities[j][0], false);
 							velocities[j][1] = ballToWallCollision(velocities[j][1], true);
 							System.out.println(j+ ": X-Wall collision");
+							System.out.println(balls[j].getYPosition());
 						}
 					}
 				}
@@ -213,15 +241,28 @@ public class SimulationInstance extends TableState{
 	}//update()
 	
 	/**
-	 * Returns the resulting one-dimensional velocity of the first ball according to the initial
-	 * one-dimensional velocity in a situation where two balls are colliding.
-	 * @param v1 - The first ball's one-dimensional velocity.
-	 * @param v2 - The second ball's one-dimensional velocity.
-	 * @return The resulting one-dimensional velocity of the first ball.
+	 * Returns the resulting velocity of the first ball according to the initial velocity in a situation where two
+	 * balls are colliding.
+	 * @param x1 - The first ball's velocity's x-component.
+	 * @param x2 - The second ball's velocity's x-component.
+	 * @param y1 - The first ball's velocity's y-component.
+	 * @param y2 - The second ball's velocity's y-component.
+	 * @return The resulting velocity of the first ball.
 	 */
-	private double ballToBallCollision(double v1, double v2){
-		System.out.println("Ball collision");
-		return (0.5*(BALL_BALL_COEFFICIENT*(v2-v1) + v1 + v2));
+	private double[] ballToBallCollision(double x1, double y1, double x2, double y2){
+		//TODO account for angle of collision
+		double x = x2 - x1, y = y2 - y1,				//relative velocities
+				magnitude, theta = Math.atan2(-y, x);	//angle of the perpendicular vector
+		x = Math.abs(x);
+		y = Math.abs(y);
+		
+		magnitude =					//magnitude of the resulting vector
+				(BALL_BALL_COEFFICIENT)*Math.sqrt(Math.pow(Math.max(x, y), 2) - Math.pow(Math.min(x, y), 2));
+		
+		return new double[]{
+				magnitude*Math.cos(theta),
+				-1*magnitude*Math.sin(theta)
+		};
 	}//ballToBallCollision()
 	
 	/**
@@ -260,3 +301,49 @@ public class SimulationInstance extends TableState{
 	//    Getters & Setters    //
 	public boolean inMotion(){ return inMotion; }//inMotion()
 }//SimulationInstance
+
+//TODO remove this whole class
+class PointPanel extends JPanel{
+	ArrayList<Ellipse2D> pointList, cuePointList;
+	
+	public PointPanel(){
+		pointList = new ArrayList<Ellipse2D>();
+		cuePointList = new ArrayList<Ellipse2D>();
+		setBackground(Color.white);
+	}
+	
+	protected void paintComponent(Graphics g){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		for(int j = 0; j < pointList.size(); j++){
+			g2.setPaint(Color.blue);
+			g2.fill(pointList.get(j));
+		}
+		for(int j = 0; j < cuePointList.size(); j++){
+			g2.setPaint(Color.black);
+			g2.draw(cuePointList.get(j));
+		}
+	}
+	
+	public void addPoint(double x, double y, boolean cue){
+		x -= Ball.RADIUS;
+		y += Ball.RADIUS;
+		y = 0.921 - y;
+		x *= 1300/1.848;
+		y *= 648/0.921;
+		
+		try{Thread.sleep(10);}catch(Exception e){}
+		
+		if(cue){
+			cuePointList = new ArrayList<Ellipse2D>();
+			cuePointList.add(new Ellipse2D.Double(x, y, 40, 40));
+		}else{
+			pointList = new ArrayList<Ellipse2D>();
+			pointList.add(new Ellipse2D.Double(x, y, 40, 40));
+		}
+		repaint();
+	}
+}
