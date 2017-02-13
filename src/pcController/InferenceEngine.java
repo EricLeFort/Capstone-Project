@@ -85,9 +85,9 @@ public class InferenceEngine{
 			lowAngle = (startAngle - deltaAngle) % pi2;									//prevents angle over/underflow
 			highAngle = (startAngle + deltaAngle) % pi2;
 
-			simulateShot(new Shot(0, 0, 1.39, HI_POWER));
+			simulateShot(new Shot(0, 0, 0.9, HI_POWER));//TODO REMOVE
 //			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
-//				simulateShot(new Shot(0, 0, j, LOW_POWER));
+//				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
 //				simulateShot(new Shot(0, 0, j, MID_POWER));
 //				simulateShot(new Shot(0, 0, j, HI_POWER));
 //			}
@@ -105,9 +105,13 @@ public class InferenceEngine{
 	private static void simulateShot(Shot shot){
 		SimulationInstance instance = new SimulationInstance(positions, shot.getAngle(), shot.getPower());
 		
+		int count = 0;//TODO REMOVE
 		while(instance.inMotion()){				//Updates until the balls have stopped moving.
+			count++;//TODO REMOVE
 			shot.alterScore(instance.update());
 		}
+		System.out.println();
+		System.out.println(count/100 + "." + count%100 + " seconds");//TODO REMOVE
 		
 		if(bestShot == null || shot.getScore() > bestShot.getScore()){
 			bestShot = shot;

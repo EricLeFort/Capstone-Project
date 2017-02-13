@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="camera/EventHandler/app/src/main/java/com/robot/pool/eventhandler/ImageCaptureService.java|camera/EventHandler/app/src/main/java/com/robot/pool/eventhandler/MainActivity.java|camera/EventHandler/app/src/main/|camera/EventHandler/app/|camera/EventHandler/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
