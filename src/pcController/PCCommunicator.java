@@ -16,9 +16,9 @@ import javax.imageio.ImageIO;
 public class PCCommunicator{
 	private static TableState tableState;
 	private static File tableStateFile = new File("resources/TableState.csv"),
-			imageFile = new File("resources/TableImage.png");
+			imageFile = new File("resources/TableImage.jpg");
 	private static String addFileToPathCmd = "", runMatlabCmd = "src/matlabScript", imageFileType = "jpg";
-	private final static int port = 100;
+	private final static int port = 8000;
 	private final static BallType myBallType = BallType.SOLID;
 	
 	public static void main(String[] args){
@@ -34,7 +34,7 @@ public class PCCommunicator{
 			
 			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
 			
-			while(!sendShot(InferenceEngine.getBestShot()));
+//			while(!sendShot(InferenceEngine.getBestShot()));
 			System.out.println("The shot has been successfully received!");
 		}else{
 			System.out.println("Error receiving image.");
@@ -62,35 +62,35 @@ public class PCCommunicator{
 		InputStream in;
 		BufferedImage imageStream;
 		InputStream fileStream;
-		Byte nextByte = null;
 		
 		try{
 			serverSocket = new ServerSocket(port);
-			clientSocket = serverSocket.accept();					//Waits for connection to be made
+			System.out.println("Waiting for connection..");
+			clientSocket = serverSocket.accept();						//Waits for connection to be made
+			System.out.println("Connection established.");
 			in = clientSocket.getInputStream();
 			
-			while((nextByte = (byte)in.read()) == -1){				//Wait patiently for response.
+			while(in.available() == 0){									//Wait patiently for response.
 				try{
-					Thread.sleep(50);//TODO adjust wait as appropriate.
+					Thread.sleep(50);
 				}catch(InterruptedException ie){
 					ie.printStackTrace();
 					serverSocket.close();
 					return false;
 				}
 			}
-			//TODO do I need to allow time to complete image transmission?
 			
-			while(nextByte != -1){
-				imageByteList.add(nextByte);
-				nextByte = (byte)in.read();
+			while(in.available() != 0){
+				imageByteList.add((byte)in.read());
 			}
+			System.out.println("Bytes received: " +imageByteList.size());
 			
-			imageByteArray = new byte[imageByteList.size()];		//Converts the ArrayList to a primitive array
+			imageByteArray = new byte[imageByteList.size()];			//Converts the ArrayList to a primitive array
 			for(int i = 0; i < imageByteArray.length; i++){
 				imageByteArray[i] = imageByteList.get(i);
 			}
 			
-			fileStream = new ByteArrayInputStream(imageByteArray);	//Writes image to file using byte array
+			fileStream = new ByteArrayInputStream(imageByteArray);		//Writes image to file using byte array
 			imageStream = ImageIO.read(fileStream);
 			ImageIO.write(imageStream, imageFileType, imageFile);
 			
@@ -116,7 +116,6 @@ public class PCCommunicator{
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		
 	}//initiateVR()
 	
 	
