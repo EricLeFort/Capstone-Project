@@ -277,18 +277,22 @@ public class SimulationInstance extends TableState{
 		theta1 = angleFromCoordinates(vx1, vy1) - alpha;
 		theta2 = angleFromCoordinates(vx2, vy2) - alpha;	//Angle to ball's velocity vector
 		
-		opposite = (alpha + Math.PI) % 2*Math.PI;			//Unit vector along direction from ball 2 to ball 1
-		bx = Math.sin(opposite);
-		by = Math.cos(opposite);
+		opposite = (alpha + Math.PI) % (2*Math.PI);			//Unit vector along direction from ball 2 to ball 1
+		bx = Math.cos(opposite);
+		by = Math.sin(opposite);
 		
 		perp = Math.abs(v2*Math.cos(theta2));				//Velocity of ball 2 towards ball 1
 		perpx = perp * bx;
 		perpy = perp * by;
 		
-		para = Math.abs(v1*Math.cos(theta1));				//Velocity of ball 1 parallel to ball 2
-		beta = (alpha + Math.PI / 2) % 2*Math.PI;
-		parax = para * Math.sin(beta);
-		paray = para * Math.cos(beta);
+		para = Math.abs(v1*Math.sin(theta1));				//Velocity of ball 1 parallel to ball 2
+		if(theta1 > 0){
+			beta = (alpha + Math.PI / 2) % (2*Math.PI);
+		}else{
+			beta = (alpha - Math.PI / 2 + 2*Math.PI) % (2*Math.PI);
+		}
+		parax = para * Math.cos(beta);
+		paray = para * Math.sin(beta);
 		
 		return new double[]{								//Add parallel and perpendicular components
 			BALL_BALL_COEFFICIENT * (perpx + parax),
@@ -353,9 +357,9 @@ public class SimulationInstance extends TableState{
 			}
 		}else{
 			if(x > 0){
-				return Math.PI + Math.atan(y / x);
-			}else{
 				return 2*Math.PI + Math.atan(y / x);
+			}else{
+				return Math.PI + Math.atan(y / x);
 			}
 		}
 	}//angleFromCoordinates()
