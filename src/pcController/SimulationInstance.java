@@ -65,18 +65,18 @@ public class SimulationInstance extends TableState{
 	public SimulationInstance(double[][] positions, double shotAngle, double shotPower){
 		super(positions);
 		
+		double radAngle = shotAngle, speed;
+		int start, end;
+		
+		balls = super.deepCopy();
+		
 		f = new JFrame();
-		panel = new PointPanel();
+		panel = new PointPanel(balls);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().add(panel);
 		f.setSize(1300, 648);
 		f.setLocation(75,0);
 		f.setVisible(true);
-		
-		double radAngle = shotAngle, speed;
-		int start, end;
-		
-		balls = super.deepCopy();
 		
 		if(InferenceEngine.myBallType == BallType.SOLID){
 			start = 1;
@@ -85,9 +85,6 @@ public class SimulationInstance extends TableState{
 			start = 9;
 			end = 15;
 		}
-		
-		panel.addPoint(balls[0].getXPosition(), balls[0].getYPosition(), true);
-		panel.addPoint(balls[1].getXPosition(), balls[1].getYPosition(), false);
 		
 		shooting8 = true;
 		for(int i = start; i <= end; i++){			//If all balls sunk, shooting 8
@@ -117,9 +114,13 @@ public class SimulationInstance extends TableState{
 	 * @return The score earned or lost in this update.
 	 */
 	public int update(){
-		double[] temp;
+		double[][] newVelocities = velocities.clone();
 		double distance, nextDistance, fullVelocity;
 		int updateScore = 0;
+		
+		for(int i = 0; i < newVelocities.length; i++){
+			newVelocities[i] = newVelocities[i].clone();
+		}
 		
 		for(int i = 0; i < velocities.length; i++){
 			fullVelocity = Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2));
@@ -202,9 +203,18 @@ public class SimulationInstance extends TableState{
 						if(i != j && distance < Ball.RADIUS + Ball.RADIUS &&//BALL-BALL collision
 								nextDistance < distance){
 							System.out.println("Ball collision");
-							temp = velocities[i];
-							velocities[i] = ballToBallCollision(velocities[i][0], velocities[i][1], velocities[j][0], velocities[j][1]);
-							velocities[j] = ballToBallCollision(velocities[j][0], velocities[j][1], temp[0], temp[1]);
+							newVelocities[i] = ballToBallCollision(balls[i],
+									balls[j],
+									velocities[i][0],
+									velocities[i][1],
+									velocities[j][0],
+									velocities[j][1]);
+							newVelocities[j] = ballToBallCollision(balls[j],
+									balls[i],
+									velocities[j][0],
+									velocities[j][1],
+									velocities[i][0],
+									velocities[i][1]);
 						}
 						if((balls[j].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x)
 								velocities[j][0] < 0) ||
@@ -237,31 +247,52 @@ public class SimulationInstance extends TableState{
 			}
 		}
 		
+		velocities = newVelocities;
 		return updateScore;
 	}//update()
 	
 	/**
-	 * Returns the resulting velocity of the first ball according to the initial velocity in a situation where two
+	 * Returns the resulting velocity of the first ball according to the initial velocities and positions in a situation where two
 	 * balls are colliding.
-	 * @param x1 - The first ball's velocity's x-component.
-	 * @param x2 - The second ball's velocity's x-component.
-	 * @param y1 - The first ball's velocity's y-component.
-	 * @param y2 - The second ball's velocity's y-component.
-	 * @return The resulting velocity of the first ball.
+	 * @param a - The first ball involved in this collision.
+	 * @param b - The second ball involved in this collision.
+	 * @param vx1 - The x-component of the first ball's velocity.
+	 * @param vy1 - The y-component of the first ball's velocity.
+	 * @param vx2 - The x-component of the second ball's velocity.
+	 * @param vy2 - The y-component of the second ball's velocity.
+	 * @return The x- and y-components of the resulting velocity of the first ball.
 	 */
-	private double[] ballToBallCollision(double x1, double y1, double x2, double y2){
-		//TODO account for angle of collision
-		double x = x2 - x1, y = y2 - y1,				//relative velocities
-				magnitude, theta = Math.atan2(-y, x);	//angle of the perpendicular vector
-		x = Math.abs(x);
-		y = Math.abs(y);
+	private double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){//TODO get collisions making sense
+		double alpha, beta, theta1, theta2, x1, y1, x2, y2, v1, v2, opposite, bx, by, perp, perpx, perpy, para, parax, paray;
 		
-		magnitude =					//magnitude of the resulting vector
-				(BALL_BALL_COEFFICIENT)*Math.sqrt(Math.pow(Math.max(x, y), 2) - Math.pow(Math.min(x, y), 2));
+		x1 = a.getXPosition();
+		y1 = a.getYPosition();
+		x2 = b.getXPosition();
+		y2 = b.getYPosition();
 		
-		return new double[]{
-				magnitude*Math.cos(theta),
-				-1*magnitude*Math.sin(theta)
+		v1 = Math.sqrt(vx1*vx1 + vy1*vy1);
+		v2 = Math.sqrt(vx2*vx2 + vy2*vy2);
+		
+		alpha = angleFromCoordinates(x2 - x1, y2 - y1);		//Angle between balls
+		theta1 = angleFromCoordinates(vx1, vy1) - alpha;
+		theta2 = angleFromCoordinates(vx2, vy2) - alpha;	//Angle to ball's velocity vector
+		
+		opposite = (alpha + Math.PI) % 2*Math.PI;			//Unit vector along direction from ball 2 to ball 1
+		bx = Math.sin(opposite);
+		by = Math.cos(opposite);
+		
+		perp = Math.abs(v2*Math.cos(theta2));				//Velocity of ball 2 towards ball 1
+		perpx = perp * bx;
+		perpy = perp * by;
+		
+		para = Math.abs(v1*Math.cos(theta1));				//Velocity of ball 1 parallel to ball 2
+		beta = (alpha + Math.PI / 2) % 2*Math.PI;
+		parax = para * Math.sin(beta);
+		paray = para * Math.cos(beta);
+		
+		return new double[]{								//Add parallel and perpendicular components
+			BALL_BALL_COEFFICIENT * (perpx + parax),
+			BALL_BALL_COEFFICIENT * (perpy + paray)
 		};
 	}//ballToBallCollision()
 	
@@ -298,17 +329,54 @@ public class SimulationInstance extends TableState{
 				(Math.sqrt(Math.pow(v[0],2) + Math.pow(v[1], 2)) <= MAX_SINK_SPEED);
 	}//inPocket()
 	
+	//TODO javadoc
+	public double angleFromCoordinates(double x, double y){
+		if(x == 0){						//Solve alpha
+			if(y > 0){					//Special case: coordinate directly along y-axis
+				return Math.PI / 2;
+			}else{
+				return 3*Math.PI / 2;
+			}
+		}else if(y == 0){
+			if(x > 0){					//Special case: coordinate directly along x-axis
+				return 0;
+			}else{
+				return Math.PI;
+			}
+		}
+		
+		if(y > 0){
+			if(x > 0){
+				return Math.atan(y / x);
+			}else{
+				return Math.PI + Math.atan(y / x);
+			}
+		}else{
+			if(x > 0){
+				return Math.PI + Math.atan(y / x);
+			}else{
+				return 2*Math.PI + Math.atan(y / x);
+			}
+		}
+	}//angleFromCoordinates()
+	
 	//    Getters & Setters    //
 	public boolean inMotion(){ return inMotion; }//inMotion()
 }//SimulationInstance
 
 //TODO remove this whole class
 class PointPanel extends JPanel{
+	private static final long serialVersionUID = 1L;
 	ArrayList<Ellipse2D> pointList, cuePointList;
 	
-	public PointPanel(){
-		pointList = new ArrayList<Ellipse2D>();
-		cuePointList = new ArrayList<Ellipse2D>();
+	public PointPanel(Ball[] balls){
+		addPoint(balls[0].getXPosition(), balls[0].getYPosition(), true);
+		for(int i = 1; i < balls.length; i++){
+			if(balls[i].getXPosition() != -1){
+				addPoint(balls[i].getXPosition(), balls[i].getYPosition(), false);
+			}
+		}
+		
 		setBackground(Color.white);
 	}
 	
@@ -335,7 +403,7 @@ class PointPanel extends JPanel{
 		x *= 1300/1.848;
 		y *= 648/0.921;
 		
-		try{Thread.sleep(10);}catch(Exception e){}
+		try{Thread.sleep(100);}catch(Exception e){}
 		
 		if(cue){
 			cuePointList = new ArrayList<Ellipse2D>();
@@ -346,4 +414,4 @@ class PointPanel extends JPanel{
 		}
 		repaint();
 	}
-}
+}//PointPanel

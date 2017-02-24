@@ -49,10 +49,17 @@ public class MainActivity extends AppCompatActivity{
 	}//onRequestPermissionResult()
 
 	private void listenTakeAndTransmitPhoto(){
-		ImageCaptureService service;
-		//for(;;){ TODO Very difficult to run through more than once.
-			service = new ImageCaptureService();
-			service.start(this);
-		//}
-	}//takePhoto()
+		ImageCaptureService.setActivity(this);
+		new Thread(listenTakeAndTransmitPhoto).start();
+	}//listenTakeAndTransmitPhoto()
+
+	Runnable listenTakeAndTransmitPhoto = new Runnable(){
+		@Override
+		public void run(){
+//			for(;;){ //TODO Very difficult to run through more than once.
+				ImageCaptureService.start();
+				android.os.SystemClock.sleep(10000);
+//			}
+		}//run()
+	};//listenTakeAndTransmitPhoto()
 }//MainActivity

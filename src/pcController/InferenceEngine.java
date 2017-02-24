@@ -85,7 +85,7 @@ public class InferenceEngine{
 			lowAngle = (startAngle - deltaAngle) % pi2;									//prevents angle over/underflow
 			highAngle = (startAngle + deltaAngle) % pi2;
 
-			simulateShot(new Shot(0, 0, 0.9, HI_POWER));//TODO REMOVE
+			simulateShot(new Shot(0, 0, 0.36, HI_POWER));//TODO REMOVE
 //			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
 //				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
 //				simulateShot(new Shot(0, 0, j, MID_POWER));

@@ -26,19 +26,24 @@ public class PCCommunicator{
 	}
 	
 	public static void uCListener(){
+		Scanner in = new Scanner(System.in);
 		//TODO Await request from uC
-		senduCReceipt();
+//		senduCReceipt();
+		
+		InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
+		InferenceEngine.getBestShot();
 		
 		if(imageRequest()){					//Image received successfully
-			initiateVR();
+//			initiateVR();
 			
-			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
+//			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
 			
+//			in.next();
 //			while(!sendShot(InferenceEngine.getBestShot()));
-			System.out.println("The shot has been successfully received!");
 		}else{
 			System.out.println("Error receiving image.");
 		}
+		in.close();
 	}//uCListener()
 	
 	public static void senduCReceipt(){
@@ -95,6 +100,7 @@ public class PCCommunicator{
 			ImageIO.write(imageStream, imageFileType, imageFile);
 			
 			serverSocket.close();
+			System.out.println("The shot has been successfully received!");
 			return true;
 		}catch(IOException e){
 			System.out.println("Exception caught when trying to listen on port "

@@ -37,7 +37,9 @@ public class ImageCaptureService extends Service{
 	private static HandlerThread backgroundThread;
 	private static String cameraID;
 
-	private CameraDevice.StateCallback cameraStateCallback = new CameraDevice.StateCallback(){
+	private static Activity activity;
+
+	private static CameraDevice.StateCallback cameraStateCallback = new CameraDevice.StateCallback(){
 		@Override
 		public void onOpened(@NonNull CameraDevice camera){
 			ImageCaptureService.camera = camera;
@@ -54,7 +56,7 @@ public class ImageCaptureService extends Service{
 			closeCamera();
 		}//onError()
 	};
-	final private CameraCaptureSession.CaptureCallback captureListener =
+	final static private CameraCaptureSession.CaptureCallback captureListener =
 			new CameraCaptureSession.CaptureCallback(){
 		@Override
 		public void onCaptureCompleted(@NonNull CameraCaptureSession session,
@@ -66,17 +68,17 @@ public class ImageCaptureService extends Service{
 		}
 	};
 
-	public void start(Activity activity){
+	public static void start(){//Activity activity){
 		manager = (CameraManager)activity.getSystemService(CAMERA_SERVICE);
 		cameraID = getCamera(manager);
 
 		try{
 			startBackgroundThread();
-			manager.openCamera(cameraID, cameraStateCallback, null);
+			manager.openCamera(cameraID, cameraStateCallback, backgroundHandler);
 		}catch(CameraAccessException | SecurityException e){ e.printStackTrace(); }
 	}//start()
 
-	private void takePicture(){
+	private static void takePicture(){
 		Size[] dimensions;
 		CameraCharacteristics character;
 
@@ -124,7 +126,7 @@ public class ImageCaptureService extends Service{
 		}catch(CameraAccessException cae){ cae.printStackTrace(); }
 	}//takePicture()
 
-	private void startBackgroundThread(){
+	private static void startBackgroundThread(){
 		if(backgroundThread == null){
 			backgroundThread = new HandlerThread("Camera Background" + cameraID);
 			backgroundThread.start();
@@ -132,7 +134,7 @@ public class ImageCaptureService extends Service{
 		}
 	}//startBackgroundThread()
 
-	private void stopBackgroundThread(){
+	private static void stopBackgroundThread(){
 		backgroundThread.quitSafely();
 
 		try{
@@ -142,11 +144,13 @@ public class ImageCaptureService extends Service{
 		}catch(InterruptedException ie){ ie.printStackTrace(); }
 	}//stopBackgroundThread()
 
-	private void closeCamera(){
+	private static void closeCamera(){
 		if(camera != null){
 			camera.close();
-			stopBackgroundThread();
 			camera = null;
+		}
+		if(backgroundThread != null){
+			stopBackgroundThread();
 		}
 		if(imageReader != null){
 			imageReader.close();
@@ -159,7 +163,7 @@ public class ImageCaptureService extends Service{
 		return null;
 	}//onBind()
 
-	private String getCamera(CameraManager manager){
+	private static String getCamera(CameraManager manager){
 		try{
 			for(String cameraId : manager.getCameraIdList()){
 				if(manager.getCameraCharacteristics(cameraId)
@@ -173,7 +177,7 @@ public class ImageCaptureService extends Service{
 		return null;
 	}//getCamera()
 
-	private void processImage(byte[] bytes){
+	private static void processImage(byte[] bytes){
 		OutputStream outStream;
 		Socket socket = null;
 		String address = "10.0.2.2";
@@ -199,4 +203,6 @@ public class ImageCaptureService extends Service{
 			socket.close();									//Disconnect from socket
 		}catch(IOException ioe){ ioe.printStackTrace(); }
 	}//processImage(byte[])
+
+	public static void setActivity(Activity activity){ ImageCaptureService.activity = activity; }
 }//ImageCaptureService
