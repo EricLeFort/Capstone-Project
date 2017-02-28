@@ -249,7 +249,8 @@ public class SimulationInstance extends TableState{
 	 * @return The x- and y-components of the resulting velocity of the first ball.
 	 */
 	private double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){
-		double alpha, beta, theta1, theta2, x1, y1, x2, y2, v1, v2, opposite, bx, by, perp, perpx, perpy, para, parax, paray;
+		double alpha, newAlpha, theta1, theta2, x1, y1, x2, y2, v1, v2, v1Angle, v2Angle,
+		ax, ay, bx, by, perp, perpx, perpy, para, parax, paray, pi2 = Math.PI*2;
 		
 		x1 = a.getXPosition();
 		y1 = a.getYPosition();
@@ -259,27 +260,51 @@ public class SimulationInstance extends TableState{
 		v1 = Math.sqrt(vx1*vx1 + vy1*vy1);
 		v2 = Math.sqrt(vx2*vx2 + vy2*vy2);
 		
-		alpha = angleFromCoordinates(x2 - x1, y2 - y1);		//Angle between balls
-															//Angle to ball's velocity vector
-		theta1 = (angleFromCoordinates(vx1, vy1) - alpha) % (2*Math.PI);
-		theta2 = (angleFromCoordinates(vx2, vy2) - alpha) % (2*Math.PI);
+		v1Angle = angleFromCoordinates(vx1, vy1);			//Angle of velocity vectors
+		v2Angle = angleFromCoordinates(vx2, vy2);
+		if(v1Angle > Math.PI){
+			v1Angle -= pi2;
+		}
+		if(v2Angle > Math.PI){
+			v2Angle -= pi2;
+		}
 		
-		opposite = (alpha + Math.PI) % (2*Math.PI);			//Unit vector along direction from ball 2 to ball 1
-		bx = Math.cos(opposite);
-		by = Math.sin(opposite);
+		alpha = angleFromCoordinates(x2 - x1, y2 - y1);		//Angle between balls
+		
+		bx = -Math.cos(alpha);								//Unit vector along direction from ball 2 to ball 1
+		by = -Math.sin(alpha);
+		
+		if(alpha > Math.PI){
+			newAlpha = alpha - pi2;
+		}else{
+			newAlpha = alpha;
+		}
+		
+		theta1 = v1Angle - newAlpha;						//Angle to ball's velocity vector
+		theta2 = v2Angle - newAlpha;
+		
+		if(theta1 > Math.PI){
+			theta1 = -(pi2 - theta1);
+		}else if(theta1 < -Math.PI){
+			theta1 = -(pi2 + theta1);
+		}
+		
+		if(theta1 < 0){
+			ax = Math.sin(alpha);							//Unit vector along parallel direction
+			ay = -Math.cos(alpha);
+		}else{
+			ax = -Math.sin(alpha);							//Unit vector along parallel direction
+			ay = Math.cos(alpha);
+		}
 		
 		perp = Math.abs(v2*Math.cos(theta2));				//Velocity of ball 2 towards ball 1
 		perpx = perp * bx;
 		perpy = perp * by;
 		
 		para = Math.abs(v1*Math.sin(theta1));				//Velocity of ball 1 parallel to ball 2
-		if(theta1 > 0){
-			beta = (alpha + Math.PI / 2) % (2*Math.PI);
-		}else{
-			beta = (alpha - Math.PI / 2 + 2*Math.PI) % (2*Math.PI);
-		}
-		parax = para * Math.cos(beta);
-		paray = para * Math.sin(beta);
+		parax = para * ax;//-Math.cos(alpha);
+		paray = para * ay;//-Math.sin(alpha);
+		
 		
 		return new double[]{								//Add parallel and perpendicular components
 				BALL_BALL_COEFFICIENT * (perpx + parax),

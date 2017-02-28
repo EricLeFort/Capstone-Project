@@ -81,15 +81,15 @@ public class InferenceEngine{
 			}
 			
 			deltaAngle = (2*Ball.RADIUS)/(Math.sqrt(deltaX*deltaX + deltaY*deltaY));	//arc length / radius
-			lowAngle = (startAngle - deltaAngle + pi2) % pi2;									//prevents angle over/underflow
+			lowAngle = (startAngle - deltaAngle + pi2) % pi2;							//prevents angle over/underflow
 			highAngle = (startAngle + deltaAngle + pi2) % pi2;
 			
 			lowAngle -= lowAngle % ANGULAR_STEP;
 			highAngle -= highAngle % ANGULAR_STEP;
 
-//			simulateShot(new Shot(0, 0, 0.24, HI_POWER));
-			simulateShot(new Shot(0, 0, lowAngle, HI_POWER));//TODO remove
-			simulateShot(new Shot(0, 0, highAngle, HI_POWER));
+			simulateShot(new Shot(0, 0, 1.4, HI_POWER));
+//			simulateShot(new Shot(0, 0, lowAngle, HI_POWER));//TODO remove
+//			simulateShot(new Shot(0, 0, highAngle, HI_POWER));
 //			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
 //				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
 //				simulateShot(new Shot(0, 0, j, MID_POWER));

@@ -21,6 +21,14 @@
 ~\\[15mm]
 \listoftables
 
+%TODO include:
+%Testing policy
+%Details of test factors used
+%Formal proof (good for confirming test coverage)
+%Define/use test coverage criteria
+%PASS/FAIL criteria for each test
+
+%TODO Actually having ran tests is marked..
 
 \vfill
 \begin{table}[!htbp]
@@ -34,11 +42,11 @@
 \newpage
 
 \section{Introduction}
-%TODO
+This document will provide a specification of a test plan for an automated pool playing robot and report on the results of that plan.
 \subsection{Overview}
-%TODO
+This document breaks down the required testing for each domain of the system. It begins with the hardware aspect, then moves to the electrical side and then finishes with software. Each section will provide a traceability matrix to map the requirements to tests that check their completion and then go into further detail to describe each test case. Lastly, a summary of the results of testing will be provided to conclude the document.
 \subsection{Purpose}
-%TODO
+The aim of this document is to illuminate any design flaws, software bugs, or other issues in the system. Once these issues are discovered, the engineering team will be able to work on eliminating them or minimizing their frequency and consequences.
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
 \newpage
@@ -80,26 +88,35 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \label{tab:Acronyms}
 \end{table}
 
-\section{Traceability Matrix}
-%TODO
-
 \section{Mechanical Components}
+%TODO Traceability Matrix
 %TODO acceleration/strike force
 %TODO range of motion/table interference avoidance
 %TODO speed
-%TODO anything else
+%TODO anything else?
 
 
 \section{Electrical System}
+%TODO Traceability Matrix
 %TODO correct Amp/Volt
 %TODO latency checks
 %TODO anything else?
 
 \section{Software System}
-%TODO
+The software system is comprised of four main components: a control system running on an Arduino microcontroller, an automated image capture application running on an Android smartphone, as well a visual recognition program and smart shot selection program running on a PC. On top of the typical suite of unit tests to verify correctness of methods, rigorous system testing will also be crucial to adequately test this system.\\~\\
+The following traceability matrix will demonstrate that the tests to be performed prove that specified requirements have been met.
+%TODO Traceability Matrix
 \subsection{Unit Tests}
-%TODO describe what's considered a pass/fail
-%TODO Tables with following columns: Test Id, Inputs, Expected Values, Actual Values, Pass/Fail
+%TODO describe what's considered a pass/fail for each test
+\subsubsection{PC Controller Program}
+%TODO
+\subsubsection{PC VR Program}
+%TODO
+\subsubsection{$\mu$C Program}
+%TODO
+\subsubsection{Android Program}
+%TODO
+%TODO Tables with following columns: Test ID, Inputs, Expected Values, Actual Values, Pass/Fail
 \subsection{System Tests}
 %TODO functionality/accuracy
 %TODO performance
@@ -108,6 +125,5 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \section{Summary of Results}
 %TODO overall satisfaction with results
 %TODO relate back to requirements, goals
-%TODO 
 
 \end{document}
