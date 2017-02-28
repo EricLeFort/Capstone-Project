@@ -19,9 +19,9 @@ public class Ball{
 	 * @param value - The value representing this ball (from 0 to 15).
 	 */
 	public Ball(double xPosition, double yPosition, byte value){
-		if(yPosition < -1 || yPosition > InferenceEngine.MAX_Y_COORDINATE){			//Verify parameters.
+		if(yPosition < -1 || yPosition + RADIUS > InferenceEngine.MAX_Y_COORDINATE){			//Verify parameters.
 			throw new IllegalArgumentException("Y-Coordinate out of range.");
-		}else if(xPosition < -1 || xPosition > InferenceEngine.MAX_X_COORDINATE){
+		}else if(xPosition < -1 || xPosition + RADIUS > InferenceEngine.MAX_X_COORDINATE){
 			throw new IllegalArgumentException("X-Coordinate out of range.");
 		}else if(value < 0 || value > 15){
 			throw new IllegalArgumentException("Value out of range.");
@@ -48,5 +48,4 @@ public class Ball{
 	public double getXPosition(){ return xPosition; }//getXPosition()
 	public double getYPosition(){ return yPosition; }//getYPosition()
 	public byte getValue(){ return value; }//getValue()
-	//TODO
 }//Ball
