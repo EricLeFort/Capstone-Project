@@ -1,0 +1,113 @@
+\documentclass[titlepage]{article}
+\usepackage[left=15mm,right=15mm,top=1in,bottom=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{tabularx}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
+
+\title{Autonomous Pool Playing Robot\\~\\\textbf{Requirements Specification}}
+\author{
+	%Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609%\\~\\\and
+	%Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
+	%Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
+	%Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\\and
+	%Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
+}
+\begin{document}
+\maketitle
+\tableofcontents
+~\\[15mm]
+\listoftables
+
+
+\vfill
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
+	Date			&Revision \#	&Comments						&Authors\\\hline
+	27/02/2017		&0				&- Initial document creation	&Eric Le Fort\\\hline
+\end{tabular}
+\caption{Revision History}
+\end{table}
+\newpage
+
+\section{Introduction}
+%TODO
+\subsection{Overview}
+%TODO
+\subsection{Purpose}
+%TODO
+\subsection{Naming Conventions \& Definitions}
+This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
+\newpage
+
+\subsubsection{Definitions}
+Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
+\begin{table}[h!]
+\centering
+\caption{Definitions}
+\begin{tabular}{| C{6} | p{6cm} |}\hline
+	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
+	X-axis					&Distance along the length of the pool table\\\hline
+	Y-axis					&Distance across the width of the pool table\\\hline
+	Z-axis					&Height above the pool table\\\hline
+	End-effector			&The end of the arm that will strike the cue ball\\\hline
+	$\theta$				&Rotational angle of end-effector\\\hline
+	Cue 					&End-effector\\\hline
+	Personal Computer		&A laptop that will be used to run the more involved computational tasks such as visual recognition and the shot selection algorithm\\\hline
+	Camera					&Some form of image capture device (e.g. a digital camera, smartphone with a camera, etc.)\\\hline
+	Table State				&The current positions of all the balls on the table\\\hline
+	Entity					&Classes that have a state, behaviour and identity (e.g. Book, Car, Person, etc.)\\\hline
+	Boundary				&Classes that interact with users or external systems\\\hline
+	Double					&Double-precision floating point numbers\\\hline
+\end{tabular}
+\label{tab:Definitions}
+\end{table}
+\subsubsection{Acronyms \& Abbreviations}
+Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
+\begin{table}[h!]
+\centering
+\caption{Acronyms and Abbreviations}
+\begin{tabular}{| p{6cm} | p{6cm} |}\hline
+	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
+	VR								&Visual Recognition\\\hline
+	PC								&Personal Computer\\\hline
+	$\mu$C							&Micro-Controller\\\hline
+	CRC								&Class Responsibility Collaboration\\\hline
+\end{tabular}
+\label{tab:Acronyms}
+\end{table}
+
+\section{Traceability Matrix}
+%TODO
+
+\section{Mechanical Components}
+%TODO acceleration/strike force
+%TODO range of motion/table interference avoidance
+%TODO speed
+%TODO anything else
+
+
+\section{Electrical System}
+%TODO correct Amp/Volt
+%TODO latency checks
+%TODO anything else?
+
+\section{Software System}
+%TODO
+\subsection{Unit Tests}
+%TODO describe what's considered a pass/fail
+%TODO Tables with following columns: Test Id, Inputs, Expected Values, Actual Values, Pass/Fail
+\subsection{System Tests}
+%TODO functionality/accuracy
+%TODO performance
+%TODO explain testing methodology where necessary
+
+\section{Summary of Results}
+%TODO overall satisfaction with results
+%TODO relate back to requirements, goals
+%TODO 
+
+\end{document}

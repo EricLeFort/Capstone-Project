@@ -24,9 +24,9 @@ public class Shot{
 		}else if(xPosition < 0 || xPosition > InferenceEngine.MAX_X_COORDINATE){
 			throw new IllegalArgumentException("X-Coordinate out of range.");
 		}else if(angle < 0 || angle >= 2*Math.PI){
-			throw new IllegalArgumentException("Angle out of range.");
+			throw new IllegalArgumentException("Angle out of range: " + angle + ".");
 		}else if(power <= 0 || power > 1){
-			throw new IllegalArgumentException("Power out of range.");
+			throw new IllegalArgumentException("Power out of range " + power + ".");
 		}
 		
 		this.xPosition = xPosition;

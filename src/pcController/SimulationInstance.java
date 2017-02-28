@@ -22,28 +22,23 @@ import javax.swing.*;
 /*
  * TODO Possible errors:
  * Physical constants might be inaccurate or unusable, certain ones should be measured:
- /* 	- pocket openings,
  * 		- initial speeds/
  * 		- friction coefficient
  * Equations may not be correct, especially:
- * 		- slowdown of balls,
  * 		- friction slowdown from hitting wall/ball at an angle
- * 		- Ball-Ball collisions -- No consideration of angle of contact.
  * 		- Whether a ball is sunk -- might bounce out from angled side pockets
- * When both balls are moving, they should only both get a portion of the original speed.
  */
 
 public class SimulationInstance extends TableState{
-	private final static double TIME_STEP = 0.01,									//Simulation time step in s
+	private final static double TIME_STEP = 0.001,									//Simulation time step in s
 			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,				//Elastic coefficients
-			BALL_TABLE_FRICTION = 0.05,
-			GRAVITATIONAL_CONSTANT = 9.807,											//in m/s/s
+			BALL_TABLE_FRICTION = 0.49035,											//in m/s/s
 			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,	//Initial speeds in m/s
 			MIN_MOTION = 0.02,														//Motion below this is considered stopped
 			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,						//Pocket openings
-			CORNER_PLAY = CORNER_MOUTH_WIDTH - Ball.RADIUS, SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
-			SINK_PROXIMITY = 0.01,													//Distance at which a ball is sunk in m
-			MAX_SINK_SPEED = 2;														//Speed when balls bounce out of hole in m/s
+			CORNER_SIDE_LENGTH = Math.sqrt(CORNER_MOUTH_WIDTH*CORNER_MOUTH_WIDTH/2),
+			SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
+			SINK_PROXIMITY = Ball.RADIUS + 0.005;									//Distance at which a ball is sunk in m
 	private final static int CUE_SCORE = -20,										//Scoring for sinking certain balls
 			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3;
 	Ball[] balls;
@@ -53,8 +48,9 @@ public class SimulationInstance extends TableState{
 	/*
 	 * TESTING VARIABLES
 	 */
-	JFrame f;
-	PointPanel panel;
+	private static final boolean visual = true;
+	private JFrame f;
+	private PointPanel panel;
 	
 	/**
 	 * Constructs a new <code>SimulationInstance</code> according to the parameters passed in.<br>
@@ -70,13 +66,15 @@ public class SimulationInstance extends TableState{
 		
 		balls = super.deepCopy();
 		
-		f = new JFrame();
-		panel = new PointPanel(balls);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(panel);
-		f.setSize(1300, 648);
-		f.setLocation(75,0);
-		f.setVisible(true);
+		if(visual){
+			f = new JFrame();
+			panel = new PointPanel(balls);
+			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			f.getContentPane().add(panel);
+			f.setSize(1300, 671);
+			f.setLocation(75,0);
+			f.setVisible(true);
+		}
 		
 		if(InferenceEngine.myBallType == BallType.SOLID){
 			start = 1;
@@ -114,95 +112,102 @@ public class SimulationInstance extends TableState{
 	 * @return The score earned or lost in this update.
 	 */
 	public int update(){
-		double[][] newVelocities = velocities.clone();
+		double[][] newVelocities = new double[16][2];
 		double distance, nextDistance, fullVelocity;
 		int updateScore = 0;
 		
-		for(int i = 0; i < newVelocities.length; i++){
-			newVelocities[i] = newVelocities[i].clone();
+		for(int i = 0; i < balls.length; i++){
+			newVelocities[i] = velocities[i].clone();
 		}
 		
 		for(int i = 0; i < velocities.length; i++){
-			fullVelocity = Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2));
-			
-			if(velocities[i][0] > 0){						//Slow down from friction in the x-direction
-				velocities[i][0] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
-			}else if(velocities[i][0] < 0){
-				velocities[i][0] += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
-			}
-			
-			if(velocities[i][1] > 0){						//Slow down from friction in the y-direction
-				velocities[i][1] -= BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
-			}else if(velocities[i][1] < 0){
-				velocities[i][1] += BALL_TABLE_FRICTION*GRAVITATIONAL_CONSTANT*TIME_STEP*fullVelocity;
-			}
-			if(Math.sqrt(Math.pow(velocities[i][0], 2) + Math.pow(velocities[i][1], 2)) < MIN_MOTION){
-				velocities[i][0] = velocities[i][1] = 0;
-			}
+			fullVelocity = Math.sqrt(Math.pow(newVelocities[i][0], 2) + Math.pow(newVelocities[i][1], 2));
 			
 			balls[i].alterX(velocities[i][0] * TIME_STEP);	//Move balls appropriately
 			balls[i].alterY(velocities[i][1] * TIME_STEP);
+															//Friction slowdown
+			newVelocities[i][0] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][0];
+			newVelocities[i][1] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][1];
 			
-			if(velocities[i][0] != 0 || velocities[i][1] != 0){
-				panel.addPoint(balls[i].getXPosition(), balls[i].getYPosition(), i == 0);
+			if(fullVelocity < MIN_MOTION){
+				newVelocities[i][0] = newVelocities[i][1] = 0;
+			}
+			
+			if(newVelocities[i][0] != 0 || newVelocities[i][1] != 0){
+				if(visual){
+					panel.addPoint(balls[i].getXPosition(), balls[i].getYPosition(), i);
+				}
 			}
 		}
 		
 		outerloop:
 			for(int i = 0; i < balls.length; i++){
-				while(velocities[i][0] + velocities[i][1] == 0){		//Ignore balls not in motion
+				while(balls[i].getXPosition() < 0){						//Ignore balls not in motion
 					i++;
 					if(i == balls.length){
 						break outerloop;
 					}
 				}
-				if(inPocket(balls[i], velocities[i])){					//Ball sunk
+				if(inPocket(balls[i])){									//Ball sunk
 					if(shooting8){
 						if(balls[i].getValue() == 0){					//Sunk cue ball
-							System.out.println("Cue ball sunk! (shooting 8)");
 							updateScore = Integer.MIN_VALUE;
 							break outerloop;
 						}else if(balls[i].getValue() == 8){
-							System.out.println("Eight ball sunk! (shooting 8)");
 							updateScore = Integer.MAX_VALUE;
 						}else{
-							System.out.println("Wrong ball type sunk! (shooting 8)");
 							updateScore -= WRONG_BALLTYPE_SUNK;
 						}
 					}else{
 						if(balls[i].getValue() == 0){					//Sunk cue ball
-							System.out.println("Cue ball sunk!");
 							updateScore += CUE_SCORE;
 						}else if(balls[i].getValue() == 8){				//Sunk eight ball
-							System.out.println("Eight ball sunk!");
 							updateScore = Integer.MIN_VALUE;
 							break outerloop;							//Sunk right type of ball
 						}else if(balls[i].getValue() > 8 && InferenceEngine.myBallType == BallType.STRIPE
 								|| balls[i].getValue() < 8 && InferenceEngine.myBallType == BallType.SOLID){
-							System.out.println("Right ball type sunk!");
 							updateScore += RIGHT_BALLTYPE_SUNK;
 						}else{											//Sunk wrong type of ball
-							System.out.println("Wrong ball type sunk!");
 							updateScore += WRONG_BALLTYPE_SUNK;
 						}
 					}
-					balls[i].alterX(-1*balls[i].getXPosition() - 1);	//Sinks the ball
-					balls[i].alterY(-1*balls[i].getYPosition() - 1);
-					velocities[i][0] = 0;
-					velocities[i][1] = 0;
+					balls[i].alterX(-1);								//Sinks the ball
+					balls[i].alterY(-1);
+					newVelocities[i][0] = 0;
+					newVelocities[i][1] = 0;
+					if(visual){
+						panel.addPoint(-1, -1, i);
+					}
 				}else{
-					for(int j = i; j < balls.length; j++){
+					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (y-wall)
+							newVelocities[i][0] < 0)
+							|| (balls[i].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE &&
+							newVelocities[i][0] > 0)
+							&& isWallHere(balls[i].getYPosition(), false)){
+						newVelocities[i][0] = ballToWallCollision(newVelocities[i][0], true);
+						newVelocities[i][1] = ballToWallCollision(newVelocities[i][1], false);
+					}
+					if((balls[i].getYPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x-wall)
+							newVelocities[i][1] < 0)
+							|| (balls[i].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE &&
+							newVelocities[i][1] > 0)
+							&& isWallHere(balls[i].getXPosition(), true)){
+						newVelocities[i][0] = ballToWallCollision(newVelocities[i][0], false);
+						newVelocities[i][1] = ballToWallCollision(newVelocities[i][1], true);
+					}
+					
+					for(int j = i+1; j < balls.length; j++){
 						distance = Math.sqrt(
 								Math.pow(Math.abs(balls[i].getXPosition() - balls[j].getXPosition()), 2) +
 								Math.pow(Math.abs(balls[i].getYPosition() - balls[j].getYPosition()), 2));
 						nextDistance = Math.sqrt(
 								Math.pow(Math.abs(balls[i].getXPosition() + velocities[i][0]*TIME_STEP -
-										balls[j].getXPosition() - velocities[j][0]*TIME_STEP),2) +
+										balls[j].getXPosition() - velocities[j][0]*TIME_STEP), 2) +
 								Math.pow(Math.abs(balls[i].getYPosition() + velocities[i][1]*TIME_STEP  -
 										balls[j].getYPosition() - velocities[j][1]*TIME_STEP), 2));
-						if(i != j && distance < Ball.RADIUS + Ball.RADIUS &&//BALL-BALL collision
+						
+						if(distance < Ball.RADIUS + Ball.RADIUS &&		//BALL-BALL collision
 								nextDistance < distance){
-							System.out.println("Ball collision");
 							newVelocities[i] = ballToBallCollision(balls[i],
 									balls[j],
 									velocities[i][0],
@@ -216,32 +221,13 @@ public class SimulationInstance extends TableState{
 									velocities[i][0],
 									velocities[i][1]);
 						}
-						if((balls[j].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x)
-								velocities[j][0] < 0) ||
-								(balls[j].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE &&
-								velocities[j][0] > 0)){
-							velocities[j][0] = ballToWallCollision(velocities[j][0], true);
-							velocities[j][1] = ballToWallCollision(velocities[j][1], false);
-							System.out.println(j+ ": Y-Wall collision");
-							System.out.println(balls[j].getXPosition());
-						}
-						
-						if((balls[j].getYPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (y)
-								velocities[j][1] < 0) ||
-								(balls[j].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE &&
-								velocities[j][1] > 0)){
-							velocities[j][0] = ballToWallCollision(velocities[j][0], false);
-							velocities[j][1] = ballToWallCollision(velocities[j][1], true);
-							System.out.println(j+ ": X-Wall collision");
-							System.out.println(balls[j].getYPosition());
-						}
 					}
 				}
 			}
 		
 		inMotion = false;
-		for(int i = 0; i < velocities.length; i++){
-			if(Math.abs(velocities[i][0]) + Math.abs(velocities[i][1]) > 0){
+		for(int i = 0; i < newVelocities.length; i++){
+			if(Math.abs(newVelocities[i][0]) + Math.abs(newVelocities[i][1]) > 0){
 				inMotion = true;
 				break;
 			}
@@ -262,7 +248,7 @@ public class SimulationInstance extends TableState{
 	 * @param vy2 - The y-component of the second ball's velocity.
 	 * @return The x- and y-components of the resulting velocity of the first ball.
 	 */
-	private double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){//TODO get collisions making sense
+	private double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){
 		double alpha, beta, theta1, theta2, x1, y1, x2, y2, v1, v2, opposite, bx, by, perp, perpx, perpy, para, parax, paray;
 		
 		x1 = a.getXPosition();
@@ -274,8 +260,9 @@ public class SimulationInstance extends TableState{
 		v2 = Math.sqrt(vx2*vx2 + vy2*vy2);
 		
 		alpha = angleFromCoordinates(x2 - x1, y2 - y1);		//Angle between balls
-		theta1 = angleFromCoordinates(vx1, vy1) - alpha;
-		theta2 = angleFromCoordinates(vx2, vy2) - alpha;	//Angle to ball's velocity vector
+															//Angle to ball's velocity vector
+		theta1 = (angleFromCoordinates(vx1, vy1) - alpha) % (2*Math.PI);
+		theta2 = (angleFromCoordinates(vx2, vy2) - alpha) % (2*Math.PI);
 		
 		opposite = (alpha + Math.PI) % (2*Math.PI);			//Unit vector along direction from ball 2 to ball 1
 		bx = Math.cos(opposite);
@@ -295,8 +282,8 @@ public class SimulationInstance extends TableState{
 		paray = para * Math.sin(beta);
 		
 		return new double[]{								//Add parallel and perpendicular components
-			BALL_BALL_COEFFICIENT * (perpx + parax),
-			BALL_BALL_COEFFICIENT * (perpy + paray)
+				BALL_BALL_COEFFICIENT * (perpx + parax),
+				BALL_BALL_COEFFICIENT * (perpy + paray)
 		};
 	}//ballToBallCollision()
 	
@@ -320,20 +307,53 @@ public class SimulationInstance extends TableState{
 	 * @param v - An array containing the x- and y-components of the velocity (should be of length 2).
 	 * @return True if the ball will be sunk or false otherwise.
 	 */
-	private boolean inPocket(Ball ball, double[] v){
-		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,
+	private boolean inPocket(Ball ball){
+		//TODO check if shot is in correct direction? Improve proximity check?
+		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,//TODO should we check if it'll bounce out?
 				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2;
 		
+		if(ball.getXPosition() >= lowMidpoint && ball.getXPosition() <= hiMidpoint){	//Ball at middle position
+			return ball.getYPosition() <= SINK_PROXIMITY
+					|| ball.getYPosition() + SINK_PROXIMITY >= InferenceEngine.MAX_Y_COORDINATE;
+		}else if(ball.getXPosition() - CORNER_SIDE_LENGTH <= SINK_PROXIMITY				//Ball at a corner position
+				|| ball.getXPosition() >= InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH - SINK_PROXIMITY){
+			return ball.getYPosition() - SINK_PROXIMITY - CORNER_SIDE_LENGTH <= 0
+					|| ball.getYPosition() + SINK_PROXIMITY + CORNER_SIDE_LENGTH - Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE;
+		}
 		
-		return (ball.getXPosition() < SINK_PROXIMITY ||
-				ball.getXPosition() > lowMidpoint && ball.getXPosition() < hiMidpoint ||
-				ball.getXPosition() > InferenceEngine.MAX_X_COORDINATE - SINK_PROXIMITY) &&
-				(ball.getYPosition() < SINK_PROXIMITY ||
-						ball.getYPosition() > InferenceEngine.MAX_Y_COORDINATE - SINK_PROXIMITY) &&
-				(Math.sqrt(Math.pow(v[0],2) + Math.pow(v[1], 2)) <= MAX_SINK_SPEED);
+		return false;
 	}//inPocket()
 	
-	//TODO javadoc
+	/**
+	 * Returns whether there would be a wall at this position.
+	 * @param val - The position along the x- or y-axis.
+	 * @param xRail - Whether we are looking for the x- or the y-wall.
+	 * @return Whether there would be a wall at this position.
+	 */
+	private boolean isWallHere(double val, boolean xRail){
+		double a, b, c, d;
+		
+		if(xRail){
+			a = CORNER_SIDE_LENGTH;
+			b = InferenceEngine.MAX_X_COORDINATE/2 - SIDE_MOUTH_WIDTH/2;
+			c = b + SIDE_MOUTH_WIDTH;
+			d = InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH;
+			
+			return (val > a && val < b) || (val > c && val < d);
+		}else{
+			a = CORNER_SIDE_LENGTH;
+			b = InferenceEngine.MAX_Y_COORDINATE - CORNER_SIDE_LENGTH;
+			
+			return val > a && val < b;
+		}
+	}//isWallHere()
+	
+	/**
+	 * Considering a triangle in the origin going in the x- and y-directions as specified, computes the appropriate angle.
+	 * @param x - The change in x.
+	 * @param y - The change in y.
+	 * @return The angle of this right triangle from the origin.
+	 */
 	public double angleFromCoordinates(double x, double y){
 		if(x == 0){						//Solve alpha
 			if(y > 0){					//Special case: coordinate directly along y-axis
@@ -374,11 +394,15 @@ class PointPanel extends JPanel{
 	ArrayList<Ellipse2D> pointList, cuePointList;
 	
 	public PointPanel(Ball[] balls){
-		addPoint(balls[0].getXPosition(), balls[0].getYPosition(), true);
+		pointList = new ArrayList<Ellipse2D>();
+		
+		for(int i = 0; i < balls.length; i++){
+			pointList.add(new Ellipse2D.Double(0, 0, 0, 0));
+		}
+		
+		addPoint(balls[0].getXPosition(), balls[0].getYPosition(), 0);
 		for(int i = 1; i < balls.length; i++){
-			if(balls[i].getXPosition() != -1){
-				addPoint(balls[i].getXPosition(), balls[i].getYPosition(), false);
-			}
+			addPoint(balls[i].getXPosition(), balls[i].getYPosition(), i);
 		}
 		
 		setBackground(Color.white);
@@ -390,32 +414,42 @@ class PointPanel extends JPanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		
-		for(int j = 0; j < pointList.size(); j++){
+		g2.setPaint(Color.black);
+		g2.draw(pointList.get(0));
+		for(int i = 1; i < pointList.size(); i++){
 			g2.setPaint(Color.blue);
-			g2.fill(pointList.get(j));
+			g2.fill(pointList.get(i));
 		}
-		for(int j = 0; j < cuePointList.size(); j++){
-			g2.setPaint(Color.black);
-			g2.draw(cuePointList.get(j));
-		}
+		
+		g2.drawLine((int)((0.924-0.057)*1300/1.848), 0, (int)((0.924-0.057)*1300/1.848), 10);
+		g2.drawLine((int)((0.924+0.057)*1300/1.848), 0, (int)((0.924+0.057)*1300/1.848), 10);
+		g2.drawLine((int)((0.924-0.057)*1300/1.848), 638, (int)((0.924-0.057)*1300/1.848), 648);
+		g2.drawLine((int)((0.924+0.057)*1300/1.848), 638, (int)((0.924+0.057)*1300/1.848), 648);
+		
+		g2.drawLine((int)(0.0707*1300/1.848), 0, (int)(0.0707*1300/1.848), 10);
+		g2.drawLine((int)(0.0707*1300/1.848), 638, (int)(0.0707*1300/1.848), 648);
+		
+		g2.drawLine((int)((1.848-0.0707)*1300/1.848), 0, (int)((1.848-0.0707)*1300/1.848), 10);
+		g2.drawLine((int)((1.848-0.0707)*1300/1.848), 638, (int)((1.848-0.0707)*1300/1.848), 648);
+		
+		g2.drawLine(0, (int)((0.921-0.0707)*648/0.921), 10, (int)((0.921-0.0707)*648/0.921));
+		g2.drawLine(0, (int)(0.0707*648/0.921), 10, (int)(0.0707*648/0.921));
+		
+		g2.drawLine(1290, (int)((0.921-0.0707)*648/0.921), 1300, (int)((0.921-0.0707)*648/0.921));
+		g2.drawLine(1290, (int)(0.0707*648/0.921), 1300, (int)(0.0707*648/0.921));
 	}
 	
-	public void addPoint(double x, double y, boolean cue){
+	public void addPoint(double x, double y, int val){
 		x -= Ball.RADIUS;
 		y += Ball.RADIUS;
 		y = 0.921 - y;
 		x *= 1300/1.848;
 		y *= 648/0.921;
 		
-		try{Thread.sleep(100);}catch(Exception e){}
+		try{Thread.sleep(1);}catch(Exception e){ e.printStackTrace(); }
 		
-		if(cue){
-			cuePointList = new ArrayList<Ellipse2D>();
-			cuePointList.add(new Ellipse2D.Double(x, y, 40, 40));
-		}else{
-			pointList = new ArrayList<Ellipse2D>();
-			pointList.add(new Ellipse2D.Double(x, y, 40, 40));
-		}
+		pointList.remove(val);
+		pointList.add(val, new Ellipse2D.Double(x, y, 40, 40));
 		repaint();
 	}
 }//PointPanel

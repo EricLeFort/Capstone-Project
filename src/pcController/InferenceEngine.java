@@ -65,7 +65,6 @@ public class InferenceEngine{
 			endBall = 8;
 		}
 		
-		
 		outerloop:
 		for(int i = startBall; i <= endBall; i++){
 			while(currentTableState.getBall(i).getXPosition() < 0){		//Ignore balls off the table
@@ -81,16 +80,30 @@ public class InferenceEngine{
 				startAngle += pi2;
 			}
 			
-			deltaAngle = (3*Ball.RADIUS)/(Math.sqrt(deltaX*deltaX + deltaY*deltaY));	//arc length / radius
-			lowAngle = (startAngle - deltaAngle) % pi2;									//prevents angle over/underflow
-			highAngle = (startAngle + deltaAngle) % pi2;
+			deltaAngle = (2*Ball.RADIUS)/(Math.sqrt(deltaX*deltaX + deltaY*deltaY));	//arc length / radius
+			lowAngle = (startAngle - deltaAngle + pi2) % pi2;									//prevents angle over/underflow
+			highAngle = (startAngle + deltaAngle + pi2) % pi2;
+			
+			lowAngle -= lowAngle % ANGULAR_STEP;
+			highAngle -= highAngle % ANGULAR_STEP;
 
-			simulateShot(new Shot(0, 0, 0.48, HI_POWER));//TODO REMOVE
+//			simulateShot(new Shot(0, 0, 0.24, HI_POWER));
+			simulateShot(new Shot(0, 0, lowAngle, HI_POWER));//TODO remove
+			simulateShot(new Shot(0, 0, highAngle, HI_POWER));
 //			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
 //				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
 //				simulateShot(new Shot(0, 0, j, MID_POWER));
 //				simulateShot(new Shot(0, 0, j, HI_POWER));
 //			}
+			System.out.println("lowangle: " + lowAngle);
+			System.out.println("highangle: " + highAngle);
+			System.out.println();
+			
+			System.out.println("Score: " + bestShot.getScore());
+			System.out.println("Optimal angle: " + bestShot.getAngle());
+			System.out.println("Optimal power: " + bestShot.getPower());
+			System.out.println("X: " + bestShot.getXPosition());
+			System.out.println("Y: " + bestShot.getYPosition());
 		}
 		bestShot.setXPosition(currentTableState.getBall(0).getXPosition() +
 				Ball.RADIUS * Math.cos((Math.PI + bestShot.getAngle()) % pi2));			//opposite angle
