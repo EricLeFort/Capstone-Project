@@ -27,10 +27,11 @@ public class InferenceEngine{
 	 * @return The optimal shot to take according to the current <code>TableState</code>.
 	 */
 	public static Shot getBestShot(){
-		if(currentTableState == null){	//No table state has been specified.
+		if(currentTableState == null || myBallType == null 		//Necessary values are unusable
+				|| myBallType == BallType.CUE){
 			return null;
 		}
-		if(bestShot == null){			//Shot isn't already calculated.
+		if(bestShot == null){									//Shot isn't already calculated.
 			calculateBestShot();
 		}
 		return bestShot;
