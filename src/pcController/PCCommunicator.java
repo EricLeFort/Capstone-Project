@@ -29,8 +29,12 @@ public class PCCommunicator{
 		//TODO Await request from uC
 		//		senduCReceipt();
 		
-		InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
-		InferenceEngine.getBestShot();
+		try{
+			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
+			InferenceEngine.getBestShot();
+		}catch(Exception e){
+			//TODO temporary, catch actual errors.
+		}
 		
 		if(imageRequest()){					//Image received successfully
 			//			initiateVR();

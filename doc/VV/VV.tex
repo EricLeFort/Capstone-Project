@@ -108,8 +108,8 @@ The software system is comprised of four main components: a control system runni
 The following traceability matrix will demonstrate that the tests to be performed prove that specified requirements have been met.
 %TODO Traceability Matrix
 
-\subsection{Unit Tests}
-This section will provide a plethora of test cases which should prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
+\subsection{Unit Tests}%TODO provide description for all unit tests -- they don't even say what method is being tested.
+This section will provide a plethora of test cases which aim to prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
 \subsubsection{PC Controller Program}
 %Ball Tests
 \large{\textbf{Ball Tests}}
@@ -259,7 +259,7 @@ This section will provide a plethora of test cases which should prove correctnes
 \end{table}
 \end{center}
 
-%TODO PCCommunicator tests
+%PCCommunicator tests
 \large{\textbf{PCCommunicator Tests}}
 \begin{center}%TODO test results
 \begin{table}
@@ -306,6 +306,22 @@ This section will provide a plethora of test cases which should prove correctnes
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Read Table State from File with Invalid Data}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Initiating the VR Program}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The test is passed if the VR Program has been run.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Program is run and TableState.csv has been updated.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState.csv contains the results of the VR Program.}\\\hline
+\end{tabular}
+\caption{Initiating the VR Program}
 \end{table}
 \end{center}
 
@@ -455,8 +471,136 @@ This section will provide a plethora of test cases which should prove correctnes
 \end{table}
 \end{center}
 
-%TODO SimulationInstance tests
+%TODO SimulationInstance tests HERE
 \large{\textbf{SimulationInstance Tests}}
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Not Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is not the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with at least one ball of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A SimulationInstance has been created.}\\\hline
+\end{tabular}
+\caption{Simulation Instance Constructor Good Inputs}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with no balls of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A SimulationInstance has been created.}\\\hline
+\end{tabular}
+\caption{Simulation Instance Constructor Good Inputs}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Large Power}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException has been thrown.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles, 2, 1.001}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: An IllegalArgumentException has been thrown.}\\\hline
+\end{tabular}
+\caption{Simulation Instance Constructor Large Power}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Check for Walls}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline(0.07070, true)\newline (0.07072, true)\newline (0.866, true)\newline (0.868, true)\newline (0.980, true)\newline (0.982, true)\newline (1.776, true)\newline (1.778, true)\newline (0.07070, false)\newline (0.07072, false)\newline (0.849, false)\newline (0.851, false)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Check for Walls}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Get Angle from Coordinates}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results. Notably in the case where x = y = 0, the angle will be $\frac{3}{2}\pi$ which is not technically correct but that does not matter for this project.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0) \newline (2, 1) \newline (0, 1) \newline (-1, 2) \newline (-1, 0) \newline (-1, -5) \newline (0, -1) \newline (2, -3)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline 0\newline 0.463647609\newline $\frac{\pi}{2}$\newline 2.034443936\newline $\pi$\newline 4.514993421\newline $\frac{3\pi}{2}$\newline 5.300391584}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Get Angle from Coordinates}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Ball-Wall Collision}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (5, true)\newline (-1.2, false)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline -4.33\newline -1.2}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Ball-Wall Collision}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: n	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Check if in Pocket}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0.5) \newline (0,0)\newline (0.06, 0.02)\newline (0, 0.921)\newline (0.03, 0.92)\newline (0.924,0)\newline (0.92, 0.02)\newline (0.924, 0.921)\newline (0.95, 0.921)\newline (1.848,0)\newline (1.84, 0.04)\newline (1.848, 0.921)\newline (1.84, 0.915)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Check if in Pocket}
+\end{table}
+\end{center}
+
+%TODO write test -- needs 4*5(both balls moving) + 12(one ball moving) test cases
+%\begin{center}
+%\begin{table}
+%\begin{tabular}{|l r|}\hline&\\[-2mm]
+%	Test ID: n	&Status: TBT\\[-3mm]
+%	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
+%	\multicolumn{2}{|c|}{\textbf{\large{Ball-Ball Collisions}}}\\&\\\hline&\\[-3mm]
+%	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.001 of the actual results.}\\[1mm]\hline&\\[-3mm]
+%	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+%	\multicolumn{2}{|p{\textwidth}|}{Inputs:}\\[2mm]\hline
+%	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+%	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+%\end{tabular}
+%\caption{Ball-Ball Collisions}
+%\end{table}
+%\end{center}
 
 %TableState tests
 \large{\textbf{TableState Tests}}
@@ -563,11 +707,6 @@ This section will provide a plethora of test cases which should prove correctnes
 
 \subsubsection{$\mu$C Program}
 %TODO Requirements checked: F6-15, UH1, UH3
-
-
-\subsubsection{Android Program}
-%TODO Requirements checked: F1, F2
-%TODO Tables with following columns: Test ID, Inputs, Expected Values, Actual Values, Pass/Fail
 
 
 

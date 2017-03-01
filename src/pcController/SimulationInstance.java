@@ -61,7 +61,6 @@ public class SimulationInstance extends TableState{
 	public SimulationInstance(double[][] positions, double shotAngle, double shotPower){
 		super(positions);
 		
-		double radAngle = shotAngle, speed;
 		int start, end;
 		
 		balls = super.deepCopy();
@@ -96,15 +95,15 @@ public class SimulationInstance extends TableState{
 		if(shotPower <= 0 || shotPower > 1){
 			throw new IllegalArgumentException("Shot power out of range.");
 		}else if(shotPower <= 0.4){
-			speed = INITIAL_LOW_SPEED;
+			velocities[0][0] = INITIAL_LOW_SPEED * Math.cos(shotAngle);
+			velocities[0][1] = INITIAL_LOW_SPEED * Math.sin(shotAngle);
 		}else if(shotPower <= 0.75){
-			speed = INITIAL_MED_SPEED;
+			velocities[0][0] = INITIAL_MED_SPEED * Math.cos(shotAngle);
+			velocities[0][1] = INITIAL_MED_SPEED * Math.sin(shotAngle);
 		}else{
-			speed = INITIAL_HI_SPEED;
+			velocities[0][0] = INITIAL_HI_SPEED * Math.cos(shotAngle);
+			velocities[0][1] = INITIAL_HI_SPEED * Math.sin(shotAngle);
 		}
-		
-		velocities[0][0] = speed * Math.cos(radAngle);
-		velocities[0][1] = speed * Math.sin(radAngle);
 	}//Constructor
 	
 	/**
@@ -123,9 +122,9 @@ public class SimulationInstance extends TableState{
 		for(int i = 0; i < velocities.length; i++){
 			fullVelocity = Math.sqrt(Math.pow(newVelocities[i][0], 2) + Math.pow(newVelocities[i][1], 2));
 			
-			balls[i].alterX(velocities[i][0] * TIME_STEP);	//Move balls appropriately
+			balls[i].alterX(velocities[i][0] * TIME_STEP);						//Move balls appropriately
 			balls[i].alterY(velocities[i][1] * TIME_STEP);
-															//Friction slowdown
+																				//Friction slowdown
 			newVelocities[i][0] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][0];
 			newVelocities[i][1] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][1];
 			
@@ -142,15 +141,15 @@ public class SimulationInstance extends TableState{
 		
 		outerloop:
 			for(int i = 0; i < balls.length; i++){
-				while(balls[i].getXPosition() < 0){						//Ignore balls not in motion
+				while(balls[i].getXPosition() < 0){								//Ignore balls not in motion
 					i++;
 					if(i == balls.length){
 						break outerloop;
 					}
 				}
-				if(inPocket(balls[i])){									//Ball sunk
+				if(inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
 					if(shooting8){
-						if(balls[i].getValue() == 0){					//Sunk cue ball
+						if(balls[i].getValue() == 0){							//Sunk cue ball
 							updateScore = Integer.MIN_VALUE;
 							break outerloop;
 						}else if(balls[i].getValue() == 8){
@@ -159,19 +158,19 @@ public class SimulationInstance extends TableState{
 							updateScore -= WRONG_BALLTYPE_SUNK;
 						}
 					}else{
-						if(balls[i].getValue() == 0){					//Sunk cue ball
+						if(balls[i].getValue() == 0){							//Sunk cue ball
 							updateScore += CUE_SCORE;
-						}else if(balls[i].getValue() == 8){				//Sunk eight ball
+						}else if(balls[i].getValue() == 8){						//Sunk eight ball
 							updateScore = Integer.MIN_VALUE;
-							break outerloop;							//Sunk right type of ball
+							break outerloop;									//Sunk right type of ball
 						}else if(balls[i].getValue() > 8 && InferenceEngine.myBallType == BallType.STRIPE
 								|| balls[i].getValue() < 8 && InferenceEngine.myBallType == BallType.SOLID){
 							updateScore += RIGHT_BALLTYPE_SUNK;
-						}else{											//Sunk wrong type of ball
+						}else{													//Sunk wrong type of ball
 							updateScore += WRONG_BALLTYPE_SUNK;
 						}
 					}
-					balls[i].alterX(-1);								//Sinks the ball
+					balls[i].alterX(-1);										//Sinks the ball
 					balls[i].alterY(-1);
 					newVelocities[i][0] = 0;
 					newVelocities[i][1] = 0;
@@ -179,7 +178,7 @@ public class SimulationInstance extends TableState{
 						panel.addPoint(-1, -1, i);
 					}
 				}else{
-					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (y-wall)
+					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&			//BALL-BUMPER collision (y-wall)
 							newVelocities[i][0] < 0)
 							|| (balls[i].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE &&
 							newVelocities[i][0] > 0)
@@ -187,7 +186,7 @@ public class SimulationInstance extends TableState{
 						newVelocities[i][0] = ballToWallCollision(newVelocities[i][0], true);
 						newVelocities[i][1] = ballToWallCollision(newVelocities[i][1], false);
 					}
-					if((balls[i].getYPosition() - Ball.RADIUS <= 0 &&	//BALL-BUMPER collision (x-wall)
+					if((balls[i].getYPosition() - Ball.RADIUS <= 0 &&			//BALL-BUMPER collision (x-wall)
 							newVelocities[i][1] < 0)
 							|| (balls[i].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE &&
 							newVelocities[i][1] > 0)
@@ -206,7 +205,7 @@ public class SimulationInstance extends TableState{
 								Math.pow(Math.abs(balls[i].getYPosition() + velocities[i][1]*TIME_STEP  -
 										balls[j].getYPosition() - velocities[j][1]*TIME_STEP), 2));
 						
-						if(distance < Ball.RADIUS + Ball.RADIUS &&		//BALL-BALL collision
+						if(distance < Ball.RADIUS + Ball.RADIUS &&				//BALL-BALL collision
 								nextDistance < distance){
 							newVelocities[i] = ballToBallCollision(balls[i],
 									balls[j],
@@ -332,18 +331,18 @@ public class SimulationInstance extends TableState{
 	 * @param v - An array containing the x- and y-components of the velocity (should be of length 2).
 	 * @return True if the ball will be sunk or false otherwise.
 	 */
-	private boolean inPocket(Ball ball){
+	private boolean inPocket(double x, double y){
 		//TODO check if shot is in correct direction? Improve proximity check?
 		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,//TODO should we check if it'll bounce out?
 				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2;
 		
-		if(ball.getXPosition() >= lowMidpoint && ball.getXPosition() <= hiMidpoint){	//Ball at middle position
-			return ball.getYPosition() <= SINK_PROXIMITY
-					|| ball.getYPosition() + SINK_PROXIMITY >= InferenceEngine.MAX_Y_COORDINATE;
-		}else if(ball.getXPosition() - CORNER_SIDE_LENGTH <= SINK_PROXIMITY				//Ball at a corner position
-				|| ball.getXPosition() >= InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH - SINK_PROXIMITY){
-			return ball.getYPosition() - SINK_PROXIMITY - CORNER_SIDE_LENGTH <= 0
-					|| ball.getYPosition() + SINK_PROXIMITY + CORNER_SIDE_LENGTH - Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE;
+		if(x >= lowMidpoint && x <= hiMidpoint){	//Ball at middle position
+			return y <= SINK_PROXIMITY
+					|| y + SINK_PROXIMITY >= InferenceEngine.MAX_Y_COORDINATE;
+		}else if(x - CORNER_SIDE_LENGTH <= SINK_PROXIMITY				//Ball at a corner position
+				|| x >= InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH - SINK_PROXIMITY){
+			return y - SINK_PROXIMITY - CORNER_SIDE_LENGTH <= 0
+					|| y + SINK_PROXIMITY + CORNER_SIDE_LENGTH - Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE;
 		}
 		
 		return false;
