@@ -13,7 +13,7 @@ public class TableState{
 	 * @param positions - A 16-by-2 array containing the coordinates of each ball.
 	 */
 	public TableState(double[][] positions){
-		if(positions.length != 16){
+		if(positions == null || positions.length != 16){
 			throw new IllegalArgumentException("Positions array not of length 16.");
 		}
 		

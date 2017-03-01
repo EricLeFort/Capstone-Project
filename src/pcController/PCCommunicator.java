@@ -14,10 +14,9 @@ import javax.imageio.ImageIO;
  * @version 1.0
  */
 public class PCCommunicator{
-	private static TableState tableState;
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
-	private static String addFileToPathCmd = "", runMatlabCmd = "src/matlabScript", imageFileType = "jpg";
+	private static String runMatlabCmd = "src/matlabScript", imageFileType = "jpg";
 	private final static int port = 8000;
 	private final static BallType myBallType = BallType.SOLID;
 	
@@ -28,18 +27,18 @@ public class PCCommunicator{
 	public static void uCListener(){
 		Scanner in = new Scanner(System.in);
 		//TODO Await request from uC
-//		senduCReceipt();
+		//		senduCReceipt();
 		
 		InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
 		InferenceEngine.getBestShot();
 		
 		if(imageRequest()){					//Image received successfully
-//			initiateVR();
+			//			initiateVR();
 			
-//			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
+			//			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
 			
-//			in.next();
-//			while(!sendShot(InferenceEngine.getBestShot()));
+			//			in.next();
+			//			while(!sendShot(InferenceEngine.getBestShot()));
 		}else{
 			System.out.println("Error receiving image.");
 		}
@@ -124,32 +123,24 @@ public class PCCommunicator{
 		}
 	}//initiateVR()
 	
-	
 	/**
 	 * Reads in an array of 16 ball locations from a file.
 	 * @return A 16x2 array of doubles.
 	 * @throws IllegalStateException - Thrown if the file is ill-formatted.
 	 */
-	private static double[][] readTableStateFromFile() throws IllegalStateException{
+	private static double[][] readTableStateFromFile()
+			throws IllegalStateException, FileNotFoundException, InputMismatchException{
 		Scanner in;
 		double[][] locations = new double[16][2];
 		String temp[] = new String[2];
 		
-		try{												//Reads the ids from the text file at the given path into ids.
-			in = new Scanner(new FileReader(tableStateFile));
-			for(int i = 0; i < 16; i++){
-				temp = in.nextLine().split(",");
-				locations[i][0] = Double.parseDouble(temp[0]);
-				locations[i][1] = Double.parseDouble(temp[1]);
-			}
-			in.close();
-		}catch(FileNotFoundException fnfe){
-			fnfe.printStackTrace();
-		}catch(InputMismatchException ime){
-			ime.printStackTrace();
-		}catch(Exception e){
-			throw new IllegalStateException("File format invalid.");
+		in = new Scanner(new FileReader(tableStateFile));
+		for(int i = 0; i < 16; i++){
+			temp = in.nextLine().split(",");
+			locations[i][0] = Double.parseDouble(temp[0]);
+			locations[i][1] = Double.parseDouble(temp[1]);
 		}
+		in.close();
 		
 		return locations;
 	}//readTableStateFromFile()
