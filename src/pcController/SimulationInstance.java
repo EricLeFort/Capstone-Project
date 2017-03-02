@@ -331,21 +331,27 @@ public class SimulationInstance extends TableState{
 	 * @param v - An array containing the x- and y-components of the velocity (should be of length 2).
 	 * @return True if the ball will be sunk or false otherwise.
 	 */
-	private boolean inPocket(double x, double y){
-		//TODO check if shot is in correct direction? Improve proximity check?
-		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,//TODO should we check if it'll bounce out?
+	private boolean inPocket(double x, double y){	//TODO check if ball will bounce out?
+		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,
 				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2;
-		
-		if(x >= lowMidpoint && x <= hiMidpoint){	//Ball at middle position
-			return y <= SINK_PROXIMITY
-					|| y + SINK_PROXIMITY >= InferenceEngine.MAX_Y_COORDINATE;
-		}else if(x - CORNER_SIDE_LENGTH <= SINK_PROXIMITY				//Ball at a corner position
-				|| x >= InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH - SINK_PROXIMITY){
-			return y - SINK_PROXIMITY - CORNER_SIDE_LENGTH <= 0
-					|| y + SINK_PROXIMITY + CORNER_SIDE_LENGTH - Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE;
-		}
-		
 		return false;
+		
+		//Corner pocket center
+		//radius: 0.0625
+		//x: 1.9
+		//y: 1.7cm
+//		return Math.sqrt(x*x + y*y)
+//				< SINK_PROXIMITY	//TODO bottom-left
+//				|| 
+//				< SINK_PROXIMITY 	//TODO top-left
+//				|| 
+//				< SINK_PROXIMITY	//TODO bottom-center
+//				|| 
+//				< SINK_PROXIMITY	//TODO top-center
+//				|| 
+//				< SINK_PROXIMITY	//TODO bottom-right
+//				|| 
+//				< SINK_PROXIMITY	//TODO top-right
 	}//inPocket()
 	
 	/**
