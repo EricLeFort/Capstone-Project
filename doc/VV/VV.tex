@@ -8,9 +8,9 @@
 
 \title{Autonomous Pool Playing Robot\\~\\\textbf{Requirements Specification}}
 \author{
-	%Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
+	Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
 	Eric Le Fort\\leforte@mcmaster.ca\\1308609%\\~\\\and
-	%Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
+	Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
 	%Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
 	%Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\\and
 	%Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
@@ -21,14 +21,8 @@
 ~\\[15mm]
 \listoftables
 
-%TODO include:
-%Testing policy
-%Details of test factors used
-%Formal proof (good for confirming test coverage)
-%Define/use test coverage criteria
-%PASS/FAIL criteria for each test
-
-%TODO Actually having ran tests is marked..
+%TODO Actually having ran tests is marked.. HERE
+%TODO fill in Test IDs
 
 \vfill
 \begin{table}[!htbp]
@@ -44,7 +38,7 @@
 \section{Introduction}
 This document will provide a specification of a test plan for an automated pool playing robot and report on the results of that plan.
 \subsection{Overview}
-This document breaks down the required testing for each domain of the system. It begins with the hardware aspect, then moves to the electrical side and then finishes with software. Each section will provide a traceability matrix to map the requirements to tests that check their completion and then go into further detail to describe each test case. Lastly, a summary of the results of testing will be provided to conclude the document.
+This document breaks down the required testing for each domain of the system. It begins with the hardware aspect, then moves to the electrical side and then finishes with software. Each section will go into further detail to describe each test case. Lastly, a summary of the results of testing will be provided to conclude the document.
 \subsection{Purpose}
 The aim of this document is to illuminate any design flaws, software bugs, or other issues in the system. Once these issues are discovered, the engineering team will be able to work on eliminating them or minimizing their frequency and consequences.
 \subsection{Naming Conventions \& Definitions}
@@ -88,9 +82,40 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \end{tabular}
 \label{tab:Acronyms}
 \end{table}
+\newpage
+
+\section{Traceability Matrix}
+The following traceability matrices will demonstrate that the tests to be performed prove that each of the specified requirements have been tested.\\~\\
+\large{\textbf{Functional Requirements Traceability Matrix}}
+\begin{center}%TODO complete once all test cases are in.
+\begin{table}[h!]
+\hspace*{-7.5mm}
+\begin{tabular}{|c|c|c|c|c |c|c|c|c|c |c|c|c|c|c |c|c|c|c|c|}\hline
+\multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&F1	&F2	&F3	&F4	&F5	&F6	&F7	&F8	&F9	&F10	&F11	&F12	&F13	&F14	&F15	&F16	&F17	&F18\\\hline
+\multicolumn{1}{|C{1.5}|}{Test Cases}&- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &-\\\hline
+\multicolumn{1}{|C{1.5}|}{Tested Implicitly}&&&& &&&&& &&&&& &&&&&\\\hline
+1.1...
+\end{tabular}
+\caption{Functional Requirements Traceability Matrix}
+\end{table}
+\end{center}
+
+\large{\textbf{Non-Functional Requirements Traceability Matrix}}
+\begin{center}%TODO complete once all test cases are in.
+\begin{table}[h!]
+\hspace*{-10mm}
+\setlength\tabcolsep{1pt}
+\begin{tabular}{|c|c|*{20}{C{0.8}|}}\hline
+\multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&LF1	&UH1	&UH2	&UH3	&P1	&P2	&P3	&P4	&OE1	&MS1	&MS2	&S1	&S2	&S3	&S4	&S5	&S6	&S7	&CP1	&L1\\\hline
+\multicolumn{1}{|C{1.5}|}{Test Cases}&- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &- &-\\\hline
+\multicolumn{1}{|C{1.5}|}{Tested Implicitly}&&&& &&&&& &&&&& &&&&& &&\\\hline
+1.1...
+\end{tabular}
+\caption{Non-Functional Requirements Traceability Matrix}
+\end{table}
+\end{center}
 
 \section{Mechanical Components}
-%TODO Traceability Matrix
 %TODO acceleration/strike force
 \begin{center}%TODO test results
 \begin{table}
@@ -211,9 +236,7 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \end{center}
 
 \section{Software System}
-The software system is comprised of four main components: a control system running on an Arduino microcontroller, an automated image capture application running on an Android smartphone, as well a visual recognition program and smart shot selection program running on a PC. On top of the typical suite of unit tests to verify correctness of methods, rigorous system testing will also be crucial to adequately test this system.\\~\\
-The following traceability matrix will demonstrate that the tests to be performed prove that specified requirements have been met.
-%TODO Traceability Matrix
+The software system is comprised of four main components: a control system running on an Arduino microcontroller, an automated image capture application running on an Android smartphone, as well a visual recognition program and smart shot selection program running on a PC. On top of the typical suite of unit tests to verify correctness of methods, rigorous system testing will also be crucial to adequately test this system.
 
 \subsection{Unit Tests}%TODO provide description for all unit tests -- they don't even say what method is being tested.
 This section will provide a plethora of test cases which aim to prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
@@ -578,7 +601,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{table}
 \end{center}
 
-%TODO SimulationInstance tests HERE
+%SimulationInstance tests
 \large{\textbf{SimulationInstance Tests}}
 \begin{center}%TODO test results
 \begin{table}
@@ -809,16 +832,15 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 
 \subsubsection{PC VR Program}
-%TODO Requirements checked: F3, F5, F17
+%TODO Requirements checked: F3, F5, F17 HERE
 
 
 \subsubsection{$\mu$C Program}
-%TODO Requirements checked: F6-15, UH1, UH3
+%TODO Requirements checked: F6-15, UH1, UH3 HERE
 
 
 
 \subsection{System Tests}
-%TODO Traceability matrix
 \begin{center}%TODO test results
 \begin{table}
 \begin{tabular}{|l r|}\hline&\\[-2mm]
@@ -935,6 +957,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 
 \section{Summary of Results}
+This section will be completed once the first version of the system is completed and all tests can be run.
 %TODO overall satisfaction with results
 %TODO relate back to requirements, goals
 
