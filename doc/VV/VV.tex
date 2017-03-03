@@ -9,11 +9,11 @@
 \title{Autonomous Pool Playing Robot\\~\\\textbf{Requirements Specification}}
 \author{
 	Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
-	Eric Le Fort\\leforte@mcmaster.ca\\1308609%\\~\\\and
+	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
 	Guy Meyer\\meyerg@mcmaster.ca\\1320231\\~\\\and
-	%Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
-	%Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\\and
-	%Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
+	Andrew Danha\\danhaas@mcmaster.ca\\1223881\\~\\\and
+	Max Moore\\moorem8@mcmaster.ca\\1320009\\~\\\and
+	Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
 }
 \begin{document}
 \maketitle
@@ -22,7 +22,7 @@
 \listoftables
 
 %TODO Actually having ran tests is marked.. HERE
-%TODO fill in Test IDs
+%TODO fill in Test IDs HERE
 
 \vfill
 \begin{table}[!htbp]
@@ -87,7 +87,7 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \section{Traceability Matrix}
 The following traceability matrices will demonstrate that the tests to be performed prove that each of the specified requirements have been tested.\\~\\
 \large{\textbf{Functional Requirements Traceability Matrix}}
-\begin{center}%TODO complete once all test cases are in.
+\begin{center}%TODO complete once all test cases are in. HERE
 \begin{table}[h!]
 \hspace*{-7.5mm}
 \begin{tabular}{|c|c|c|c|c |c|c|c|c|c |c|c|c|c|c |c|c|c|c|c|}\hline
@@ -101,7 +101,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 
 \large{\textbf{Non-Functional Requirements Traceability Matrix}}
-\begin{center}%TODO complete once all test cases are in.
+\begin{center}%TODO complete once all test cases are in. HERE
 \begin{table}[h!]
 \hspace*{-10mm}
 \setlength\tabcolsep{1pt}
@@ -116,12 +116,12 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 
 \section{Mechanical Components}
-%TODO acceleration/strike force
+%TODO acceleration/strike force HERE
 \begin{center}%TODO test results
 \begin{table}
 \begin{tabular}{|l r|}\hline&\\[-2mm]
 	Test ID: 12.1	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{\textbf{\large{Sychronious Motion in X Rail}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Synchronous Motion in X Rail}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that X-Rails can synchronously move to the same location at the same speed without getting stuck while loaded}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: If rail moves adequately and quickly as expected}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
@@ -129,7 +129,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion along axis until position is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Rails are stationary with no slip.}\\\hline
 \end{tabular}
-\caption{Sychronious Motion in X Rail}
+\caption{Synchronous Motion in X Rail}
 \end{table}
 \end{center}
 
@@ -213,12 +213,121 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 1.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Table Visibility}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The amount of table visible is approximated.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if players are able to see 100\% table setup upon their turn.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine is in a position where it is ready for a ``Take a Shot'' command.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Percentage visibility of the table.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player can see 100\% of the table without excessive effort or movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Table Visibility}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 2.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{System Obstruction}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The machine will be placed in positions which make it as difficult as possible to take a shot. The difficulty of the shot will then be determined.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the design of the machine allows users to take any shot they would normally be able to make.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The machine and balls should be setup in a way that makes a shot as difficult as possible.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Difficulty of shot.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player is able to make their shot with no more than a low degree of difficulty relative to the shot difficulty without the machine.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{System Obstruction}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 1.3	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{System Weight}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The components of the machine will be weighed and those weights will be added together to get the total weight.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the weight of the machine is less than 250 lbs.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Weights of all components used.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine weighs less than 250 lbs.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{System Weight}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 1.4	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Rigidity of Machine Body}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]%TODO actual definition. HERE
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: }\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: The impulse from the strongest shot on the machine in multiple locations and directions.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine body should not suffer deformation greater than..}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO actual expected results Here
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine body should return to its initial state.}\\\hline
+\end{tabular}
+\caption{Rigidity of Machine Body}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 1.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Transformer Stability}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Machine will move around the table as sharply as possible in typical execution and the transformer will be checked for stability.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the transformer remains sturdy and secured.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Quickest movement along the table in each direction.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The transformer remains secured in position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Transformer Stability}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 6.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{User Proximity Safety}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The machine will move to the furthest points it can reach and the distance from the table will be measured.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the machine is never further than 2 ft away from the table.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: End-effector moved in various locations to test the extreme distances it can reach.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Mechanism extends less than 2ft from the perimeter of the table at all times.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{User Proximity Safety}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 7.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Shut Down Button Locations}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The distance from pinch points to a stop button is measured.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if there are shut down buttons located within the smallest reach of a typical adult of pinch points.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: The distance from pinch points when the system is moved to various positions.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Shut down buttons are always less than the smallest reach of a typical adult from pinch points.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Shut Down Buttons}
+\end{table}
+\end{center}
+
 
 \section{Electrical System}
-%TODO Traceability Matrix
-%TODO correct Amp/Volt
-%TODO latency checks
-%TODO anything else?
+%TODO latency checks HERE
 \begin{center}%TODO test results
 \begin{table}
 \begin{tabular}{|l r|}\hline&\\[-2mm]
@@ -235,10 +344,154 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 10.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: X-Rail}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the x-rail.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if both sensors are triggered.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Attempt to move system along the x-rail to the lower-limit position then the upper limit position.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: X-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
+\end{tabular}
+\caption{Current Physical State: X-Rail}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 10.2	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: Y-Rail}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the y-rail.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if both sensors are triggered.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Attempt to move system along the y-rail to the lower-limit position then the upper limit position.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Y-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
+\end{tabular}
+\caption{Current Physical State: Y-Rail}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 10.3	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: Rotation}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain angular positions.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the sensor indicates that the system in the position the machine is actually in to within 0.3 degrees.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Rotate the end-effector to various set positions.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Sensor indicates that the system is in reference position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
+\end{tabular}
+\caption{Current Physical State: Rotation}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 10.4	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: End-Effector}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the end-effector's range of motion.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the sensors indicate that the system in in the target position within 2 millimetres.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Predetermined target locations}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: End-effector sensors indicate that the end-effector is in the target location.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
+\end{tabular}
+\caption{Current Physical State: End-Effector}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 1.2	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Check for Exposed Circuitry}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Circuitry will be inspected to ensure none is exposed.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if no circuitry is exposed.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Result of wire inspection.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: No exposed circuitry.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Check for Exposed Circuitry}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 3.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Sensitive Component Isolation from High Voltage}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The voltage near sensitive components will be measured to ensure they are at safe levels.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if wires connected to sensitive components fall within their maximum parameters as specified by the device.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Inspect wires connected to electrical equipment stated above.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All components are isolated from unsafely high voltage.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Sensitive Component Isolation from High Voltage}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 5.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Voltage Regulation}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The circuit to the $\mu$C will be provided various voltages and t.}\\[1mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the output voltage from the transformer is within the required $\mu$C voltage requirements.}\\[1mm]\hline&\\[-3mm]\hline&\\[-3mm]%Make a range
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Reading of voltage fed into $\mu$C using a multimeter.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Voltage is within 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO better expected results HERE
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Voltage Regulation}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 4.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Circuit Breakers}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: High voltage will be applied to components to ensure that the circuit breakers perform as expected.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the circuits to all high voltage components are broken before unsafe voltage is applied.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Sufficiently hight voltage.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All circuits with unsafe voltages are broken.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Circuit Breakers}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 18.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{AC/DC Converter}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the transformer converts AC to DC at the appropriate voltage.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the output voltage is a DC voltage within ...}\\[1mm]\hline&\\[-3mm]%Actual Pass/fail condition
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Multimeter output voltage readings from the transformer.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The output voltage is a DC voltage within...}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO better expected results HERE
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
+\end{tabular}
+\caption{AC/DC Converter}
+\end{table}
+\end{center}
+
 \section{Software System}
 The software system is comprised of four main components: a control system running on an Arduino microcontroller, an automated image capture application running on an Android smartphone, as well a visual recognition program and smart shot selection program running on a PC. On top of the typical suite of unit tests to verify correctness of methods, rigorous system testing will also be crucial to adequately test this system.
 
-\subsection{Unit Tests}%TODO provide description for all unit tests -- they don't even say what method is being tested.
+\subsection{Unit Tests}%TODO provide description for all unit tests -- they don't even say what method is being tested.HERE
 This section will provide a plethora of test cases which aim to prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
 \subsubsection{PC Controller Program}
 %Ball Tests
@@ -836,6 +1089,11 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 
 \subsubsection{$\mu$C Program}
+Certain functions of this specific program (such as functionality of sensors) are tested in the electrical section and so will not be tested again here.
+%Signal steps for x motion
+%Signal steps for y motion
+%Signal steps for rotational motion
+%Calculaton of steps required
 %TODO Requirements checked: F6-15, UH1, UH3 HERE
 
 
@@ -895,7 +1153,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: n	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Cancelled During Motion}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine ceases movement within 2 seconds.}\\[1mm]\hline&\\[-3mm]%TODO I don't know if this time is reasonable
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine ceases movement within 2 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Take Shot} button pressed,\newline Then \textit{Cancel} button pressed while machine is moving.}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should cease movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
@@ -911,7 +1169,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: n	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Move Request (To Zero X-Coordinate)}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the zero x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]%TODO I don't know if this time is reasonable
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the zero x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine's y-rail is located closer to the large x-coordinate.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Move} button pressed}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the zero x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
@@ -927,13 +1185,29 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: n	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Move Request (To Largest X-Coordinate)}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the largest x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]%TODO I don't know if this time is reasonable
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the largest x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine's y-rail is located closer to the zero x-coordinate.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Move} button pressed}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the largest x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should be located at the largest x-coordinate.}\\\hline
 \end{tabular}
 \caption{Move Request (To Largest X-Coordinate)}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 2.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Shot Power Modification}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Users should not be able to modify system to perform unsafe actions such as setting the power of a shot beyond a certain safe value. The test will attempt to make the system do just that.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the user cannot modify the power the shot beyond system parameters.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: User attemtpts to take a shot with power outside of system parameters.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System does not take a shot at that level of force.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Shot Power Modification}
 \end{table}
 \end{center}
 
@@ -962,25 +1236,6 @@ This section will be completed once the first version of the system is completed
 %TODO relate back to requirements, goals
 
 \end{document}
-
-
-
-%%% TEST CASE TEMPLATE %%%
-\begin{center}%TODO test results
-\begin{table}
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: n	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: ModuleName}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TestTitle}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions:}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions:}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input:}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: }	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: }\\\hline
-\end{tabular}
-\caption{Test Title}
-\end{table}
-\end{center}
 
 
 
