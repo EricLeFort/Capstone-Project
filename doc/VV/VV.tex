@@ -7,7 +7,7 @@
 
 \newcolumntype{C}[1]{>{\centering\arraybackslash} m{#1cm}}
 
-\title{Autonomous Pool Playing Robot\\~\\\textbf{Requirements Specification}}
+\title{Autonomous Pool Playing Robot\\~\\\textbf{Verification \& Validation}}
 \author{
 	Ernest Selman\\selmae@mcmaster.ca\\1201291\\~\\\and
 	Eric Le Fort\\leforte@mcmaster.ca\\1308609\\~\\\and
@@ -50,7 +50,6 @@ This section outlines the various definitions, acronyms and abbreviations that w
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
 \begin{table}[h!]
 \centering
-\caption{Definitions}
 \begin{tabular}{| C{6} | p{6cm} |}\hline
 	\textbf{Term}	&\textbf{\centering Meaning}\\\hline
 	X-axis					&Distance along the length of the pool table\\\hline
@@ -66,13 +65,13 @@ Table \ref{tab:Definitions} lists the definitions used in this document. The def
 	Boundary				&Classes that interact with users or external systems\\\hline
 	Double					&Double-precision floating point numbers\\\hline
 \end{tabular}
+\caption{Definitions}
 \label{tab:Definitions}
 \end{table}
 \subsubsection{Acronyms \& Abbreviations}
 Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this document.
 \begin{table}[h!]
 \centering
-\caption{Acronyms and Abbreviations}
 \begin{tabular}{| p{6cm} | p{6cm} |}\hline
 	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
 	VR								&Visual Recognition\\\hline
@@ -81,6 +80,7 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 	CRC								&Class Responsibility Collaboration\\\hline
 	TBT								&To Be Tested\\\hline
 \end{tabular}
+\caption{Acronyms and Abbreviations}
 \label{tab:Acronyms}
 \end{table}
 \newpage
@@ -234,7 +234,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 3.1.17 &&&&& &&&&& &&&&& &&&&& &\\\hline
 3.1.18 &&&&& &&&&& &&&&& &&&&& &\\\hline
 \end{tabular}
-\caption{Non-Functional Requirements Traceability Matrix}
+\caption{Non-Functional Requirements Traceability Matrix - 1}
 \end{table}
 \end{center}
 
@@ -276,7 +276,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 3.4.7 &&&&& &&&&& &&&&& &&&&& &\\\hline
 3.4.8 &&&&& &&&&& &&&&& &&&&& &\\\hline
 \end{tabular}
-\caption{Non-Functional Requirements Traceability Matrix}
+\caption{Non-Functional Requirements Traceability Matrix - 2}
 \end{table}
 \end{center}
 \newpage
@@ -670,6 +670,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.1	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if all the fields inside of Ball are correctly initialized.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, 0}\\[2mm]\hline
@@ -686,6 +687,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.2	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large X}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with an x-coordinate that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1.87658, 0.7, 0}\\[2mm]\hline
@@ -702,6 +704,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.3	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large Y}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a y-coordinate that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.94958, 0}\\[2mm]\hline
@@ -718,6 +721,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.4	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small X}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with an x-coordinate that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: -1.001, 0.7, 0}\\[2mm]\hline
@@ -734,6 +738,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.5	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small Y}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a y-coordinate that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, -1.001, 0}\\[2mm]\hline
@@ -750,6 +755,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.6	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small Value}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a value that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, -1}\\[2mm]\hline
@@ -766,6 +772,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.7	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large Value}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a value that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, 16}\\[2mm]\hline
@@ -784,6 +791,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.8	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: InferenceEngine}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Updating Table State}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Updates the current table state being tested.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if all post-conditions are met.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles that are valid positions, BallType.STRIPES}\\[2mm]\hline
@@ -800,6 +808,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.9	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: InferenceEngine}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Selecting an Optimal Shot}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which simulates all direct shots that can be made.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if a reasonable Shot is returned.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The current table state is not null and the current ball type is not null or BallType.CUE.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None}\\[2mm]\hline
@@ -818,6 +827,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.10	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Valid Table State from File}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Reads a table state from a file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the output matches the data in the text file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A text file with 16 ball positions}\\[2mm]\hline
@@ -834,6 +844,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.11	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Table State from Non-Existent File}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Attempts to read from a non-existent table state file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if a FileNotFoundException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
@@ -850,6 +861,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.12	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Table State from File with Invalid Data}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an InputMismatchException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A file containing the text ``Bad data''.}\\[2mm]\hline
@@ -866,6 +878,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.13	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Initiating the VR Program}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The test is passed if the VR Program has been run.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
@@ -884,6 +897,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.14	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the Shot is successfully created and stores the correct information.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 1}\\[2mm]\hline
@@ -900,6 +914,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.15	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large X}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an x-value that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1.87658, 0.5, 3.5, 1}\\[2mm]\hline
@@ -916,6 +931,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.16	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small X}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an x-value that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: -0.001, 0.5, 3.5, 1}\\[2mm]\hline
@@ -932,6 +948,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.17	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Y}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a y-value that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.94958, 3.5, 1}\\[2mm]\hline
@@ -948,6 +965,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.18	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Y}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a y-value that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, -0.001, 3.5, 1}\\[2mm]\hline
@@ -964,6 +982,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.19	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Angle}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an angle that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 6.284, 1}\\[2mm]\hline
@@ -980,6 +999,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.20	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Y}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an angle that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, -0.01, 1}\\[2mm]\hline
@@ -996,6 +1016,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.21	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Power}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a power that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 1.001}\\[2mm]\hline
@@ -1012,6 +1033,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.22	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Power}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a power that is too small.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 0}\\[2mm]\hline
@@ -1030,6 +1052,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.23	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Not Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance that is not shooting for the 8-ball.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is not the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with at least one ball of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
@@ -1046,6 +1069,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.24	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance that is shooting for the 8-ball.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with no balls of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
@@ -1062,6 +1086,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.25	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Large Power}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance with a power that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException has been thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles, 2, 1.001}\\[2mm]\hline
@@ -1078,6 +1103,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.26	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Check for Walls}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which checks for a wall at the given coordinates.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline(0.07070, true)\newline (0.07072, true)\newline (0.866, true)\newline (0.868, true)\newline (0.980, true)\newline (0.982, true)\newline (1.776, true)\newline (1.778, true)\newline (0.07070, false)\newline (0.07072, false)\newline (0.849, false)\newline (0.851, false)}\\[2mm]\hline
@@ -1094,6 +1120,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.27	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Get Angle from Coordinates}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Run the method which uses an x- and a y-coordinate to obtain the angle from that imaginary triangle.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results. Notably in the case where x = y = 0, the angle will be $\frac{3}{2}\pi$ which is not technically correct but that does not matter for this project.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0) \newline (2, 1) \newline (0, 1) \newline (-1, 2) \newline (-1, 0) \newline (-1, -5) \newline (0, -1) \newline (2, -3)}\\[2mm]\hline
@@ -1110,6 +1137,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.28	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball-Wall Collision}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which evaluates the resulting velocities from ball-wall collisions.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (5, true)\newline (-1.2, false)}\\[2mm]\hline
@@ -1126,6 +1154,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.29	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Check if in Pocket}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which checks whether the given coordinate would result in a ball being sunk into a pocket.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0.5) \newline (0,0)\newline (0.06, 0.02)\newline (0, 0.921)\newline (0.03, 0.92)\newline (0.924,0)\newline (0.92, 0.02)\newline (0.924, 0.921)\newline (0.95, 0.921)\newline (1.848,0)\newline (1.84, 0.04)\newline (1.848, 0.921)\newline (1.84, 0.915)}\\[2mm]\hline
@@ -1143,6 +1172,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 %	Test ID: n	&Status: TBT\\[-3mm]
 %	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 %	\multicolumn{2}{|c|}{\textbf{\large{Ball-Ball Collisions}}}\\&\\\hline&\\[-3mm]
+%\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 %	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.001 of the actual results.}\\[1mm]\hline&\\[-3mm]
 %	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 %	\multicolumn{2}{|p{\textwidth}|}{Inputs:}\\[2mm]\hline
@@ -1161,6 +1191,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.30	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is successfully created and stores the correct information.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles that hold the position of the balls}\\[2mm]\hline
@@ -1177,6 +1208,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.31	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Too Many Elements}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 17-by-2 array of doubles}\\[2mm]\hline
@@ -1193,6 +1225,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.32	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Not Enough Elements}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 15-by-2 array of doubles}\\[2mm]\hline
@@ -1209,6 +1242,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.33	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Elements Too Small}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-1 array of doubles}\\[2mm]\hline
@@ -1225,6 +1259,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.34	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Elements Too Large}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-3 array of doubles}\\[2mm]\hline
@@ -1241,6 +1276,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 	Test ID: 3.1.35	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Deep Copy}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls returned have the same values but are not the same Objects.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: A TableState exists in memory.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
