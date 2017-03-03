@@ -431,13 +431,13 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \begin{center}%TODO test results
 \begin{table}
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.10	&Status: TBT\\[-3mm]
+	Test ID:   1.10	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Rigidity of Machine Body}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: }\\[1mm]\hline&\\[-3mm]%TODO actual definition. HERE
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: }\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: The machine must be rigid such that nominal strain $<$ 0.1}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the body of the machine is rigid such that nominal strain $<$ 0.1}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: The impulse from the strongest shot on the machine in multiple locations and directions.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine body should not suffer deformation greater than..}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO actual expected results Here
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine body should not suffer deformation greater than magnitude 0.1 nominal strain.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine body should return to its initial state.}\\\hline
 \end{tabular}
 \caption{Rigidity of Machine Body}
@@ -494,7 +494,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 
 
 \section{Electrical System}
-%TODO latency checks HERE
+
 \begin{center}%TODO test results
 \begin{table}
 \begin{tabular}{|l r|}\hline&\\[-2mm]
@@ -616,12 +616,13 @@ The following traceability matrices will demonstrate that the tests to be perfor
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the output voltage from the transformer is within the required $\mu$C voltage requirements.}\\[1mm]\hline&\\[-3mm]\hline&\\[-3mm]%Make a range
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Reading of voltage fed into $\mu$C using a multimeter.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Voltage is within 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO better expected results HERE
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Voltage is within 7 V DC - 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Voltage Regulation}
 \end{table}
 \end{center}
+
 
 \begin{center}%TODO test results
 \begin{table}
@@ -645,10 +646,10 @@ The following traceability matrices will demonstrate that the tests to be perfor
 	Test ID: 2.10	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{AC/DC Converter}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the transformer converts AC to DC at the appropriate voltage.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the output voltage is a DC voltage within ...}\\[1mm]\hline&\\[-3mm]%Actual Pass/fail condition
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the output voltage is a DC voltage within 7 V DC - 12 V DC.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Multimeter output voltage readings from the transformer.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The output voltage is a DC voltage within...}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]%TODO better expected results HERE
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The output voltage is a DC voltage within 7 V DC - 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{AC/DC Converter}
@@ -1359,11 +1360,70 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 \subsubsection{$\mu$C Program}
 Certain functions of this specific program (such as functionality of sensors) are tested in the electrical section and so will not be tested again here.
-%Signal steps for x motion 3.3.1
-%Signal steps for y motion 3.3.2
-%Signal steps for rotational motion 3.3.3
-%Calculaton of steps required 3.3.4
-%TODO Requirements checked: F6-15, UH1, UH3 HERE
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 3.3.1	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: System}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Singal steps for x motion}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine takes a step in the x direction 99.9\% of the time that a step command is sent from the $\mu$C.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must awaiting input fromt the $\mu$C.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: $\mu$C sends a take x step signal.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine takes a step in the x direction 99.9\% of the time that a step command is sent from the $\mu$C.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Aligned Shot}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 3.3.2	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: System}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Singal steps for y motion}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine takes a step in the y direction 99.9\% of the time that a step command is sent from the $\mu$C.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must awaiting input fromt the $\mu$C.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: $\mu$C sends a take y step signal.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine takes a step in the y direction 99.9\% of the time that a step command is sent from the $\mu$C.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Aligned Shot}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 3.3.3	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: System}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Singal steps for r motion}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine takes a step in the r direction 99.9\% of the time that a step command is sent from the $\mu$C.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must awaiting input fromt the $\mu$C.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: $\mu$C sends a take r step signal.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine takes a step in the r direction 99.9\% of the time that a step command is sent from the $\mu$C.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Aligned Shot}
+\end{table}
+\end{center}
+
+\begin{center}%TODO test results
+\begin{table}
+\begin{tabular}{|l r|}\hline&\\[-2mm]
+	Test ID: 3.3.4	&Status: TBT\\[-3mm]
+	\multicolumn{2}{|c|}{Module: System}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{$\mu$C calculates number steps to be taken}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the $\mu$C signals the machine to take the necessary number of steps so as to move to the posision requested by the PC.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must awaiting input fromt the $\mu$C.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: $\mu$C sends step information to the machine.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine takes necessary number of steps so as to move to the posision requested by the PC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
+\end{tabular}
+\caption{Aligned Shot}
+\end{table}
+\end{center}
+
 
 
 
