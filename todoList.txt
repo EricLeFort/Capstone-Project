@@ -1,0 +1,35 @@
+Document Due Dates:
+Mar 10th - Rev 1 - Requirements, Hazard Analysis
+Mar 20th - Rev 1 - Design
+Apr 04th - Rev 1 - Implementation
+Apr 17th - Rev 1 - V&V
+
+FINAL DEMO:
+Apr 28th - Presentation, video, posters
+
+Work to be done:
+
+SOFTWARE:
+	-Finish inPocket() check for simulation
+	-VR identifying algorithm
+	-Tune locating algorithm
+	-Arduino signal monitor
+	-Arduino control module
+	-Arduino serial communication
+	-Verify Android program (real-world)
+
+HARDWARE:
+	-Mount second x-rail
+	-Machine arm base (x2)
+	-Machine arm (x2)
+	-Print x-rail pulley, buy pulley components
+	-Drill y-rail
+	-CAD and print end-effector base
+	-Buy rotation rod
+
+ELECTRICAL:
+	-Order wire
+	-Design of sensor circuits
+	-Design pneumatic circuit
+	-Locate attachment of sensors
+	-Wire system together
