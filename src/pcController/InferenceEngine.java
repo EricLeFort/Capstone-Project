@@ -88,14 +88,14 @@ public class InferenceEngine{
 			lowAngle -= lowAngle % ANGULAR_STEP;
 			highAngle -= highAngle % ANGULAR_STEP;
 
-			simulateShot(new Shot(0, 0, 1.65, HI_POWER));
+//			simulateShot(new Shot(0, 0, 1.6461983999999976, HI_POWER));
 //			simulateShot(new Shot(0, 0, lowAngle, HI_POWER));//TODO remove
 //			simulateShot(new Shot(0, 0, highAngle, HI_POWER));
-//			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
-//				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
-//				simulateShot(new Shot(0, 0, j, MID_POWER));
-//				simulateShot(new Shot(0, 0, j, HI_POWER));
-//			}
+			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
+				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
+				simulateShot(new Shot(0, 0, j, MID_POWER));
+				simulateShot(new Shot(0, 0, j, HI_POWER));
+			}
 			System.out.println("lowangle: " + lowAngle);
 			System.out.println("highangle: " + highAngle);
 			System.out.println();

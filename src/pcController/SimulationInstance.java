@@ -30,16 +30,17 @@ import javax.swing.*;
  */
 
 public class SimulationInstance extends TableState{
-	private final static double TIME_STEP = 0.001,									//Simulation time step in s
-			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,				//Elastic coefficients
-			BALL_TABLE_FRICTION = 0.49035,											//in m/s/s
-			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,	//Initial speeds in m/s
-			MIN_MOTION = 0.02,														//Motion below this is considered stopped
-			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,						//Pocket openings
-			CORNER_SIDE_LENGTH = Math.sqrt(CORNER_MOUTH_WIDTH*CORNER_MOUTH_WIDTH/2),
+	private final static double TIME_STEP = 0.001,										//Simulation time step in s
+			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,					//Elastic coefficients
+			BALL_TABLE_FRICTION = 0.49035,												//in m/s/s
+			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,		//Initial speeds in m/s
+			MIN_MOTION = 0.02,															//Slower motion considered 0
+			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,							//Pocket openings
+			CORNER_SIDE_LENGTH = Math.sqrt(CORNER_MOUTH_WIDTH*CORNER_MOUTH_WIDTH/2),	//Corner side opening length
+			CORNER_RADIUS = 0.0625, CORNER_CENTER_X = 0.019, CORNER_CENTER_Y = 0.017,	//Distance to center of pocket
 			SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
-			SINK_PROXIMITY = Ball.RADIUS + 0.005;									//Distance at which a ball is sunk in m
-	private final static int CUE_SCORE = -20,										//Scoring for sinking certain balls
+			SINK_PROXIMITY = 0.001;														//Distance at which a ball is sunk in m
+	private final static int CUE_SCORE = -20,											//Scoring for sinking certain balls
 			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3;
 	Ball[] balls;
 	private double[][] velocities = new double[16][2];
@@ -48,7 +49,7 @@ public class SimulationInstance extends TableState{
 	/*
 	 * TESTING VARIABLES
 	 */
-	private static final boolean visual = true;
+	private static final boolean visual = false;
 	private JFrame f;
 	private PointPanel panel;
 	
@@ -124,7 +125,7 @@ public class SimulationInstance extends TableState{
 			
 			balls[i].alterX(velocities[i][0] * TIME_STEP);						//Move balls appropriately
 			balls[i].alterY(velocities[i][1] * TIME_STEP);
-																				//Friction slowdown
+			//Friction slowdown
 			newVelocities[i][0] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][0];
 			newVelocities[i][1] -= BALL_TABLE_FRICTION*TIME_STEP*velocities[i][1];
 			
@@ -147,7 +148,8 @@ public class SimulationInstance extends TableState{
 						break outerloop;
 					}
 				}
-				if(inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
+				if(!(isWallHere(balls[i].getYPosition(), false) || isWallHere(balls[i].getXPosition(), true))
+						& inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
 					if(shooting8){
 						if(balls[i].getValue() == 0){							//Sunk cue ball
 							updateScore = Integer.MIN_VALUE;
@@ -333,25 +335,23 @@ public class SimulationInstance extends TableState{
 	 */
 	private boolean inPocket(double x, double y){	//TODO check if ball will bounce out?
 		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,
-				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2;
-		return false;
+				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2,
+				smallX = Math.abs(x - CORNER_CENTER_X), smallY = Math.abs(y - CORNER_CENTER_Y),
+				largeX = x - InferenceEngine.MAX_X_COORDINATE + CORNER_CENTER_X,
+				largeY = y - InferenceEngine.MAX_Y_COORDINATE + CORNER_CENTER_Y;
 		
-		//Corner pocket center
-		//radius: 0.0625
-		//x: 1.9
-		//y: 1.7cm
-//		return Math.sqrt(x*x + y*y)
-//				< SINK_PROXIMITY	//TODO bottom-left
-//				|| 
-//				< SINK_PROXIMITY 	//TODO top-left
-//				|| 
-//				< SINK_PROXIMITY	//TODO bottom-center
-//				|| 
-//				< SINK_PROXIMITY	//TODO top-center
-//				|| 
-//				< SINK_PROXIMITY	//TODO bottom-right
-//				|| 
-//				< SINK_PROXIMITY	//TODO top-right
+		return Math.sqrt(Math.pow(smallX, 2) + Math.pow(smallY, 2))
+				< CORNER_RADIUS + SINK_PROXIMITY									//bottom-left
+				|| Math.sqrt(Math.pow(smallX, 2) + Math.pow(largeY, 2))
+				< CORNER_RADIUS + SINK_PROXIMITY 									//top-left
+				|| (lowMidpoint < x && hiMidpoint > x
+						&& y < SINK_PROXIMITY)										//bottom-center
+				|| (lowMidpoint < x && hiMidpoint > x
+						&& InferenceEngine.MAX_Y_COORDINATE - y < SINK_PROXIMITY)	//top-center
+				|| Math.sqrt(Math.pow(largeX, 2) + Math.pow(smallY, 2))
+				< CORNER_RADIUS + SINK_PROXIMITY									//bottom-right
+				|| Math.sqrt(Math.pow(largeX, 2) + Math.pow(largeY, 2))
+				< CORNER_RADIUS + SINK_PROXIMITY;									//top-right
 	}//inPocket()
 	
 	/**
@@ -418,7 +418,6 @@ public class SimulationInstance extends TableState{
 	public boolean inMotion(){ return inMotion; }//inMotion()
 }//SimulationInstance
 
-//TODO remove this whole class
 class PointPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	ArrayList<Ellipse2D> pointList, cuePointList;
