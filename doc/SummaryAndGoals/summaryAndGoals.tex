@@ -30,7 +30,8 @@ Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
 \centering
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
-	DD/MM/YYYY		&0				&- Initial document creation	&Ernest Selman\newline Eric Le Fort\newline Guy Meyer\newline Andrew Danha\newline Max Moore\newline Derek Savery\\\hline
+	18/10/2016		&0				&- Initial document creation	&Ernest Selman\newline Eric Le Fort\newline Guy Meyer\newline Andrew Danha\newline Max Moore\newline Derek Savery\\\hline
+	06/03/2017		&1				&- Corrected revision date\newline -Clarified rules of shot selection\newline -Added goal of being able to play a game to completion	&Eric Le Fort\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{figure}
@@ -42,14 +43,17 @@ Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\
 
 What follows is a breakdown of what the system will do step-by-step in more specific detail. To initiate the robot's turn, the user will press a button signifying that the system should begin. A camera will then be used to view the table and, using visual recognition algorithms, map out the positions of the pool balls. Our system will then determine the best angle at which to take a shot and how to move the equipment to that position. Once that is done, the robot will move into place, lining up the shot. Using a specialized, built-in pool cue, the robot will then make its shot.\\
 
-Once it is the user's turn, the user will also be able to press a button to indicate to the robot that it needs to move in order to give room for the human player's shot. The robot will then move to a position that is out of the way.
+Once it is the user's turn, the user will also be able to press a button to indicate to the robot that it needs to move in order to give room for the human player's shot. The robot will then move to a position that is out of the way.\\
+
+Shot selection will involve following the rules of pool. Scores will be assigned to sinking each type of ball based on whether the robot is assigned stripes or solids in two situations: shooting for the 8-ball or not shooting for the 8-ball. If the robot is shooting for the 8-ball, sinking the 8-ball gives a large score and sinking any other ball gives a larger negative score. If the robot is not shooting for the 8-ball, sinking the 8-ball gives a large negative score, sinking the cue ball gives a medium negative score, sinking a ball of the opposite type (i.e. stripes if shooting solids or vice versa) gives a small negative score, and sinking a ball of the correct type gives a small positive value. The optimal shot will be the one that maximizes this score.
 
 \section{Success Criteria}
 In order for the project to be considered a success, minimum criteria must be met. These minimums are that:
 \begin{enumerate}
 	\item 90\% of the time a straight shot will have the cue ball hit a ball that it chooses itself;
-	\item 50\% of the time, the system should be able to sink the intended ball if it's a straight shot, and;
-	\item Users of this system must not be placed at risk by the system at any time.
+	\item 50\% of the time, the system should be able to sink the intended ball if it's a straight shot;
+	\item Users of this system must not be placed at risk by the system at any time, and;
+	\item 40\% of games are able to be played to completion by the machine.
 \end{enumerate}
 
 \section{Mid-Level Goals}
@@ -59,7 +63,8 @@ Once success is achieved, these goals will be the immediate avenues toward impro
 	\item 70\% of the time, a bank shot will have the cue ball hit the intended ball;
 	\item 80\% of the time, the cue ball will not be sunk in a shot;
 	\item 75\% of the time, the system should be able to sink the intended ball if it can with a straight shot;
-	\item 40\% of the time, the system should be able to sink the intended ball with a bank shot when necessary, and;
+	\item 40\% of the time, the system should be able to sink the intended ball with a bank shot when necessary;
+	\item 70\% of games are able to be played to completion by the machine, and;
 	\item The finished project is polished to the point of being marketable.
 \end{enumerate}
 
@@ -71,6 +76,7 @@ These goals are what will be going well above what we expect to be able to achie
 	\item 90\% of the time, the cue ball will not be sunk in a shot;
 	\item 90\% of the time, the system should be able to sink the intended ball if it can with a straight shot;
 	\item 65\% of the time, the system should be able to sink the intended ball with a bank shot when necessary;
+	\item 95\% of games are able to be played to completion by the machine;
 	\item shooting the cue ball in such a way that it is placed strategically to make the next player's shot more difficult, and;
 	\item being able to take advanced shots such as curving or putting front- or back-spin on the cue ball.
 \end{enumerate}
