@@ -41,7 +41,7 @@ public class SimulationInstance extends TableState{
 			SIDE_PLAY = SIDE_MOUTH_WIDTH - Ball.RADIUS,
 			SINK_PROXIMITY = 0.001;														//Distance at which a ball is sunk in m
 	private final static int CUE_SCORE = -20,											//Scoring for sinking certain balls
-			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3;
+			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3, MIN_SCORE = -5000;
 	Ball[] balls;
 	private double[][] velocities = new double[16][2];
 	private boolean inMotion, shooting8;
@@ -49,7 +49,7 @@ public class SimulationInstance extends TableState{
 	/*
 	 * TESTING VARIABLES
 	 */
-	private static final boolean visual = false;
+	private static final boolean visual = true;
 	private JFrame f;
 	private PointPanel panel;
 	
@@ -142,7 +142,7 @@ public class SimulationInstance extends TableState{
 		
 		outerloop:
 			for(int i = 0; i < balls.length; i++){
-				while(balls[i].getXPosition() < 0){								//Ignore balls not in motion
+				while(balls[i].getXPosition() < 0){										//Ignore balls not in motion
 					i++;
 					if(i == balls.length){
 						break outerloop;
@@ -151,28 +151,30 @@ public class SimulationInstance extends TableState{
 				if(!(isWallHere(balls[i].getYPosition(), false) || isWallHere(balls[i].getXPosition(), true))
 						& inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
 					if(shooting8){
-						if(balls[i].getValue() == 0){							//Sunk cue ball
-							updateScore = Integer.MIN_VALUE;
-							break outerloop;
+						if(balls[i].getValue() == 0){									//Sunk cue ball
+							updateScore = MIN_SCORE;
+							inMotion = false;
+							return updateScore;
 						}else if(balls[i].getValue() == 8){
-							updateScore = Integer.MAX_VALUE;
+							updateScore += 12;
 						}else{
 							updateScore -= WRONG_BALLTYPE_SUNK;
 						}
 					}else{
-						if(balls[i].getValue() == 0){							//Sunk cue ball
+						if(balls[i].getValue() == 0){								//Sunk cue ball
 							updateScore += CUE_SCORE;
-						}else if(balls[i].getValue() == 8){						//Sunk eight ball
-							updateScore = Integer.MIN_VALUE;
-							break outerloop;									//Sunk right type of ball
+						}else if(balls[i].getValue() == 8){							//Sunk eight ball
+							updateScore = MIN_SCORE;
+							inMotion = false;
+							return updateScore;										//Sunk right type of ball
 						}else if(balls[i].getValue() > 8 && InferenceEngine.myBallType == BallType.STRIPE
 								|| balls[i].getValue() < 8 && InferenceEngine.myBallType == BallType.SOLID){
 							updateScore += RIGHT_BALLTYPE_SUNK;
-						}else{													//Sunk wrong type of ball
+						}else{														//Sunk wrong type of ball
 							updateScore += WRONG_BALLTYPE_SUNK;
 						}
 					}
-					balls[i].alterX(-1);										//Sinks the ball
+					balls[i].alterX(-1);											//Sinks the ball
 					balls[i].alterY(-1);
 					newVelocities[i][0] = 0;
 					newVelocities[i][1] = 0;
@@ -180,7 +182,7 @@ public class SimulationInstance extends TableState{
 						panel.addPoint(-1, -1, i);
 					}
 				}else{
-					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&			//BALL-BUMPER collision (y-wall)
+					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&				//BALL-BUMPER collision (y-wall)
 							newVelocities[i][0] < 0)
 							|| (balls[i].getXPosition() + Ball.RADIUS >= InferenceEngine.MAX_X_COORDINATE &&
 							newVelocities[i][0] > 0)
@@ -188,7 +190,7 @@ public class SimulationInstance extends TableState{
 						newVelocities[i][0] = ballToWallCollision(newVelocities[i][0], true);
 						newVelocities[i][1] = ballToWallCollision(newVelocities[i][1], false);
 					}
-					if((balls[i].getYPosition() - Ball.RADIUS <= 0 &&			//BALL-BUMPER collision (x-wall)
+					if((balls[i].getYPosition() - Ball.RADIUS <= 0 &&				//BALL-BUMPER collision (x-wall)
 							newVelocities[i][1] < 0)
 							|| (balls[i].getYPosition() + Ball.RADIUS >= InferenceEngine.MAX_Y_COORDINATE &&
 							newVelocities[i][1] > 0)
@@ -207,7 +209,7 @@ public class SimulationInstance extends TableState{
 								Math.pow(Math.abs(balls[i].getYPosition() + velocities[i][1]*TIME_STEP  -
 										balls[j].getYPosition() - velocities[j][1]*TIME_STEP), 2));
 						
-						if(distance < Ball.RADIUS + Ball.RADIUS &&				//BALL-BALL collision
+						if(distance < Ball.RADIUS + Ball.RADIUS &&					//BALL-BALL collision
 								nextDistance < distance){
 							newVelocities[i] = ballToBallCollision(balls[i],
 									balls[j],
@@ -285,9 +287,15 @@ public class SimulationInstance extends TableState{
 		theta2 = v2Angle - newAlpha;
 		
 		if(theta1 > Math.PI){
-			theta1 = -(pi2 - theta1);
+			theta1 = pi2 - theta1;
+			if(v1Angle > theta1){
+				theta1 = -theta1;
+			}
 		}else if(theta1 < -Math.PI){
-			theta1 = -(pi2 + theta1);
+			theta1 = pi2 + theta1;
+			if(v1Angle > theta1){
+				theta1 = -theta1;
+			}
 		}
 		
 		if(theta1 < 0){
