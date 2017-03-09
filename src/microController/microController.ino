@@ -59,8 +59,7 @@ int xDir; //Direction X should move
 int yDir; //Direction Y should move
 int rDir; //Direction R should move
 
-bool userControl = false; //Enable or disable user buttons
-int inputError = 0; //4 bit binary error check 
+bool userControl = false; //Enable or disable user turn
 
 // Setup  /////////////////////////////////////////////////////////////////////////////////
 
@@ -110,19 +109,20 @@ void setup()
 void loop()
 {
   
-  WaitForPCInstruction(); 
-  if(inputError == 0) //Only take action if all inputs are valid
-  {   
-    MoveXYR();
-    TakeShot();
-    AllowUserTurn();
-    PoseForPicture();
-    RequestPCInstruction();
-  }
-  else 
+  PoseForPicture();
+  if(userControl == false) //Only take action if not user turn
   {
     RequestPCInstruction();
   }
+  if(userControl == false) 
+  {   
+    MoveXYR();
+  }
+  if(userControl == false) 
+  {
+    TakeShot(); 
+  } 
+  AllowUserTurn();
   
 }
 
@@ -139,24 +139,30 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
   currentR = UPPERBOUND_R / 2;
   MoveXYR();
   AllowUserTurn(); 
-  PoseForPicture();
-  RequestPCInstruction();
   
 }
 
-void WaitForPCInstruction() //Loop during PC operation
+void RequestPCInstruction() //Loop during PC operation
 {
     
   char readline[32];
   char aChar;
   int val;
-  int count = 0;
+  int count = 1500;
 
   memset(&readline[0], 0, sizeof(readline));
   
   do {
-    delay(10);
+    count++;
+    if(count > 1500) //Send request every 15s
+    {
+      Serial.println("55");
+      count = 0;
+    }
+    delay(10); 
   } while(Serial.available() <= 0); //Will loop forever until something entered into Serial Monitor
+
+  count = 0;
    
   do {
     aChar = Serial.read();
@@ -164,21 +170,31 @@ void WaitForPCInstruction() //Loop during PC operation
     count++;
     delay(10);
   } while(count != sizeof(readline) && Serial.available() > 0);
-  
+
   val = atoi(strtok(readline, DELIMITER));
-  if (val >= 0 && val < UPPERBOUND_X) requestedX = val; 
-  else inputError += 1; //0001 -> bad x
-  val = atoi(strtok(NULL, DELIMITER));
-  if (val >= 0 && val < UPPERBOUND_Y) requestedY = val; 
-  else inputError += 2; //0010 -> bad y
-  val = atoi(strtok(NULL, DELIMITER));
-  if (val >= 0 && val < UPPERBOUND_R) requestedR = val; 
-  else inputError += 4; //0100 -> bad r
-  val = atoi(strtok(NULL, ENDCHAR));
-  if (val >= 0 && val < UPPERBOUND_E) requestedE = val; 
-  else inputError += 8; //1000 -> bad e
+  if (val == 170)
+  { 
+    val = atoi(strtok(NULL, DELIMITER));
+    if (val < 0) requestedX = 0; 
+    else if (val >= UPPERBOUND_X) rewuestedX = UPPERBOUND_X - 1;
+    else requestedX = val;
+    val = atoi(strtok(NULL, DELIMITER));
+    if (val < 0) requestedY = 0; 
+    else if (val >= UPPERBOUND_Y) rewuestedY = UPPERBOUND_Y - 1;
+    else requestedY = val;
+    val = atoi(strtok(NULL, DELIMITER));
+    if (val < 0) requestedR = 0; 
+    else if (val >= UPPERBOUND_R) requestedR = UPPERBOUND_R - 1;
+    else requestedR = val;
+    val = atoi(strtok(NULL, ENDCHAR));
+    if (val < 0) requestedE = 0; 
+    else if (val >= UPPERBOUND_E) rewuestedE = UPPERBOUND_E - 1;
+    else requestedX = val;
+  }
  
   memset(&readline[0], 0, sizeof(readline)); 
+
+  Serial.println("200");
   
 }
 
@@ -322,34 +338,27 @@ void PoseForPicture() //Move machine so camera can see unobstructed table
   
 }
 
-void RequestPCInstruction()
-{
-  
-  Serial.println(inputError); //Inform PC if any inputs are invlaid
-  inputError = 0;  
-
-}
-
 void UserButton1() //Tell machine to move out of the way
 {
   
   if (userControl)
   {
-    if(requestedX != 0) requestedX = 0;
-    else requestedX = UPPERBOUND_X - 1;
+    if(requestedX == currentX && requestedX != 0) requestedX = 0; //Move to 0
+    else if(requestedX == 0) requestedX =  UPPERBOUND_X - 1; //Move to upperboundX - 1
+    else requestedX = currentX; //Stop moving
   }
   
 }
 
-void UserButton2() //Tell machine to take another turn
+void UserButton2() //Give/relinquish user control
 {
-
-  if (userControl)
-  {
-    requestedX = currentX;
-    userControl = false;
-  }
-   
+  
+  userControl = !userControl;
+  requestedX = currentX;
+  requestedY = currentY;
+  requestedR = currentR;
+  requestedE = currentE;
+  
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
