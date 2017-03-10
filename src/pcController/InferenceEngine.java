@@ -88,6 +88,7 @@ public class InferenceEngine{
 			lowAngle -= lowAngle % ANGULAR_STEP;
 			highAngle -= highAngle % ANGULAR_STEP;
 
+			simulateShot(new Shot(0, 0, 2, MID_POWER));
 			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
 				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
 				simulateShot(new Shot(0, 0, j, MID_POWER));
