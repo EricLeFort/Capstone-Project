@@ -23,7 +23,6 @@
 	Derek Savery\\saverydj@mcmaster.ca\\1219142\\~\\\and
 	Max Moore\\moorem8@mcmaster.ca\\1320009
 }
- 
 \begin{document}
 \maketitle
 \tableofcontents
@@ -37,14 +36,14 @@
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
 	05/01/2017		&0				&- Initial document creation	&Eric Le Fort\\\hline
-	06/01/2017		&0				&- First draft					&Eric Le Fort\\\hline
+	06/01/2017		&0				&- First draft				&Eric Le Fort\\\hline
+	11/03/2017		&1				&- Revision 1				&Andrew Danha Derek Savery\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
 \newpage
- 
 \section{Overview}
-This document's purpose is to help illustrate potential hazards associated with the automated pool-playing robot and how those hazards are to be addressed. The Hazards section will describe the section in more detail as well as provide an overall Fault-Tree Analysis (FTA) for this system. Each hazard will have its own subsection which will describe the hazard, discuss mitigation and/or plans of avoidance as well as provide a more detailed view of the portion of the FTA it concerns.\\~\\
+This document's purpose is to help illustrate potential hazards associated with the automated pool-playing robot and how those hazards are to be addressed. Hazards include both safety risks to users as well as structural/monetary risks to the machine. The Hazards section will describe the section in more detail as well as provide an overall Fault-Tree Analysis (FTA) for this system. Each hazard will have its own subsection which will describe the hazard, discuss mitigation and/or plans of avoidance as well as provide a more detailed view of the portion of the FTA it concerns.\\~\\
 Certain sections may refer to the supporting documents: \textit{High-Level Hardware Design} and \textit{High-Level Software Design} for this project.
 
 \subsection{Naming Conventions \& Definitions}
@@ -75,10 +74,20 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 	\textbf{Acronym/Abbreviation}	&\textbf{Meaning}\\\hline
 	VR								&Visual Recognition\\\hline
 	$\mu$C							&Micro-Controller\\\hline
-	FTA								&Fault-Tree Analysis\\\hline 
+	FTA								&Fault-Tree Analysis\\\hline
 \end{tabular}
 \label{tab:Acronyms}
 \end{table}
+
+\newpage
+\section{Background}
+The potential hazards associated with this system can be found by examining other products and their solutions to the respective hazards.\\~\\
+This machine uses a similar traversal system as a household 3D printer. 3D printers contain multiple moving parts and are labeled with warnings to keep hands and fingers clear during operation, due to the multiple pinch points. Some 3D printers solve this issue by enclosing the entire printer in a sealed environment. 3D printers can also pose as an electrical shock hazard, as with any electrical equipment. 3D printers also include delicate electronics and sensors. Users are advised to handle with care since hampering with them can cause the 3D printer to operate incorrectly.\\~\\
+
+\section{Scope and Boundary}
+Hazard analysis performed in this document will be contained to the scope of mechanical, electrical, and software aspects of the machine.\\~\\
+Integrity of the pool table, pool balls, and pool cues will not be discussed. Robustness of raw materials used in the physical build of the mechanical system will not be discussed. Reliability of the motors, sensors, transformer unit, AC/DC unit, electrical wiring, motor controllers, $\mu$C, and pc unit will not be discussed unless it relates to a specific way in which the components are to be used. The stated individual components will in this way be treated as black-box systems in which the reliability of outputs are assumed.\\~\\
+All hazards are applicable to the case in which a single user is interacting with the machine with the assumption made that the user is not behaving in an intentionally destructive manner.
 
 \newpage
 \section{Hazards}
@@ -89,6 +98,8 @@ The following diagram is the FTA for the system with the hazard specific details
 \captionof{figure}{System FTA}
 \label{fig:yRailFig}
 \end{center}~\\[-8mm]
+
+\newpage
 \subsection{User caught in a Pinch Point}
 \textbf{Description}\\
 When parts in a machine move in close proximity to one another, there is always a risk of harmful pinching. In this project, there are two locations where this may pose a notable risk: where the x-rails meet the arm base and where the y-rail meets the end-effector base.\\~\\
@@ -145,7 +156,7 @@ The following diagram provides specific details for this hazard:
 \textbf{Description}\\
 At various locations -- namely the pinch points listed earlier as well as the rotational motor on the end-effector base and the belts on the x- and y-rails -- loose clothing, jewellery or long hair may be caught and pulled in. If these objects are attached to a person, this can lead to strangulation or being pulled into dangerous areas of the machine.\\~\\
 \textbf{Plans for Avoidance/Mitigation}\\
-For this hazard, there in not much to be done in terms of design to prevent the machine from snagging loose objects. However, a warning will be printed in a visible location on the system in order to warn users of this risk.\\~\\
+For this hazard protective guards will be mounted around moving parts in order to prevent the machine from snagging loose objects. Additionally, emergency stop buttons will be located within reach of all moving parts in the case that an object should become snagged. Lastly, a warning will be printed in a visible location on the system in order to warn users of this risk.\\~\\
 The following diagram provides specific details for this hazard:
 \begin{center}
 	\includegraphics[width=0.5\textwidth]{LooseObjectFTA.png}
@@ -153,5 +164,71 @@ The following diagram provides specific details for this hazard:
 \label{fig:yRailFig}
 \end{center}
 
+\newpage
+\subsection{Sensor Interference by Outside Sources}
+\textbf{Description}\\
+The machine makes use of delicate sensors in order to facilitate safe and accurate motion along the x-rail, y-rail, and rotation arm. Should these sensors be interfered with such that they no longer generate expected results the performance of the machine will be jeopardized. Physical activation of the sensors by outside sources can cause the machine to lose track of it's current position thus resulting in faulty shot taking. Deactivation of the sensors can cause the machine to run into the ends of the x and y rails, thus resulting in damage to the machine.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+In order to avoid physical interference to the sensors by outside sources the sensors will be encased in protective shielding that will make it difficult for accidental manual activation to occur. Furthermore, the sensors will only be monitored by the software system while the machine is in motion. Any physical interference which occurs during the user's turn (user operation) will thereby be ignored. In order to avoid undesired deactivation of sensors the sensor wiring will be encased in durable heat shrink tubing and will be closely affixed to the machine so as to minimize potential catch points.\\~\\
+The following diagram provides specific details for this hazard:
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{SensorInterferencerFTA.png}
+\captionof{figure}{FTA for sensor interference by outside sources.}
+\label{fig:yRailFig}
+\end{center}
+
+\newpage
+\subsection{Non-Responsive UI}
+\textbf{Description}\\
+The machine makes use of user input buttons in order to allow the user to control the machine. The functionality of the user buttons allows the user to inform the machine that: the user wishes to take a turn (stop all automated machine functionality), the user wishes for the machine to take a turn, or the user wishes for the machine to move/stop moving to either ends of the table such that the user can take an unobstructed shot. In the case that these user controls should become unresponsive the performance of the machine can become undesirable and therefore dangerous.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+In order to mitigate the likelihood of unresponsive UI the system will be designed such that reliablility of user buttons are a priority. The action of a button press should give reliable and repeatable results. The system will be thoroughly tested to ensure that the hardware and software associated with user buttons are robust and responsive. Furthermore, in the event that UI becomes unresponsive there will be an emergency shut off switch located near the user buttons which when thrown will introduce a break in the power supply of the circuit and stop all motion of the machine.\\~\\
+The following diagram provides specific details for this hazard:
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{NonResponsiveUIFTA.png}
+\captionof{figure}{FTA for non-responsive UI.}
+\label{fig:yRailFig}
+\end{center}
+
+\newpage
+\subsection{Overheating}
+\textbf{Description}\\
+The machine makes use of high-torque stepper motors to facilitate motion in the x, y and r directions. These motors draw high levels of current and are controlled through the use of motor controllers hooked into the $\mu$C. The motor controllers can generate a considerable level of heat during normal operation of the machine. This heat may result in injury to any users who come in contact with the motor controllers or may result in destruction of the motor controllers themselves.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+In order to mitigate the threat of injury from user interaction with high temperature components the $\mu$C with attached motor controllers will be isolated via ventilated and thermally resistant protective shielding. Furthermore, each motor controller will have a heatsink attached via thermally conductive adhesive. This will serve to protect the controllers from destruction due to overheating.\\~\\
+The following diagram provides specific details for this hazard:
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{OverheatingFTA.png}
+\captionof{figure}{FTA for overheating.}
+\label{fig:yRailFig}
+\end{center}
+
+\newpage
+\subsection{Electric Shock}
+\textbf{Description}\\
+The machine has motor leads running along the sides of the pool table, wires connecting the sensors distributed along the table to the $\mu$C, and wires to connect the $\mu$C to power. Some of these wires are prone to tear since they will be extended and twisted as the system traverses over the table. The wires may also be accidentally pulled by the user and break as a result. If the insulation on any of these wires is broken it could pose as an electric shock hazard to a user operating the system.\\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+In order to mitigate the threat of injury from electric shock all wires will be neatly tucked into the system as to not interfere with a user operating the system. Wires will be affixed so as to keep wire slack from hanging, this will act to mitigate a tripping hazard in addition to electric shock.\\~\\
+The following diagram provides specific details for this hazard:
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{ElectricShockFTA.png}
+\captionof{figure}{FTA for Electric Shock.}
+\label{fig:yRailFig}
+\end{center}
+
+\newpage
+\subsection{Motion Interference}
+\textbf{Description}\\
+Since the user will be playing very closely to the machine there is high potential for outside interference to the system's motion. The timing belt is a primary source of interference since it is sensitive to wear. If the timing belt wears out it may potentially slip, causing unintentional movement of the system. Motors are another source of interference. If a set of motor leads should become disconnected while the system is in operation the machine's ability to traverse above the table will be restricted. Lastly, if a foreign object gets in the way of the machine while it is in motion this would result in interference to the system. \\~\\
+\textbf{Plans for Avoidance/Mitigation}\\
+In order to mitigate any unintentional sources of interference the system will only begin its turn once the user presses a button. The system will also use a colour-changing LED light to indicate that it will begin moving. This will inform the user to step back from the machine. The system will be programmed to only trigger the endstop interrupts when the machine is in motion, so if the user activates the endstops during their turn the system will be unaffected. The motor leads will be tucked away neatly and out of the way so as to prevent accidental snagging of the wires. \\~\\
+The following diagram provides specific details for this hazard:
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{MotionInterferenceFTA.png}
+\captionof{figure}{FTA for Motion Interference.}
+\label{fig:yRailFig}
+\end{center}
+
 \end{document}
+
 
