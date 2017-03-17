@@ -42,7 +42,6 @@
 #define MICRODELAY           800
 
 #define DELIMITER            ","
-#define ENDCHAR              ";"
 
 // Global  //////////////////////////////////////////////////////////////////////////////// 
 
