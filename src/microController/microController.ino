@@ -36,7 +36,7 @@
 
 #define UPPERBOUND_X         10000 //Number of steps for full range of motion in X, need test empirically 
 #define UPPERBOUND_Y         10000 //Number of steps for full range of motion in Y, need test empirically 
-#define UPPERBOUND_R         10000 //Number of steps for full rotation in R, need test empirically 
+#define UPPERBOUND_R         197 //Number of steps for full rotation in R, need test empirically 
 #define UPPERBOUND_E         3     //Number of power settings for take shot, probably 3
 
 #define MICRODELAY           800
@@ -108,21 +108,12 @@ void setup()
 
 void loop()
 {
-  
-  PoseForPicture();
-  if(userControl == false) //Only take action if not user turn
-  {
-    RequestPCInstruction();
-  }
-  if(userControl == false) 
-  {   
-    MoveXYR();
-  }
-  if(userControl == false) 
-  {
-    TakeShot(); 
-  } 
+
   AllowUserTurn();
+  PoseForPicture();
+  if(userControl == false) RequestPCInstruction();
+  if(userControl == false) MoveXYR();
+  if(userControl == false) TakeShot();  
   
 }
 
@@ -133,12 +124,11 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
 
   requestedX = 0;
   requestedY = 0;
-  requestedR = 0; 
+  requestedR = -1; 
   currentX = UPPERBOUND_X - 1;
   currentY = UPPERBOUND_Y - 1; 
-  currentR = UPPERBOUND_R / 2;
+  currentR = UPPERBOUND_R - 1;
   MoveXYR();
-  AllowUserTurn(); 
   
 }
 
@@ -148,21 +138,25 @@ void RequestPCInstruction() //Loop during PC operation
   char readline[32];
   char aChar;
   int val;
-  int count = 1500;
+  int count = 1000;
 
   memset(&readline[0], 0, sizeof(readline));
   
   do {
     count++;
-    if(count > 1500) //Send request every 15s
+    if(count > 1000) //Send request every 10s
     {
       Serial.println("55");
       count = 0;
     }
     delay(10); 
-  } while(Serial.available() <= 0); //Will loop forever until something entered into Serial Monitor
+  } while(Serial.available() <= 0); //Will loop forever until confirmation from PC
 
   count = 0;
+
+  do {
+    delay(10); 
+  } while(Serial.available() <= 0); //Will loop forever until shot information from PC
    
   do {
     aChar = Serial.read();
@@ -176,11 +170,11 @@ void RequestPCInstruction() //Loop during PC operation
   { 
     val = atoi(strtok(NULL, DELIMITER));
     if (val < 0) requestedX = 0; 
-    else if (val >= UPPERBOUND_X) rewuestedX = UPPERBOUND_X - 1;
+    else if (val >= UPPERBOUND_X) requestedX = UPPERBOUND_X - 1;
     else requestedX = val;
     val = atoi(strtok(NULL, DELIMITER));
     if (val < 0) requestedY = 0; 
-    else if (val >= UPPERBOUND_Y) rewuestedY = UPPERBOUND_Y - 1;
+    else if (val >= UPPERBOUND_Y) requestedY = UPPERBOUND_Y - 1;
     else requestedY = val;
     val = atoi(strtok(NULL, DELIMITER));
     if (val < 0) requestedR = 0; 
@@ -188,8 +182,8 @@ void RequestPCInstruction() //Loop during PC operation
     else requestedR = val;
     val = atoi(strtok(NULL, ENDCHAR));
     if (val < 0) requestedE = 0; 
-    else if (val >= UPPERBOUND_E) rewuestedE = UPPERBOUND_E - 1;
-    else requestedX = val;
+    else if (val >= UPPERBOUND_E) requestedE = UPPERBOUND_E - 1;
+    else requestedE = val;
   }
  
   memset(&readline[0], 0, sizeof(readline)); 
@@ -261,6 +255,7 @@ void MoveXYR() //Move X Y and R simultaneously
     if(digitalRead(RMIN_PIN) == 0 && digitalRead(RMAX_PIN) == 0) //R reference point hit
     {
       currentR = 0;
+      if(requestedR == -1) requestedR = 0;
     }
     
     if(requestedX-currentX != 0)
@@ -310,7 +305,7 @@ void MoveXYR() //Move X Y and R simultaneously
 void TakeShot()
 {
   /*
-  Something something pnuematics
+  Something something pneumatics
   */
 }
 
@@ -320,7 +315,7 @@ void AllowUserTurn() //Loop during user turn
   userControl = true;
   while(userControl)
   {
-    MoveXYR():
+    MoveXYR();
     delay(10); 
   }
   
@@ -331,9 +326,6 @@ void PoseForPicture() //Move machine so camera can see unobstructed table
   
   if(currentX < UPPERBOUND_X / 2) requestedX = 0;
   else requestedX = UPPERBOUND_X - 1;
-  if(currentY < UPPERBOUND_Y / 2) requestedY = 0;
-  else requestedY = UPPERBOUND_Y - 1;
-  requestedR = 0;
   MoveXYR();  
   
 }
@@ -357,7 +349,6 @@ void UserButton2() //Give/relinquish user control
   requestedX = currentX;
   requestedY = currentY;
   requestedR = currentR;
-  requestedE = currentE;
   
 }
 
