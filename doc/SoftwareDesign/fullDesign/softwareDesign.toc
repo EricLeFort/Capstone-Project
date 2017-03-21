@@ -1,0 +1,53 @@
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {subsection}{\numberline {1.1}System Description}{3}
+\contentsline {subsection}{\numberline {1.2}Overview}{4}
+\contentsline {subsection}{\numberline {1.3}Naming Conventions \& Definitions}{5}
+\contentsline {subsubsection}{\numberline {1.3.1}Definitions}{5}
+\contentsline {subsubsection}{\numberline {1.3.2}Acronyms \& Abbreviations}{5}
+\contentsline {section}{\numberline {2}Use Cases}{6}
+\contentsline {subsection}{\numberline {2.1}Use Case Diagram}{6}
+\contentsline {subsection}{\numberline {2.2}Move Instruction}{6}
+\contentsline {subsection}{\numberline {2.3}Cancel Instruction}{6}
+\contentsline {subsection}{\numberline {2.4}Take a Shot Instruction}{6}
+\contentsline {subsection}{\numberline {2.5}Take a Shot Operation Interrupted During PC Computation}{7}
+\contentsline {section}{\numberline {3}Analysis Class Diagrams}{7}
+\contentsline {subsection}{\numberline {3.1}$\mu $C Analysis Class Diagram}{7}
+\contentsline {subsection}{\numberline {3.2}PC Controller Analysis Class Diagram}{8}
+\contentsline {section}{\numberline {4}Architectural Design}{8}
+\contentsline {subsection}{\numberline {4.1}System Architecture}{8}
+\contentsline {subsection}{\numberline {4.2}Subsystems}{8}
+\contentsline {subsubsection}{\numberline {4.2.1}$\mu $C Architecture}{9}
+\contentsline {subsubsection}{\numberline {4.2.2}PC Controller Architecture}{9}
+\contentsline {subsubsection}{\numberline {4.2.3}Camera Architecture}{10}
+\contentsline {subsubsection}{\numberline {4.2.4}PC VR Program Architecture}{10}
+\contentsline {section}{\numberline {5}Detailed Class Diagram}{10}
+\contentsline {section}{\numberline {6}Class Responsibility Collaboration (CRC) Cards}{12}
+\contentsline {subsection}{\numberline {6.1}$\mu $C CRC Cards}{12}
+\contentsline {subsection}{\numberline {6.2}PC Controller CRC Cards}{14}
+\contentsline {subsection}{\numberline {6.3}Camera CRC Cards}{16}
+\contentsline {subsection}{\numberline {6.4}PC VR Program CRC Cards}{16}
+\contentsline {section}{\numberline {7}Module Guide}{17}
+\contentsline {subsection}{\numberline {7.1}Camera Modules}{17}
+\contentsline {subsubsection}{\numberline {7.1.1}EventHandler}{17}
+\contentsline {subsection}{\numberline {7.2}PC VR Program Modules}{17}
+\contentsline {subsubsection}{\numberline {7.2.1}TableStateVR}{17}
+\contentsline {subsection}{\numberline {7.3}PC Controller Modules}{18}
+\contentsline {subsubsection}{\numberline {7.3.1}InferenceEngine}{18}
+\contentsline {subsubsection}{\numberline {7.3.2}PCCommunicator}{20}
+\contentsline {subsubsection}{\numberline {7.3.3}SimulationInstance}{20}
+\contentsline {subsection}{\numberline {7.4}$\mu $C Modules}{22}
+\contentsline {subsubsection}{\numberline {7.4.1}Controller}{22}
+\contentsline {subsubsection}{\numberline {7.4.2}SensorMonitor}{22}
+\contentsline {subsubsection}{\numberline {7.4.3}ShotInterpreter}{23}
+\contentsline {subsubsection}{\numberline {7.4.4}$\mu $CCommunicator}{23}
+\contentsline {section}{\numberline {8}Physics Simulations}{24}
+\contentsline {subsection}{\numberline {8.1}Constants}{24}
+\contentsline {subsection}{\numberline {8.2}Equations}{24}
+\contentsline {section}{\numberline {9}Communication Protocols}{25}
+\contentsline {subsection}{\numberline {9.1}$\mu $C - PC Controller}{25}
+\contentsline {subsection}{\numberline {9.2}PC VR - PC Controller}{26}
+\contentsline {subsection}{\numberline {9.3}Camera - PC Controller}{26}
+\contentsline {section}{\numberline {10}Scheduling of Tasks}{26}
+\contentsline {subsection}{\numberline {10.1}Allocation of Time}{26}
+\contentsline {subsection}{\numberline {10.2}State Charts}{27}
+\contentsline {subsection}{\numberline {10.3}Sequence Diagrams}{32}
