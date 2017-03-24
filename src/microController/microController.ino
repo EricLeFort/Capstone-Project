@@ -1,7 +1,3 @@
-// Include  ////////////////////////////////////////////////////////////////////////////////
-
-#include <EEPROM.h>
-
 // Define  ////////////////////////////////////////////////////////////////////////////////
 
 #define X1_STEP_PIN          54 //X1->X
@@ -31,12 +27,12 @@
 #define RMIN_PIN             27 //r sensor 1
 #define RMAX_PIN             29 //r sensor 2
 
-#define USERBUTTON1_PIN      20
-#define USERBUTTON2_PIN      21
+#define USERBUTTON1_PIN      20 //move button
+#define USERBUTTON2_PIN      21 //user control button
 
-#define UPPERBOUND_X         10000 //Number of steps for full range of motion in X, need test empirically 
+#define UPPERBOUND_X         10000 //Number of steps for full range of motion in X, tested, somehow exactly 10000 
 #define UPPERBOUND_Y         10000 //Number of steps for full range of motion in Y, need test empirically 
-#define UPPERBOUND_R         197 //Number of steps for full rotation in R, need test empirically 
+#define UPPERBOUND_R         197   //Number of steps for full rotation in R, need test empirically 
 #define UPPERBOUND_E         3     //Number of power settings for take shot, probably 3
 
 #define MICRODELAY           800
@@ -59,7 +55,10 @@ int xDir; //Direction X should move
 int yDir; //Direction Y should move
 int rDir; //Direction R should move
 
+bool moveControl = false; //Used in move button funcitonality
 bool userControl = false; //Enable or disable user turn
+bool sensorsEnabled = false; //Enable or disable sensors
+
 
 // Setup  /////////////////////////////////////////////////////////////////////////////////
 
@@ -94,11 +93,8 @@ void setup()
   pinMode(YMAX_PIN, INPUT);
   pinMode(RMIN_PIN, INPUT);
   pinMode(RMAX_PIN, INPUT);
-
   pinMode(USERBUTTON1_PIN, INPUT);
-  attachInterrupt(digitalPinToInterrupt(USERBUTTON1_PIN), UserButton1, FALLING); 
   pinMode(USERBUTTON2_PIN, INPUT);
-  attachInterrupt(digitalPinToInterrupt(USERBUTTON2_PIN), UserButton2, FALLING); 
 
   InitializeRoutine();
   
@@ -110,10 +106,10 @@ void loop()
 {
 
   AllowUserTurn();
-  PoseForPicture();
-  if(userControl == false) RequestPCInstruction();
-  if(userControl == false) MoveXYR();
-  if(userControl == false) TakeShot();  
+  if(!userControl) PoseForPicture();
+  if(!userControl) RequestPCInstruction();  
+  if(!userControl) MoveXYR();
+  if(!userControl) TakeShot();  
   
 }
 
@@ -123,11 +119,11 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
 {
 
   requestedX = 0;
-  requestedY = 0;
-  requestedR = -1; 
+  //requestedY = 0;
+  //requestedR = -1; 
   currentX = UPPERBOUND_X - 1;
-  currentY = UPPERBOUND_Y - 1; 
-  currentR = UPPERBOUND_R - 1;
+  //currentY = UPPERBOUND_Y - 1; 
+  //currentR = UPPERBOUND_R - 1;
   MoveXYR();
   
 }
@@ -139,8 +135,8 @@ void RequestPCInstruction() //Loop during PC operation
   char aChar;
   int val;
   int count = 1000;
-
-  memset(&readline[0], 0, sizeof(readline));
+  
+  while(Serial.available()) char getData = Serial.read(); //Clear buffer
   
   do {
     count++;
@@ -148,15 +144,17 @@ void RequestPCInstruction() //Loop during PC operation
     {
       Serial.println("55");
       count = 0;
-    }
-    delay(10); 
-  } while(Serial.available() <= 0); //Will loop forever until confirmation from PC
+    } 
+    delay(10);
+    if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2();    
+  } while(Serial.available() <= 0 && !userControl); //Will loop forever until confirmation from PC
 
   count = 0;
 
   do {
     delay(10); 
-  } while(Serial.available() <= 0); //Will loop forever until shot information from PC
+    if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2();   
+  } while(Serial.available() <= 0 && !userControl); //Will loop forever until shot information from PC
    
   do {
     aChar = Serial.read();
@@ -199,7 +197,7 @@ void MoveXYR() //Move X Y and R simultaneously
   else xDir = -1;
 
   digitalWrite(X1_DIR_PIN, xDir > 0);
-  digitalWrite(X2_DIR_PIN, xDir > 0);
+  digitalWrite(X2_DIR_PIN, xDir < 0);
 
   if (requestedY > currentY)  yDir = 1;
   else  yDir = -1;
@@ -221,41 +219,52 @@ void MoveXYR() //Move X Y and R simultaneously
 
   while(requestedX-currentX != 0 || requestedY-currentY != 0 || requestedR-currentR != 0)
   {
+      if(digitalRead(USERBUTTON1_PIN) == 0) UserButton1();
+      if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2();   
+        
+      if(xDir == -1 && digitalRead(XMIN_PIN) == 0) //XMIN endstop hit 
+      {
+        currentX = 0;
+        xDir = 1;
+        digitalWrite(X1_DIR_PIN, HIGH);
+        digitalWrite(X2_DIR_PIN, LOW); 
+        delay(500); 
+      }
     
-    if(xDir == -1 && digitalRead(XMIN_PIN) == 0) //XMIN endstop hit 
-    {
-      currentX = 0;
-      xDir = 1;
-      digitalWrite(X1_DIR_PIN, HIGH);
-      digitalWrite(X2_DIR_PIN, HIGH);  
-    }
-    
-    if(xDir == 1 && digitalRead(XMAX_PIN) == 0) //XMAX endstop hit 
-    {
-      currentX = UPPERBOUND_X - 1;
-      xDir = -1;
-      digitalWrite(X1_DIR_PIN, LOW);
-      digitalWrite(X2_DIR_PIN, LOW);  
-    }
-    
-    if(yDir == -1 && digitalRead(YMIN_PIN) == 0) //YMIN endstop hit 
-    {
-      currentY = 0;
-      yDir = 1;
-      digitalWrite(Y_DIR_PIN, HIGH);
-    }
-    
-    if(yDir == 1 && digitalRead(YMAX_PIN) == 0) //YMAX endstop hit
-    {
-      currentY = UPPERBOUND_Y - 1;
-      yDir = -1;
-      digitalWrite(Y_DIR_PIN, LOW);
-    }
+      if(xDir == 1 && digitalRead(XMAX_PIN) == 0) //XMAX endstop hit 
+      {
+        currentX = UPPERBOUND_X - 1;
+        xDir = -1;
+        digitalWrite(X1_DIR_PIN, LOW);
+        digitalWrite(X2_DIR_PIN, HIGH);  
+        delay(500); 
+      }
 
-    if(digitalRead(RMIN_PIN) == 0 && digitalRead(RMAX_PIN) == 0) //R reference point hit
+    if(sensorsEnabled)
     {
-      currentR = 0;
-      if(requestedR == -1) requestedR = 0;
+    
+      if(yDir == -1 && digitalRead(YMIN_PIN) == 0) //YMIN endstop hit 
+      {
+        currentY = 0;
+        yDir = 1;
+        digitalWrite(Y_DIR_PIN, HIGH);
+      }
+    
+      if(yDir == 1 && digitalRead(YMAX_PIN) == 0) //YMAX endstop hit
+      {
+        currentY = UPPERBOUND_Y - 1;
+        yDir = -1;
+        digitalWrite(Y_DIR_PIN, LOW);
+      }
+
+      if(digitalRead(RMIN_PIN) == 0 || digitalRead(RMAX_PIN) == 0) //R reference point hit
+      {
+        currentR = 0;
+        if(requestedR == -1) 
+        {
+          requestedR = 0;   
+        }
+      }
     }
     
     if(requestedX-currentX != 0)
@@ -317,6 +326,8 @@ void AllowUserTurn() //Loop during user turn
   {
     MoveXYR();
     delay(10); 
+    if(digitalRead(USERBUTTON1_PIN) == 0) UserButton1(); 
+    if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2();  
   }
   
 }
@@ -332,19 +343,39 @@ void PoseForPicture() //Move machine so camera can see unobstructed table
 
 void UserButton1() //Tell machine to move out of the way
 {
-  
   if (userControl)
   {
-    if(requestedX == currentX && requestedX != 0) requestedX = 0; //Move to 0
-    else if(requestedX == 0) requestedX =  UPPERBOUND_X - 1; //Move to upperboundX - 1
-    else requestedX = currentX; //Stop moving
+    delay(250);
+    if(requestedX != currentX) requestedX = currentX; //Stop Moving
+    else
+    {  
+      if(moveControl == false && requestedX != 0) //Move to 0
+      {
+        requestedX = 0;
+        moveControl = true;
+      }
+      else if(moveControl == true && requestedX != UPPERBOUND_X - 1)  //Move to UPPERBOUND_X
+      {
+        requestedX =  UPPERBOUND_X - 1;
+        moveControl = false;  
+      }
+      else if(moveControl == false && requestedX == 0) //At 0, move to UPPERBOUND_X instead
+      {
+        requestedX = UPPERBOUND_X - 1;  
+      }
+      else if(moveControl == true && requestedX == UPPERBOUND_X - 1) //At UPPERBOUND_X, move to 0 instead
+      {
+        requestedX =  0;  
+      }   
+    }
   }
   
 }
 
 void UserButton2() //Give/relinquish user control
 {
-  
+
+  delay(250);
   userControl = !userControl;
   requestedX = currentX;
   requestedY = currentY;
