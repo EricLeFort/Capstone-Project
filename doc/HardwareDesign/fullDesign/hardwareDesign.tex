@@ -412,6 +412,7 @@ The following diagram is intended to illustrate the interactions between the ele
 \label{fig:ElectricalDiagramFig}
 \end{center}
 
+\newpage
 \subsection{List of Electrical Components}
 Table \ref{tab:ElectricalComponents} lists all components used in the design of the electrical system.
 \begin{table}[h!]
@@ -452,7 +453,9 @@ This subsection depicts detailed designs of the various electrical subsystems th
 \textbf{Description}\\
 Pulldown resistor designs are used for the push buttons. When the button is pushed a digital high is read by the $\mu$C, otherwise the $\mu$C reads a digital low.\\\\
 \textbf{Components}\\
-This subsystem consists of a push button and a 220 $\Omega$ resistor.
+This subsystem consists of a push button and a 220 $\Omega$ resistor.\\\\
+\textbf{Construction}\\
+Choose a digital pin on the Arduino Mega 2560 and set it as an INPUT pin in the Arduino code. Then connect a 220 $\Omega$ resistor from the pin to ground. Connect the button to a 5V pin and in parallel to the 220 $\Omega$ resistor.
 
 \subsubsection{Colour Changing LED}
 \begin{center}
@@ -463,7 +466,9 @@ This subsystem consists of a push button and a 220 $\Omega$ resistor.
 \textbf{Description}\\
 The $\mu$C uses PWM on the RBG leads of the colour changing LED, and is thereby able to change the colour of light that the LED emits by changing the PWM values at each RBG lead.\\\\
 \textbf{Components}\\
-This subsystem consists of three 220 $\Omega$ resistors and one colour changing LED bulb.
+This subsystem consists of three 220 $\Omega$ resistors and one colour changing LED bulb.\\\\
+\textbf{Construction}\\
+Choose three pins capable of PWM (2-13, 44-46)  on the Arduino Mega 2560 and set them as OUTPUT pins. Find the R, B, G and ground leads of the colour changing LED. Connect each of the R,B and G leads in series with a 220 $\Omega$ resistor leading to the respective OUTPUT pins. Connect the ground lead to a ground pin on the Arduino.
 
 \newpage
 \subsubsection{Power Supply to Arduino and RAMPS 1.4}
@@ -473,9 +478,11 @@ This subsystem consists of three 220 $\Omega$ resistors and one colour changing 
 \label{fig:PowerSupplyFig}
 \end{center}
 \textbf{Description}\\
-The shield is powered by the 12V DC power supply (transformer), while the Arduino is powered by the PC with 5V DC. The transformer takes has 3 leads from the output - neutral, hot and ground. The transformer has two leads connected to the 12V power component of the shield.\\\\
+The input voltage of the transformer is 110 AC V from the standard outlet. The transformer/converter reduces this voltage and converts it from AC to 12V DC. The shield is powered by the 12V DC power supply while the arduino is powered by the PC with 5V DC. The transformer has 3 leads from the output - neutral, hot and ground. The transformer has two leads connected to the 12V power component of the shield.\\\\
 \textbf{Components}\\
-This subsystem consists of a transformer which transforms 120V AC into 12V DC, an Arduino Mega 2560 $\mu$C and a RAMPS 1.4.
+This subsystem consists of a transformer which transforms 110V AC into 12V DC, an Arduino Mega 2560 $\mu$C and a RAMPS 1.4.\\\\
+\textbf{Construction}\\
+Align the pins of the RAMPS 1.4 with the pins of the Arduino Mega 2560 and then push the two components into each other to form a connection between the two devices. Cut an extension cord open to reveal the three coloured leads inside - black (neutral), green (ground), and red (active). Secure the green wire to the ground inlet of the transformer. Tighten the screw to ensure that the connection is not loose. Secure the red and green wires to the active and neutral inlets, respectively. Use 16 gauge stranded wire to connect the + and - inlets of the transformer to the + and - 12V inlets of the RAMPS 1.4. Tighten the screws on the RAMPS 1.4 to ensure that the connection is not loose. Use the Arduino USB cord to connect the Arduino to a laptop.
 
 \subsubsection{Motors and Motor Drivers}
 \begin{center}
@@ -484,22 +491,26 @@ This subsystem consists of a transformer which transforms 120V AC into 12V DC, a
 \label{fig:MotorsFig}
 \end{center}
 \textbf{Description}\\
-The motors will be responsible for generating all motion within the system. They will consist of two motors responsible for moving the end-effector along the length of the table, one motor for moving along the width, and one motor for rotating the end-effector. The motor drivers are an intermediary between the $\mu$C/power supply and the motors. The motor drivers will govern the performance of the motors.\\\\
+The motors will be responsible for generating all motion within the system. They will consist of two motors responsible for moving the end-effector along the length of the table, one motor for moving along the width, and one motor for rotating the end-effector. The motor drivers are an intermediary between the $\mu$C and the motors. The motor dirvers will receive appropriate power from the power supply and control signals (HIGH or LOW) from the $\mu$C. The control signals received from the $\mu$C will govern the performance of the motors. All motors in the system will receive power from their respective motor drivers.\\\\
 \textbf{Components}\\
-This subsystem consists of an A4988 stepper motor driver, RGB extension wire connecting the four leads from the driver to the motor, and a stepper motor (either NEMA 23 or NEMA 17).
+This subsystem consists of an A4988 stepper motor driver, RGB extension wire connecting the four leads from the driver to the motor, and a stepper motor (either NEMA 23 or NEMA 17).\\\\
+\textbf{Construction}\\
+Connect the A4988 stepper motor driver to the RAMPS 1.4 by connecting the respective pins. Organize the four motor leads in the following order: black, green, red and blue. Extend these leads by connecting them to required length of 16 gauge RGB extension wire. Connect the four leads to the four pins next to the motor driver labeled 2B, 2A, 1A and 1B.
 
-\newpage
 \subsubsection{Endstops}
 \begin{center}
-	\includegraphics[width = 0.7\textwidth]{Endstop.png}
+	\includegraphics[width = 0.6\textwidth]{Endstop.png}
 \captionof{figure}{Endstop subsystem.}
 \label{fig:elecContextDiagramFig}
 \end{center}
 \textbf{Description}\\
-The end-stops are connected to the $\mu$C by three leads - input voltage (5V), ground, and signal. The $\mu$C reads a digital high when the end-stop is pushed, and a digital low otherwise.\\\\
+The endstops are connected to the $\mu$C by three leads - input voltage (5V), ground, and signal. The $\mu$C reads a digital high when the endstop is pushed, and a digital low otherwise. The end-stops will aid in verifying the system's current x and y position.\\\\
 \textbf{Components}\\
-This system consists of a single end-stop sensor.
+This system consists of a single endstop sensor.\\\\
+\textbf{Construction}\\
+The endstop leads can simply be connected to the pins reserved for endstops on the RAMPS 1.4. Ensure that the 5V, ground, and signal leads are connected to their respective pins.
 
+\newpage
 \subsubsection{Pneumatic Piston}
 \begin{center}
 	\includegraphics[width = 0.7\textwidth]{PneumaticPiston.png}
@@ -509,9 +520,10 @@ This system consists of a single end-stop sensor.
 \textbf{Description}\\
 The pneumatic piston can either be extended or retracted. The extension and retraction motions are powered separately. 12V at 300mA is required per motion. Two n-type BJTs are used to control when the extension or retraction motions occur. When the an output pin sends a high to the BJT gate, the BJT allows current to flow, resulting in the movement of the piston (extension or retraction).\\\\
 \textbf{Components}\\
-This system consists of a pneumatic piston and two n-type BJTs.
+This system consists of a pneumatic piston and two n-type BJTs.\\\\
+\textbf{Construction}\\
+Find the 12V output inlet on the RAMPS 1.4. Make a connection from this inlet to the emitters of two parallel BJTs. Use two different OUTPUT pins and connect them to the base of the BJTs. Connect each of the collector leads of the BJTs to the positive ends of the pneumatic piston. Connect both of the negative ends to ground.
 
-\newpage
 \subsubsection{Infrared Sensors}
 \begin{center}
 	\includegraphics[width = 0.3\textwidth]{IRSensor.png}
@@ -519,14 +531,13 @@ This system consists of a pneumatic piston and two n-type BJTs.
 \label{fig:IRSensorFig}
 \end{center}
 \textbf{Description}\\
-Two infrared sensors will be integrated in the gear system, one for each gear in the gear train that controls the rotational system. The $\mu$C will read a digital low when the infrared sensors detect the white line drawn on the gear. When both white lines are detected by the infrared sensors, the system is oriented in the origin position.\\\\
+Two infrared sensors will be integrated in the gear system, one for each gear in the gear train that controls the rotational system. The $\mu$C will read a digital low when the infrared sensors detect the LED light through the small holes in the gear. When both white line sensors read low, the system is oriented in the origin position.\\\\
 \textbf{Components}\\
-This system consists of a single infrared sensor, a 10 k$\Omega$ resistor and a 220 $\Omega$ resistor.
+This system consists of a single infrared sensor, a 10 k$\Omega$ resistor and a 220 $\Omega$ resistor.\\\\
+\textbf{Construction}\\
+Find the leads of the white line sensor labeled 1, 2, 3 and 4, as shown in the figure above.  Connect leads 2 and 4 to ground. Connect lead 3 in series with a 220 $\Omega$ resistor leading into a 5V source. Connect lead 1 to a 10 k$\Omega$ resistor leading to a 5V source. Set up a pin on the Arduino Mega 2560 as an INPUT pin. Connect the INPUT pin from the Arduino Mega 2560 in parallel to the 10 k$\Omega$ resistor.
 
 
-
-%\section{Construction}
-%TODO define the construction process, tools and equipment needed and whatever else would be important
 \end{document}
 
 
