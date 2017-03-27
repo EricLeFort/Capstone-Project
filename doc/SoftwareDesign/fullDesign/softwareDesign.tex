@@ -6,6 +6,7 @@
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{array}
 \usepackage{listings}
 \usepackage[figuresleft]{rotating}
@@ -47,8 +48,7 @@
 \end{tabular}
 \caption{Revision History}
 \end{table}
-\newpage
- 
+\clearpage
 
 
 \section{Introduction}
@@ -70,14 +70,13 @@ The last computational unit, the $\mu$C, will be responsible for interpreting th
 This document has nine sections not including this one. Each section contains either design diagrams or further explanations to further describe the architecture of this system and is intended to prepare the software team to implement the design.\\
 \begin{itemize}
 	\item \textbf{Use Cases}: This section describes possible user interactions with the system as well as the intended results of those interactions through the use of simple diagrams. A Use Case Diagram is also provided for reference.\\
-	\item \textbf{Analysis Class Diagram}: This section defines the various classes in the system, how they will be connected, and their type (boundary, controller, or entity).\\
-	\item \textbf{Architectural Design}: This section defines the overall system architecture as well as the architectures of all subprograms.\\
-	\item \textbf{Detailed Class Diagram}: The section will provide a detailed class diagram to define the contents of each class in the program.\\
+	\item \textbf{Architectural Design}: This section defines the overall system architecture as well as the architectures of all subprograms. It will also discuss which components are likely to change in future versions.\\
 	\item \textbf{CRC Cards}: Each program will be broken up into their specific classes. The responsibilities of each class as well as any collaboration required with other classes to fulfill each responsibility (if any) will be listed.\\
-	\item \textbf{Module Guide}: This section will outline the responsibilities and secrets of each module as well as each module's MIS and MID.\\
+	\item \textbf{Module Guide}: This section will outline the responsibilities and secrets of each module as well as each module's MIS and MID. Lastly, for each module, a state chart will be provided to illustrate the flow of that module.\\
+	\item \textbf{Program Diagrams}: The section will provide a detailed class diagram to define the contents of each class in the program as well as uses hierarchy diagrams and analysis class diagrams for each program. The detailed class diagram will provide a breakdown of the contents of each class and program as well as how the various classes and programs are interconnected. The uses hierarchy diagrams will illustrate the hierarchy among the different programs, modules, and hardware. The analysis class diagrams define the various classes in each program, the direction of the flow of data between them, and their type (boundary, controller, or entity).\\
 	\item \textbf{Physics Simulations}: This section will describe the method by which the pool table physics simulations will be performed as well as the various equations and constants involved.\\
 	\item \textbf{Communication Protocols}: This section will describe inter-process communication protocols necessary in this system.\\
-	\item \textbf{Scheduling of Tasks}: This section defines various timing constraints for various operations. It also provides state charts and sequence diagrams to illustrate the flow of the system.\\
+	\item \textbf{Scheduling of Tasks}: This section defines various timing constraints for various operations as well as sequence diagrams for the typical use cases.\\
 \end{itemize}
 \newpage
 
@@ -136,30 +135,11 @@ The following diagram depicts the use cases of this system.\\
 This use case involves only the $\mu$C. The user presses the \textit{move} button. Once the signal has been received, the $\mu$C will decide which predetermined set point to move to based on the current position of the machine that is stored in its memory. The $\mu$C will then determine the signals required to relocate the machine to the appropriate location and then send them to the machine. Once those signals are sent, the $\mu$C will update its memory to store the new position of the machine.
 \subsection{Cancel Instruction}
 This use case involves only the $\mu$C. The user presses the \textit{cancel} button. Once the signal has been received, the $\mu$C will immediately stop the machine's motion. It will then update its memory to store the current position of the machine.
+\newpage
 \subsection{Take a Shot Instruction}
 This use case involves all four programs: the $\mu$C, the PC Controller Program, the Camera Program, and the PC VR Program in that order. The user presses the \textit{take a shot} button. Once the signal has been received, the $\mu$C will send a request to the PC to begin its process and wait a small amount of time for the PC to send a receipt response. If the $\mu$C does not receive a response within the specified timeframe, it will resend its request. This process will be repeated until a response is received. The PC Controller Program will then send a signal to the camera to take a photo. Upon receiving this signal, the camera will take a picture of the table and send this back to the PC. If the picture was received correctly, the PC Controller Program will then start the PC VR Program and provide the picture to be used. Otherwise, the PC Controller Program will continue to resend the request to take a picture as necessary. The PC VR Program will utilize object detection to determine where the balls are on the table and which ball is which. Once collecting this information, it is provided to the PC Controller Program through an intermediate file. The PC Controller Program will then use its shot selection algorithm to determine how to strike the pool ball to take based on the table state provided and transmit that shot to the $\mu$C. After that, the $\mu$C will send a receipt signal back to the PC Controller Program. The $\mu$C will interpret the shot information to create an instruction set of signals to move the machine appropriately and take the shot.
 \subsection{Take a Shot Operation Interrupted During PC Computation}
 This use case involves all four programs: the $\mu$C, the PC Controller Program, the Camera Program, and the PC VR Program in that order. The user presses the \textit{take a shot} button. Once the signal has been received, the $\mu$C will send a request to the PC to begin its process and wait a small amount of time for the PC to send a receipt response. If the $\mu$C does not receive a response within the specified timeframe, it will resend its request. This process will be repeated until a response is received. Sometime between this point and getting the selected shot communicated back to the $\mu$C, the user presses the \textit{cancel} button. The PC will complete its normal operation but once the shot is communicated back to the $\mu$C, it will simply be ignored.
-
-
-
-\section{Analysis Class Diagrams}
-The following section contains the analysis class diagrams for the $\mu$C and the PC Controller program. The PC VR program and Camera are not complicated enough to require the inclusion of these diagrams.
-\subsection{$\mu$C Analysis Class Diagram}
-The following is an analysis class diagram depicting the relationships between classes in the $\mu$C.\\
-\begin{center}
-	\includegraphics[scale = 0.75]{muCAnalysisClassDiagram.png}
-\captionof{figure}{$\mu$C Analysis Class Diagram}
-\label{fig:muC analysis class diagram}
-\end{center}~\\
-\newpage
-\subsection{PC Controller Analysis Class Diagram}
-The following is an analysis class diagram depicting the relationships between classes in the PC Controller program.\\
-\begin{center}
-	\includegraphics[scale = 0.75]{PCControllerAnalysisClassDiagram.png}
-\captionof{figure}{PC Controller Analysis Class Diagram}
-\label{fig:PC controller analysis class diagram}
-\end{center}~\\
 
 
 
@@ -168,9 +148,9 @@ This section will discuss the architectures that are to be used while designing 
 \subsection{System Architecture}
 The architecture of this system as a whole will be modelled using the \textit{Batch Sequential} style. This architecture involves sending chunks of data after each program is completely done processing and promotes simple division of subsystems that can operate as independent programs. This creates a strong separation of concerns within the larger system.\\~\\
 The shortcomings of this system are that it does not allow for concurrency and it has low throughput. Luckily, in this situation, the throughput is not intended to be very high. Also, each subsystem must wait for the previous system to fully complete its task in order to proceed regardless. Therefore, since this system does not even allow for concurrent operation, there is no loss in potential efficiency.
+\newpage
 \subsection{Subsystems}
 The subsystems will follow the batch sequential architecture on a system level but that architecture does not make sense for the subsystems themselves. This section will discuss the architectures that will be utilized on the subsystem level.
-\newpage
 
 \subsubsection{$\mu$C Architecture}
 This subsystem will utilize a \textit{Sensor-Controller-Actuator} architecture style. This style is well-suited to embedded systems that deal with hardware which is optimal for this subsystem. The style breaks the subsystem up into four types of components: interfaces, sensors, actuators, and a controller. An illustration of the architecture is provided below:\\
@@ -212,7 +192,6 @@ In the case of this subsystem, the breakdown of the components into these types 
 \end{itemize}
 \subsubsection{PC Controller Architecture}
 This subsystem will utilize a \textit{Rule-Based} architecture style. This style is well suited to making strategic moves while playing a game with rigid rules constraining actions. In other words, for deciding which shot is the best to take given the current state of table and the rules of the game of pool. This style breaks down the subsystem into four types of modules: an interface, a rule-set,  working memory, and an inference engine. The interface will be where the system gets its input and sends its output. The rule-set is a particular sort of knowledge base that contains the rules constraining the acceptable actions. The working memory is temporary memory used by the subsystem. Lastly, the inference engine is what ties the subsystem together. Its job is to apply the rules appropriately and, using the working memory as a tool, generate the appropriate result to send as output.
-\newpage 
 
 In the case of this subsystem, the breakdown of these modules into these types will be as follows:
 \begin{itemize}
@@ -241,25 +220,16 @@ In the case of this subsystem, the breakdown of these modules into these types w
 \end{itemize}
 \subsubsection{Camera Architecture}
 This subsystem will utilize an \textit{Event-Driven} architectural style. This will likely be the simplest subsystem present in the system. The role of this program is to sit idle waiting for a request to take a picture. Once it receives that request, it should take a picture and then communicate that image back to the PC Controller program. This request is the only event this program must respond to.
+\newpage
 \subsubsection{PC VR Program Architecture}
-This subsystem will also utilize a \textit{Batch Sequential} architecture style. This style has already been discussed in the system architecture and so will not be discussed again here. In this subsystem, the process is begun upon receipt of the request to start operation. The subsystem will then utilize a MATLAB VR library to detect the balls as objects on the table using the image provided. The results of this will be passed to the next step which will use the positions of the identified objects to determine which specific ball is which using colour comparison. Once this step completes, the table state has been computed and is then sent back to the PC Controller program. The issues of low throughput and lack of concurrency are not an issue in this case as the system would have to wait for the previous step to complete in order to begin the next step anyway.\\~\\
+This subsystem will also utilize a \textit{Batch Sequential} architecture style. This style has already been discussed in the system architecture and so will not be discussed again here. In this subsystem, the process is begun upon receipt of the request to start operation. The subsystem will then utilize a VR library to detect the balls as objects on the table using the image provided. The results of this will be passed to the next step which will use the positions of the identified objects to determine which specific ball is which using colour comparison. Once this step completes, the table state has been computed and is then sent back to the PC Controller program. The issues of low throughput and lack of concurrency are not an issue in this case as the system would have to wait for the previous step to complete in order to begin the next step anyway.\\~\\
 
 An illustration of the specific implementation of this architecture is provided below:\\~\\
 $$\text{in } \xrightarrow{\text{image}} \text{ object detection } \overset{\text{image \&}}{\xrightarrow{\text{object positions}}} \text{ ball identification } \xrightarrow{\text{table state}} \text{ out}$$
 \captionof{figure}{PC VR Architecture}
 \label{fig:PC VR Architecture}
-
-
-
-\section{Detailed Class Diagram}~\\
-\begin{sidewaysfigure}
-	\begin{center}
-		\includegraphics[width=\textwidth]{DetailedClassDiagram.png}
-	\captionof{figure}{The system's detailed class diagram.}
-	\label{fig:detailedClassDiagram}
-	\end{center}
-\end{sidewaysfigure}
-\newpage
+\subsection{Likely Changes}
+Due to the nature of this project and the condensed time frame in which the development team must produce a prototype, certain aspects in this document are likely to change. Firstly, regarding the physics engine, various physical constants require the system be complete in order to be accurately measured. Currently, any marked TBM are filled with estimated ``placeholder'' values. Also, the method of determining the parallel velocity component after a ball-wall collision should be improved. Secondly, regarding inter-program communication, either a module to adapt given the user's internet settings or a different method of communication would likely be necessary to improve the modularity of the system.
 
 
 
@@ -328,6 +298,7 @@ The following are the CRC cards for the $\mu$C program:\\
 	\vspace{0mm}Store and allow access to data regarding the current physical position of the machine	&\vspace{0mm}Communicator ($\mu$C)\vspace{2mm}\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -340,7 +311,6 @@ The following are the CRC cards for the $\mu$C program:\\
 	Control flow of program operation\vspace{2mm}	&(None)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 \subsection{PC Controller CRC Cards}
 The following are the CRC cards for the PC Controller program:\\
@@ -372,6 +342,7 @@ The following are the CRC cards for the PC Controller program:\\
 	\vspace{0mm}- Stores and allows access to an x- and y-component of a vector	&\vspace{0mm}(None)\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -384,7 +355,6 @@ The following are the CRC cards for the PC Controller program:\\
 	- Store and allow access to the value representing its identity\vspace{2mm}		&(None)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -411,12 +381,13 @@ The following are the CRC cards for the PC Controller program:\\
 	- Store and allow access to the number of both types of ball on the table\vspace{2mm}		&Ball\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \begin{table}[!htbp]
 \centering
 \begin{tabular}{| p{0.5\textwidth} | p{0.3\textwidth} |}\hline
 	\multicolumn{2}{|l|}{}\\
-	\multicolumn{2}{|c|}{\large{\textbf{TableStateSimulationInstance}}}\\
+	\multicolumn{2}{|c|}{\large{\textbf{SimulationInstance}}}\\
 	\multicolumn{2}{|l|}{}\\\hline
 	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
 	\vspace{0mm}- Maintain the positions and velocities of balls on the table at the current time step	&\vspace{0mm}TableState, Vector\\&\\
@@ -425,7 +396,6 @@ The following are the CRC cards for the PC Controller program:\\
 	- Keep track of the scoring of the simulation (of a shot)\vspace{2mm}								&TableState\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 \begin{table}[!htbp]
 \centering
@@ -434,7 +404,7 @@ The following are the CRC cards for the PC Controller program:\\
 	\multicolumn{2}{|c|}{\large{\textbf{InferenceEngine}}}\\
 	\multicolumn{2}{|l|}{}\\\hline
 	\vspace{0mm}\large{Responsibilities}\vspace{2mm} &\vspace{0mm}\large{Collaborators}\vspace{2mm}\\\hline
-	\vspace{0mm}- Calculate the shot to be made		&\vspace{0mm} TableStateSimulationInstance,\newline TableState, Shot, Vector\\&\\\hline
+	\vspace{0mm}- Calculate the shot to be made		&\vspace{0mm} SimulationInstance,\newline TableState, Shot, Vector\\&\\\hline
 \end{tabular}
 \end{table}
 
@@ -452,6 +422,7 @@ The following is the CRC card for the Camera program:\\
 	- Communicate the photo\vspace{2mm}					&Communicator (PC)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
+\newpage
 
 \subsection{PC VR Program CRC Cards}
 The following is the CRC card for the PC VR program:\\
@@ -468,7 +439,6 @@ The following is the CRC card for the PC VR program:\\
 	- Write table state to a file\vspace{2mm}	&(None)\vspace{2mm}\\\hline
 \end{tabular}
 \end{table}
-\newpage
 
 
 
@@ -488,11 +458,16 @@ The following is the module contained within the Camera subsystem.
 	\item[-] Picture-taking process
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module is an always-running program which executes the function of taking a picture and communicating it back to the requesting program. While this module is not performing the previous function, it will be listening for a request to be made.
-\\\\
+This module is an always-running program which executes the function of taking a picture and communicating it back to the requesting program. It's only ``input'' is the request to take a picture. While this module is not performing the previous function, it will be listening for a request to be made.
+\newpage
 \textbf{MID}\\[2mm]
-The state charts below provide a succinct depiction of this module's internal design.
-\\\\
+The state chart below provide a succinct depiction of this module's internal design.\\
+\begin{center}
+	\includegraphics[width=0.3\textwidth]{EventHandlerStateChart.png}
+\captionof{figure}{A state chart for the EventHandler module.}
+\label{fig:EventHandlerStateChart}
+\end{center}~\\
+
 \subsection{PC VR Program Modules}
 The following is the module contained within the PC VR subsystem.
 \subsubsection{TableStateVR}
@@ -509,10 +484,10 @@ The following is the module contained within the PC VR subsystem.
 	\item[-] Ball identification algorithm
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module takes in an image of a pool table and analyzes it in order to return the locations and identities of each of the pool balls on the table.
+This module takes in an image of a pool table and analyzes it in order to return the locations and identities of each of the pool balls on the table. This is returned in the form of an output file where the n\textsuperscript{th} line contains the x- and y-coordinates for the n\textsuperscript{th} ball.
 \\\\
 \textbf{MID}\\[2mm]
-This module has 4 main steps. First it must read in the image from a predetermined file location. Then it locates the pool balls in that picture using a Visual Recognition object detection algorithm (supplied by a MATLAB library). Next, it will identify which ball is which according to comparing pixel colours within the detected objects to the colours of different pool balls using a LAB colour space. Lastly it will write these results to a file.\\~\\
+This module has 4 main steps. First it must read in the image from a predetermined file location. Then it locates the pool balls in that picture using a Visual Recognition object detection algorithm (supplied by a VR library). Next, it will identify which ball is which according to comparing pixel colours within the detected objects to the colours of different pool balls using a LAB colour space. Lastly it will write these results to a file.\\~\\
 The following pseudocode better describes this process:
 \begin{lstlisting}
 read image from file (path to file);
@@ -530,7 +505,12 @@ for every detected object:
 		results[index for this ball] = this object's location;
 
 return results;
-\end{lstlisting}~\\
+\end{lstlisting}~\\[-10mm]
+\begin{center}
+	\includegraphics[width=0.175\textwidth]{TableStateVRStateChart.png}
+\captionof{figure}{A state chart for the TableStateVR module.}
+\label{fig:TableStateVRStateChart}
+\end{center}~\\
 \subsection{PC Controller Modules}
 The following are the modules contained within the PC Controller subsystem.
 \subsubsection{InferenceEngine}
@@ -545,10 +525,11 @@ The following are the modules contained within the PC Controller subsystem.
 	\item[-] The rules of pool
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module allows for specification of a TableState through the use of a 2-D array of doubles. Using that TableState, the module will simulate various potential shots in order to determine an optimal one which is then accessible to other classes.
+This module allows for specification of a TableState through the use of a 2-D array of doubles. Using that TableState, the module will simulate various potential shots in order to determine an optimal one which is then accessible to other classes in the form of a Shot object.
 \\\\
 \textbf{MID}\\[2mm]
-This module iterates through shots that are to be simulated by SimulationInstances. In order to minimize computation, it only looks at shots that have a hope of directly hitting another legal ball (e.g. the eight ball cannot be struck first unless all of the player's other balls are already sunk). At the end of this computation, this module returns the specification of the optimal shot.\\~\\
+This module iterates through shots that are to be simulated by SimulationInstances. In order to minimize computation, it only looks at shots that have a hope of directly hitting another legal ball (e.g. the eight ball cannot be struck first unless all of the player's other balls are already sunk). Furthermore, it is assumed that there will only be three discrete power options available to select from. At the end of this computation, this module returns the specification of the optimal shot.
+\newpage
 The following pseudocode better describes this process:
 \begin{lstlisting}
 determine balls to shoot;
@@ -575,8 +556,12 @@ while (legal balls left to check){
 }
 
 return new Shot(calculated X, calculated Y, optimal shot's angle, optimal shot's power);
-\end{lstlisting}
-\newpage
+\end{lstlisting}~\\[-10mm]
+\begin{center}
+	\includegraphics[width=0.44\textwidth]{InferenceEngineStateChart.png}
+\captionof{figure}{A state chart for the InferenceEngine module.}
+\label{fig:InferenceEngineStateChart}
+\end{center}
 
 \subsubsection{PCCommunicator}
 \textbf{Responsibilities}
@@ -596,7 +581,7 @@ return new Shot(calculated X, calculated Y, optimal shot's angle, optimal shot's
 	\item[-] Maximum time awaiting a response
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module is an always-running process which communicates with the various programs in this system while also providing control flow for the PC Controller program.
+This module is an always-running process which communicates with the various programs in this system while also providing control flow for the PC Controller program. The only ``inputs'' it receives is requests from the $\mu$C program and its ``output'' is the shot specification
 \\\\
 \textbf{MID}\\[2mm]
 The state charts below provide a succinct depiction of this module's internal design.
@@ -617,7 +602,7 @@ The state charts below provide a succinct depiction of this module's internal de
 	\item[-] Simulation time step
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module handles the physics simulation involved with taking a shot while also scoring the shot according to various criteria. The state is updated for a new time step by calling the appropriate command. Once it returns \textit{false}, there is no further motion and the simulation is complete.
+This module handles the physics simulation involved with taking a shot while also scoring the shot according to various criteria. It receives a 2-D array of doubles as ball positions, a double for the angle of the shot, and a double for the power of the shot. These inputs define the initial state of the physical system to simulate. The state is updated for a new time step by calling the appropriate command and an integer representing the resulting change in score from that time step is returned. The Once it returns \textit{false}, there is no further motion and the simulation is complete.
 \\\\
 \textbf{MID}\\[2mm]
 This module handles performing a discrete time step simulation of a shot according to a shot and initial state of the table. In order to achieve this, it updates to the next snapshot of the simulation until every ball remaining on the table is stationary.\\~\\
@@ -668,7 +653,14 @@ for (all balls on table){
 		return inMotion;
 	}
 }
-\end{lstlisting}~\\\\
+\end{lstlisting}~\\
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{PCCommunicatorStateChart.png}
+\captionof{figure}{A state chart for the PCCommunicator module.}
+\label{fig:PCCommunicatorStateChart}
+\end{center}
+\newpage
+
 \subsection{$\mu$C Modules}
 The following are the modules contained within the $\mu$C subsystem.
 \subsubsection{Controller}
@@ -683,11 +675,16 @@ The following are the modules contained within the $\mu$C subsystem.
 	\item[-] Instruction dispatch process
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module handles the control flow for the $\mu$C Program including determining appropriate movement and creation of interrupts when necessary. 
-\\\\
+This module handles the control flow for the $\mu$C Program including determining appropriate movement and creation of interrupts when necessary. Its ``inputs'' are when it is notified of state changes such as button presses or position updates from the Sensor Monitor or Signal Generator modules as well as shot specifications (doubles holding the x- and y-coordinates, angle, and power) from the Communicator. Its ``outputs'' are sending the shot request to the Communicator as well as passing on the shot specification to the Signal Generator.
+\newpage
 \textbf{MID}\\[2mm]
-The state charts below provide a succinct depiction of most of this module's internal design. The only other notable component in this module is how it selects where to move when a ``move'' command is received. In that event, it compares the current location to the two set locations at either end of the table. Whichever one is furthest is the one which the machine is moved towards. This is designed in a way such that the machine moves as far away as possible from where it was in the way of the user.
-\\\\
+The state chart below provides a succinct depiction of most of this module's internal design. The only other notable component in this module is how it selects where to move when a ``move'' command is received. In that event, it compares the current location to the two set locations at either end of the table. Whichever one is furthest is the one which the machine is moved towards. This is designed in a way such that the machine moves as far away as possible from where it was in the way of the user.~\\
+\begin{center}
+	\includegraphics[width=0.6\textwidth]{ControllerStateChart.png}
+\captionof{figure}{A state chart for the Controller module.}
+\label{fig:ControllerStateChart}
+\end{center}~\\
+
 \subsubsection{SensorMonitor}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -699,13 +696,17 @@ The state charts below provide a succinct depiction of most of this module's int
 	\item[-] The method of noticing signals
 \end{itemize}
 \newpage
-
 \textbf{MIS}\\[2mm]
-This module monitors the control signals coming from the buttons and calibration sensors and notifies the Controller when one of these sensors are activated.
+This module monitors the control signals coming from the buttons and calibration sensors and notifies the Controller when one of these sensors are activated. It's ``inputs'' are the control signals and its ``outputs'' are flags that are raised.
 \\\\
 \textbf{MID}\\[2mm]
-The state charts below provide a succinct depiction of this module's internal design.
-\\\\
+The state chart below provides a succinct depiction of this module's internal design.\\
+\begin{center}
+	\includegraphics[width=0.4\textwidth]{SensorMonitorStateChart.png}
+\captionof{figure}{A state chart for the SensorMonitor module.}
+\label{fig:SensorMonitorStateChart}
+\end{center}~\\
+
 \subsubsection{ShotInterpreter}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -720,11 +721,16 @@ The state charts below provide a succinct depiction of this module's internal de
 	\item[-] Method of transmitting signals to machine
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module uses a movement specification that it is provided in order to compute and generate the signals necessary to have the machine perform the required motion.
-\\\\
+This module receives a shot specification (doubles holding the x- and y-coordinates, angle, and power) in order to compute and generate the signals necessary to have the machine perform the required motion. It's ``outputs'' are the control signals that it generates.
+\newpage
 \textbf{MID}\\[2mm]
-The state charts below provide a succinct depiction of this module's internal design.
-\\\\
+The state chart below provides a succinct depiction of this module's internal design.\\
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{ShotInterpreterStateChart.png}
+\captionof{figure}{A state chart for the ShotInterpreter module.}
+\label{fig:ShotInterpreterStateChart}
+\end{center}~\\
+
 \subsubsection{$\mu$CCommunicator}
 \textbf{Responsibilities}
 \begin{itemize}
@@ -739,11 +745,67 @@ The state charts below provide a succinct depiction of this module's internal de
 	\item[-] Maximum time awaiting a response
 \end{itemize}~\\
 \textbf{MIS}\\[2mm]
-This module handles communicating with the PC Controller Program in order to compute the optimal shot to take.
-\\\\
+This module handles communicating with the PC Controller Program in order to compute the optimal shot to take. It's ``inputs'' are the request from the Controller and the shot specification (doubles holding the x- and y-coordinates, angle, and power) from the PC. It then passes that shot specification on to the Controller.
+\newpage
 \textbf{MID}\\[2mm]
-The state charts below provide a succinct depiction of this module's internal design.
-\\\\
+The state charts below provide a succinct depiction of this module's internal design.\\
+\begin{center}
+	\includegraphics[width=0.35\textwidth]{uCCommunicatorStateChart.png}
+\captionof{figure}{A state chart for the $\mu$CCommunicator module.}
+\label{fig:uCCommunicatorStateChart}
+\end{center}~\\
+
+
+
+\section{Program Diagrams}
+\subsection{Detailed Class Diagram}
+(found on the next page)
+\begin{sidewaysfigure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{DetailedClassDiagram.png}
+	\captionof{figure}{The system's detailed class diagram.}
+	\label{fig:detailedClassDiagram}
+	\end{center}
+\end{sidewaysfigure}
+\newpage
+
+\subsection{Uses Hierarchy Diagrams}
+The following section contains the uses hierarchy diagrams for each program.
+\begin{center}
+	\includegraphics[scale = 0.75]{uCUsesHierarchy.png}
+\captionof{figure}{$\mu$C Program Uses Hierarchy Diagram}
+\label{fig:ucuses hierarchy diagram}
+\end{center}~\\
+\begin{center}
+	\includegraphics[scale = 0.75]{PCControllerUsesHierarchy.png}
+\captionof{figure}{PC Controller Program Uses Hierarchy Diagram}
+\label{fig:pc controller uses hierarchy diagram}
+\end{center}~\\
+\begin{center}
+	\includegraphics[scale = 0.75]{PCVRUsesHierarchy.png}
+\captionof{figure}{PC VR Program Uses Hierarchy Diagram}
+\label{fig:pc vr uses hierarchy diagram}
+\end{center}~\\
+\begin{center}
+	\includegraphics[scale = 0.75]{AndroidUsesHierarchy.png}
+\captionof{figure}{Android Program Uses Hierarchy Diagram}
+\label{fig:android uses hierarchy diagram}
+\end{center}
+\newpage
+
+\subsection{Analysis Class Diagrams}
+The following section contains the analysis class diagrams for the $\mu$C and the PC Controller program. The PC VR program and Camera are not complicated enough to require the inclusion of these diagrams.\\
+\begin{center}
+	\includegraphics[scale = 0.75]{muCAnalysisClassDiagram.png}
+\captionof{figure}{$\mu$C Analysis Class Diagram}
+\label{fig:muC analysis class diagram}
+\end{center}~\\
+\begin{center}
+	\includegraphics[scale = 0.75]{PCControllerAnalysisClassDiagram.png}
+\captionof{figure}{PC Controller Analysis Class Diagram}
+\label{fig:PC controller analysis class diagram}
+\end{center}
+\newpage
 
 
 
@@ -771,8 +833,8 @@ The following constants will be used by this system's simulation engine. Certain
 	$r_{ball}$		&Radius (ball)								&0.0286\\
 	$\mu_s$			&Static Friction, ball - cloth				&TBM\\
 	$T$				&Time Step									&0.01\\
-	$w_c$			&Width, mouth of corner pocket				&TBM\\
-	$w_s$			&Width, mouth of side pocket				&TBM
+	$w_c$			&Width, mouth of corner pocket				&0.1\\
+	$w_s$			&Width, mouth of side pocket				&0.114
 \end{tabular}
 \end{center}
 \subsection{Equations}
@@ -789,22 +851,23 @@ Since the masses are equivalent, this simplifies to..
 	v_{a_f}	&= \frac{1}{2}(C_{R_b}(v_{b_i} - v_{a_i}) + v_{a_i} + v_{b_i})
 \end{align}
 }\\
-\textbf{Ball - Wall Collision (perpendicular component)}%TODO
+\textbf{Ball - Wall Collision (perpendicular component)}
 {\large
 \begin{align}
 	v_f	&= -C_{R_w}v_i
 \end{align}
 }\\
 \textbf{Ball - Wall Collision (parallel component)}
-{\large
+{\large\\~\\[-2mm]
+Currently, this equation will not affect the velocity of the balls however this is just a simplification and is likely to be altered.
 \begin{align}
-	v_f	&= ?%TODO deduce equation involving time of contact
+	v_f	&= v_i
 \end{align}
 }\\
 \textbf{Ball Velocity Update}
 {\large
 \begin{align}
-	v_f	&= ?%TODO deduce equation
+	v_f	&= v_i \cdot \mu_k \cdot T
 \end{align}
 }\\
 \textbf{Ball Position Update}
@@ -812,7 +875,27 @@ Since the masses are equivalent, this simplifies to..
 \begin{align}
 	d_f	&= d_i + vT
 \end{align}
-}\\
+}
+
+
+
+\section{Error Handling}
+This section will define how dangerous and/or erroneous operation will be handled. Any errors will be handled by the $\mu$C or the PC as appropriate. Any dangerous errors in the camera operation or in the VR program can be handled safely once the PC receives them. Errors such as incomplete image capture or an incorrect object detection would be very hard to detect and are not safety critical so they will be ignored at runtime. Obviously errors of this nature will hopefully be minimized if discovered during the testing phase.\\~\\
+Furthermore, both the $\mu$C and the PC rely on several different inter-program communications and so if any given process takes longer than the allowable timeout, the request will just be resent. If five unsuccessful requests are sent in a row, the system will cease attempting and the user will be notified of the issue.
+\subsection{$\mu$C Error Handling}
+\subsubsection{Pseudo-Simultaneous Button Presses}
+In the case that multiple buttons are pressed before the software can register which was first (i.e. two or more flags are raised at a scheduled check), both flags will be reset and no operation will be performed. This will prevent accidental operation. However, if one of those flags is the cancel flag, that command will still be registered. In order to make the user aware of this functionality, it shall be described in the user manual.
+\subsubsection{Dangerous Physical Operation}
+In case of unsafe physical operation, stop buttons will be provided in strategic locations on the machine (as detailed in the hardware documentation). Before any step is signalled in the motors, the cancel flag is checked and if it has been raised the machine will not take another step until further commands are received.
+\subsubsection{Button Cooldown}
+To prevent accidental button presses, once the cancel button has been pressed, the system will wait a moment before accepting a new command. This allows the user to blindly activate the cancel button safely in the case of strenuous circumstances.In order to make the user aware of this functionality, it shall be described in the user manual.
+\subsubsection{Improper Shot Specifications}
+If a shot specification contains coordinates that are not reachable, an angle that is not between 0 and $2\pi$, or a power that is not one of the allowed options, the $\mu$C will not attempt the shot. The user will be notified of this error.
+\subsection{PC Error Handling}
+\subsubsection{Invalid Table State}
+It is possible that the camera will have returned an unusable image or perhaps the VR algorithm cannot correctly locate the balls on the table. In such a case where too many balls are found, if no balls are found, or if balls are found in impossible locations (such as off the table or excessively on top of another ball), the user will be notified of the error. The user will be provided troubleshooting instructions in the user manual such as ensuring there is sufficient lighting, there are no obstructions in the camera's line of sight, that there are no balls in the camera's line of sight but off the table, and so on. If none of these correct the issue, it is likely that the system cannot handle the specific case and must be improved when possible.
+\subsubsection{Unsuccessful Shot Selection}
+If the shot selection algorithm is unable to select a shot to make for whatever reason, the PC will simply not respond to the $\mu$C. The $\mu$C already operates upon a timeout system and so it can continue its normal operation. The user will be notified of this error and informed that they can press the cancel button in order to prematurely stop the process. This functionality should also be described in the user manual.
 
 
 
@@ -849,70 +932,6 @@ Firstly we must account for how long the physical machine would need in the wors
 From here we can divvy up the remaining time among the various computational blocks. The smaller tasks such as communication, recognizing the button press, and other such operations will be allocated a total of 5 seconds. The process of object detection and identification will be given 15 seconds. This leaves 50 seconds to process the necessary simulations.
 \newpage
 
-\subsection{State Charts}
-The following charts illustrate the lifecycle of all relevant classes in this system. This section is meant to depict a more isolated picture of how each class will operate.\\[15mm]
-\begin{center}
-	\includegraphics[width=0.6\textwidth]{ControllerStateChart.png}
-\captionof{figure}{A state chart for the Controller class.}
-\label{fig:ControllerStateChart}
-\end{center}
-\newpage
-
-\begin{center}
-	\includegraphics[width=0.8\textwidth]{ShotInterpreterStateChart.png}
-\captionof{figure}{A state chart for the ShotInterpreter class.}
-\label{fig:ShotInterpreterStateChart}
-\end{center}
-\begin{multicols}{2}
-~\vfill
-\begin{center}
-	\includegraphics[width=0.4\textwidth]{SensorMonitorStateChart.png}
-\captionof{figure}{A state chart for the SensorMonitor class.}
-\label{fig:SensorMonitorStateChart}
-\end{center}
-~\vfill
-\begin{center}
-	\includegraphics[width=0.35\textwidth]{uCCommunicatorStateChart.png}
-\captionof{figure}{A state chart for the $\mu$CCommunicator class.}
-\label{fig:uCCommunicatorStateChart}
-\end{center}
-\end{multicols}
-\newpage
-
-~\vfill
-\begin{center}
-	\includegraphics[width=0.9\textwidth]{PCCommunicatorStateChart.png}
-\captionof{figure}{A state chart for the PCCommunicator class.}
-\label{fig:PCCommunicatorStateChart}
-\end{center}
-~\vfill
-\newpage
-
-~\vfill
-\begin{center}
-	\includegraphics[width=0.6\textwidth]{InferenceEngineStateChart.png}
-\captionof{figure}{A state chart for the InferenceEngine class.}
-\label{fig:InferenceEngineStateChart}
-\end{center}
-~\vfill
-\newpage
-
-\begin{multicols}{2}
-\begin{center}
-	\includegraphics[width=0.175\textwidth]{TableStateVRStateChart.png}
-\captionof{figure}{A state chart for the TableStateVR class.}
-\label{fig:TableStateVRStateChart}
-\end{center}
-\columnbreak
-~\vspace{15mm}
-\begin{center}
-	\includegraphics[width=0.3\textwidth]{EventHandlerStateChart.png}
-\captionof{figure}{A state chart for the EventHandler class.}
-\label{fig:EventHandlerStateChart}
-\end{center}
-\end{multicols}
-\newpage
-
 \subsection{Sequence Diagrams}
 The following are various sequence diagrams for different actions the system is required to perform. These diagrams are meant to provide better context for how the classes interact with each other to perform certain tasks.\vfill
 \begin{center}
@@ -927,7 +946,6 @@ The following are various sequence diagrams for different actions the system is 
 \label{fig:CancelSequenceDiagram}
 \end{center}
 ~\vfill
-\newpage
 
 \begin{sidewaysfigure}
 	\begin{center}
@@ -936,7 +954,5 @@ The following are various sequence diagrams for different actions the system is 
 	\label{fig:TakeShotSequenceDiagram}
 	\end{center}
 \end{sidewaysfigure}
-
-
 \end{document}
 
