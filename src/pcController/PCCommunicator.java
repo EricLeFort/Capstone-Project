@@ -1,61 +1,112 @@
 package pcController;
 
-import java.net.*;
+import gnu.io.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import java.util.TooManyListenersException;
 import javax.imageio.ImageIO;
 
 /**
  * @author Eric Le Fort
  * @version 1.0
  */
-public class PCCommunicator{
+public class PCCommunicator implements SerialPortEventListener{
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
-	private static String runMatlabCmd = "src/matlabScript", imageFileType = "jpg";
-	private final static int port = 8000;
-	private final static BallType myBallType = BallType.SOLID;
+	private static final String PORT_NAME = "/dev/tty.usbmodem1411";
+	private static final int PORT = 8000, TIMEOUT = 20000, SETUP_DELAY = 1500, DATA_RATE = 9600,
+			SHOT_SPEC = 170, REQUEST = 55, CONFIRM = 200;
+	private static final BallType myBallType = BallType.SOLID;
+	
+	SerialPort serialPort;
+	private static BufferedReader input;
+	private static OutputStream output;
+	private static String runCCmd = "src/cppScript", imageFileType = "jpg"; //,runMatlabCmd = "src/matlabScript"
+	private static boolean requestReceived, confirmReceived;
 	
 	public static void main(String[] args){
+		PCCommunicator arduinoComm = new PCCommunicator();
+		arduinoComm.initializeSerialConnection();
+		
+		try{ Thread.sleep(SETUP_DELAY); }catch(InterruptedException ie){ }
+		
 		for(;;){ uCListener(); }
 	}
 	
+	/**
+	 * Waits for a request from the microcontroller and initiates all necessary steps in order to compute and transmit
+	 * the shot to be taken.
+	 */
 	public static void uCListener(){
-		Scanner in = new Scanner(System.in);
-		//TODO Await request from uC
-		//		senduCReceipt();
+		Shot shot;
+		
+		requestReceived = false;
+		while(!requestReceived){			//Await request
+			try{ Thread.sleep(100); }catch(InterruptedException ie){ }
+		}
+		senduCReceipt();
+		
+		//		if(imageRequest()){					//Image received successfully
+		//			initiateVR();
 		
 		try{
 			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
-			InferenceEngine.getBestShot();
-		}catch(Exception e){
-			//TODO temporary, catch actual errors.
-		}
-		
-		if(imageRequest()){					//Image received successfully
-			//			initiateVR();
+			//				shot = InferenceEngine.getBestShot();
+			shot = new Shot(1.01011010, 0.5010101, 2.101001, 1.0);
+			System.out.println(shot);
 			
-			//			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
-			
-			//			in.next();
-			//			while(!sendShot(InferenceEngine.getBestShot()));
-		}else{
-			System.out.println("Error receiving image.");
+			while(!sendShot(shot));
+			confirmReceived = false;
+		}catch(FileNotFoundException fnfe){
+			System.out.println("Table state file not found.");
 		}
-		in.close();
+		//		}else{
+		//			System.out.println("Error receiving image.");
+		//		}
 	}//uCListener()
 	
+	/**
+	 * Sends a receipt message to the microcontroller to indicate that the request was successfully received.
+	 */
 	public static void senduCReceipt(){
-		//TODO
+		try{
+			output.write(CONFIRM);
+			output.flush();
+		}catch(IOException ioe){
+			System.out.println("Communication error.");
+		}
 	}//senduCReceipt()
 	
+	/**
+	 * Communicates the specification for the selected shot to the microcontroller.
+	 * @param shot - The <code>Shot</code> to be communicated to the microcontroller.
+	 * @return Whether the shot was successfully received by the microcontroller.
+	 */
 	public static boolean sendShot(Shot shot){
-		//TODO
-		return false;
+		int count = 0;
+		
+		writeStringBytes((float)SHOT_SPEC);
+		writeStringBytes((float)shot.getXPosition());
+		writeStringBytes((float)shot.getYPosition());
+		writeStringBytes((float)shot.getAngle());
+		writeStringBytes((float)shot.getPower());
+		
+		System.out.println("Shot communicated!");
+		
+		while(!confirmReceived){
+			try{ Thread.sleep(10); }catch(InterruptedException ie){ }
+			count++;
+			if(count*10 > TIMEOUT){			//We've waited too long.
+				System.out.println("Communication timeout");
+				return false;
+			}
+		}
+		return true;
 	}//sendShot()
 	
 	/**
@@ -72,7 +123,7 @@ public class PCCommunicator{
 		InputStream fileStream;
 		
 		try{
-			serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(PORT);
 			System.out.println("Waiting for connection..");
 			clientSocket = serverSocket.accept();						//Waits for connection to be made
 			System.out.println("Connection established.");
@@ -91,7 +142,7 @@ public class PCCommunicator{
 			while(in.available() != 0){
 				imageByteList.add((byte)in.read());
 			}
-			System.out.println("Bytes received: " +imageByteList.size());
+			System.out.println("Bytes received: " + imageByteList.size());
 			
 			imageByteArray = new byte[imageByteList.size()];			//Converts the ArrayList to a primitive array
 			for(int i = 0; i < imageByteArray.length; i++){
@@ -107,7 +158,7 @@ public class PCCommunicator{
 			return true;
 		}catch(IOException e){
 			System.out.println("Exception caught when trying to listen on port "
-					+ port + " or listening for a connection");
+					+ PORT + " or listening for a connection");
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -116,11 +167,12 @@ public class PCCommunicator{
 	/**
 	 * Runs the MATLAB program "TableStateVR" automatically.
 	 */
-	private static void initiateVR(){
+	private static void initiateVR(){//TODO verify correctness
 		Process p;
 		
 		try{
-			p = Runtime.getRuntime().exec(runMatlabCmd);
+			//p = Runtime.getRuntime().exec(runMatlabCmd);
+			p = Runtime.getRuntime().exec(runCCmd);
 			p.waitFor();
 		}catch (Exception e){
 			e.printStackTrace();
@@ -148,4 +200,109 @@ public class PCCommunicator{
 		
 		return locations;
 	}//readTableStateFromFile()
+	
+	/**
+	 * Initializes the connection and sets the parameters for the communication with the microcontroller.
+	 */
+	public void initializeSerialConnection(){
+		CommPortIdentifier portId = null, currPortId;
+		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
+		
+		while(portEnum.hasMoreElements()){
+			currPortId = (CommPortIdentifier) portEnum.nextElement();
+			if(currPortId.getName().equals(PORT_NAME)){
+				portId = currPortId;
+				break;
+			}
+		}
+		
+		if(portId == null){
+			System.out.println("Could not find port.");
+			return;
+		}
+		
+		
+		try{
+			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIMEOUT);
+			
+			serialPort.setSerialPortParams(DATA_RATE,
+					SerialPort.DATABITS_8,
+					SerialPort.STOPBITS_1,
+					SerialPort.PARITY_NONE);
+			
+			input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+			output = serialPort.getOutputStream();
+			
+			serialPort.addEventListener(this);
+			serialPort.notifyOnDataAvailable(true);
+		}catch(PortInUseException piue){
+			System.out.println("Port is already in use.");
+		}catch(UnsupportedCommOperationException ucoe){
+			System.out.println("Unsupported communication operation selected.");
+		}catch(TooManyListenersException tmle){
+			System.out.println("Too many listeners.");
+		}catch(IOException ioe){
+			ioe.printStackTrace();
+		}
+	}//initializeSerialConnection()
+	
+	/**
+	 * This method is invoked when there is an event that occurred relating to the serial port.
+	 * It will read in the data from the input buffer if there is any available.
+	 */
+	@Override
+	public void serialEvent(SerialPortEvent event){
+		String msg = "<!-- -->";
+		int value;
+		
+		if(event.getEventType() == SerialPortEvent.DATA_AVAILABLE){
+			try{
+				msg = input.readLine();
+				value = Integer.valueOf(msg);
+				System.out.println("Received: " + value);
+				if(value == REQUEST){
+					requestReceived = true;
+				}else if(value == CONFIRM){
+					confirmReceived = true;
+				}
+			}catch(IOException ioe){
+				System.out.println("Error reading input stream.");
+			}catch(NumberFormatException nfe){
+				System.out.println("Received: " + msg);
+			}
+		}else{
+			System.out.println("Non-data available event.");
+		}
+	}//serialEvent()
+	
+	/**
+	 * Handles cleaning up the Arduino communication infrastructure on termination.
+	 */
+	public synchronized void close(){
+		if(serialPort != null){
+			serialPort.removeEventListener();
+			serialPort.close();
+		}
+	}//close()
+	
+	/**
+	 * Writes the provided <code>String</code> character by character into the output buffer.
+	 * @param f - The <code>String</code> to be sent.
+	 */
+	private static void writeStringBytes(float f){
+		String data = "" + f;
+		
+		for(int i = 0; i < data.length(); i++){
+			try{
+				output.write(data.charAt(i));
+				output.flush();
+			}catch(IOException ioe){
+				System.out.println("Error transmitting data.");
+			}
+		}
+		
+		try{								//TODO this seems sub-optimal..
+			Thread.sleep(1200);				//Pause for the Arduino to catch up
+		}catch(InterruptedException ie){ ie.printStackTrace(); }
+	}//writeStringBytes()
 }//PCCommunicator

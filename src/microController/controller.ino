@@ -1,17 +1,17 @@
-#include <EEPROM.h>   //TODO needed?
-
-const long RESPONSE_WAIT_TIME = 10, CHECK_SUM = 170;
+const long RESPONSE_WAIT_TIME = 10;
 const float X_LENGTH = 1.848, Y_LENGTH = 0.921, pi = 3.1415927;
-const int CANCEL_PIN = 20, MOVE_PIN = 21, SHOT_PIN = 2, //TODO actual pin value for third button
+const int MOVE_PIN = 20, SHOT_PIN = 21,
 X1_STEP_PIN = 54, X2_STEP_PIN = 46, Y_STEP_PIN = 60, ANGLE_STEP_PIN = 36, P_STEP_PIN = 26,
-X1_DIR_PIN = 55, X2_DIR_PIN = 48, Y_DIR_PIN = 61, ANGLE_DIR_PIN = 34, P_STEP_PIN = 28,
+X1_DIR_PIN = 55, X2_DIR_PIN = 48, Y_DIR_PIN = 61, ANGLE_DIR_PIN = 34, P_DIR_PIN = 28,
 X1_ENABLE_PIN = 38, X2_ENABLE_PIN = 62, Y_ENABLE_PIN = 56, ANGLE_ENABLE_PIN = 30, P_ENABLE_PIN = 24,
-X_MIN_PIN = 16, Y_MIN_PIN = 23, ANGLE_SENSOR_PIN = 27,
-X_MAX_PIN = 17, Y_MAX_PIN = 25,
-MAX_X_STEPS = 10000, MAX_Y_STEPS = 10000, MAX_ANGLE_STEPS = 10000,  //Must be tested empirically
-STEP_DELAY = 800,
-REQUEST_CODE = 55, RECEIPT_CODE = 200;
+X_MIN_PIN = 16, Y_MIN_PIN = 23, ANGLE_MIN_PIN = 27,
+X_MAX_PIN = 17, Y_MAX_PIN = 25, ANGLE_MAX_PIN = 29,
+MAX_X_STEPS = 13382, MAX_Y_STEPS = 16921, MAX_ANGLE_STEPS = 1600,  //Must be tested empirically
+STEP_DELAY = 1200, SLOW_STEP = 300, SLOW_RATE = 2,
+REQUEST_CODE = 55, CONFIRM_CODE = 200, SHOT_CODE = 170,
+SLOW_PROXIMITY = 300, DEBOUNCE = 750;
 
+long lastPressed;
 int currentXSteps, currentYSteps, currentAngleSteps;
 boolean cancelOp, moveOp, shotOp;
 
@@ -21,15 +21,17 @@ boolean cancelOp, moveOp, shotOp;
  * channel.
  */
 void setup(){
-  cancelOp = false;
-  moveOp = false;
-  shotOp = false;
-                                              //Prepare button interrupts
-  attachInterrupt(digitalPinToInterrupt(CANCEL_PIN), cancelBtnPress, FALLING);
+  lastPressed = millis();
+  
+  Serial.begin(9600);                 //Init Serial with 9600bps
+  while(!Serial){
+    delay(1);                         //Wait for connection
+  }
+                                      //Prepare button interrupts
   attachInterrupt(digitalPinToInterrupt(MOVE_PIN), moveBtnPress, FALLING);
   attachInterrupt(digitalPinToInterrupt(SHOT_PIN), shotBtnPress, FALLING);
 
-  pinMode(X1_STEP_PIN, OUTPUT);               //Declare all output pins
+  pinMode(X1_STEP_PIN, OUTPUT);       //Declare all output pins
   pinMode(X1_DIR_PIN, OUTPUT);
   pinMode(X1_ENABLE_PIN, OUTPUT);
   pinMode(X2_STEP_PIN, OUTPUT);
@@ -45,21 +47,18 @@ void setup(){
   pinMode(P_DIR_PIN, OUTPUT);
   pinMode(P_ENABLE_PIN, OUTPUT);
 
-  //TODO do we need to set the output of the ENABLE pins?
-
   while(!moveOp){
-    ; //Wait to start system to avoid unexpected movement
+    delay(1);                        //Wait to start system to avoid unexpected movement
   }
 
-  calibrate(true)
+  if(!digitalRead(X_MIN_PIN)){
+    Serial.println("X MIN");
+  }
+
+  calibrate(true);
   currentXSteps = 0;
   currentYSteps = 0;
   currentAngleSteps = 0;
-  
-  Serial.begin(9600);                         //Init Serial with 9600bps
-  while(!Serial){
-    ; //Wait for connection
-  }
 }//setup()
 
 /**
@@ -69,8 +68,8 @@ void setup(){
 void loop(){
   float shot[4];
 
-  while(!(moveOp || shotOp)){                 //Monitor button sensors
-    ; //Wait for command
+  while(!(moveOp || shotOp)){       //Monitor button sensors
+    delay(1);                       //Wait for command
   }
 
   if(moveOp){
@@ -98,27 +97,31 @@ boolean receiveShot(float *shot){
   }
 
   if(!cancelOp){                              //Request shot
-    Serial.print(REQUEST_CODE, BIN);
-  }
-  
-  while(Serial.available() < 20){             //Wait for all bytes to be available (5*4)
-    delay(10);
-    //TODO timeout?
+    Serial.println(REQUEST_CODE);
   }
 
-  if(sizeof(shot) < 16){
-    Serial.println("Incorrect array size.");
-    return false;
-  }else if(Serial.parseInt() != CHECK_SUM){
-    Serial.println("Communication fault!")
+  Serial.println("Waiting");
+  while(Serial.available() == 0);
+  if((int)Serial.parseFloat() != SHOT_CODE){
+    Serial.println("Communication fault!");
     return false;
   }
-  
+
+  while(Serial.available() == 0);
   shot[0] = Serial.parseFloat();
+  
+  while(Serial.available() == 0);
   shot[1] = Serial.parseFloat();
+  
+  while(Serial.available() == 0);
   shot[2] = Serial.parseFloat();
+  
+  while(Serial.available() == 0);
   shot[3] = Serial.parseFloat();
-  Serial.flush();
+
+  Serial.println(CONFIRM_CODE);
+  
+  return true;
 }//receiveShot()
 
 /**
@@ -129,45 +132,46 @@ boolean receiveShot(float *shot){
  * @param *shot - An array of floats of length 4 which contain the shot specification
  */
 void takeShot(float *shot){
-  int dx, dy, dTheta, steps;
-  boolean positive;
+  int targetX, targetY, targetAngle;
+  boolean positiveX, positiveY, positiveAngle, finished;
 
-  dx = shot[0]/X_LENGTH*MAX_X_STEPS - currentXSteps;
-  dy = shot[1]/Y_LENGTH*MAX_Y_STEPS - currentYSteps;
-  dTheta = shot[2]/(2*pi)*MAX_ANGLE_STEPS - currentAngleSteps;
+  targetX = shot[0]/X_LENGTH*MAX_X_STEPS;
+  targetY = shot[1]/Y_LENGTH*MAX_Y_STEPS;
+  targetAngle = shot[2]/(2*pi)*MAX_ANGLE_STEPS;
 
-  if(dTheta > MAX_ANGLE_STEPS/2){         //Quicker to go other direction
-    dTheta -= MAX_ANGLE_STEPS;
-  }else if(dTheta < MAX_ANGLE_STEPS/2){
-    dTheta += MAX_ANGLE_STEPS;
+  positiveX = targetX > currentXSteps;    //Determine directions to take
+  positiveY = targetY > currentYSteps;
+  if(abs(targetAngle - currentAngleSteps) < MAX_ANGLE_STEPS / 2){
+    positiveAngle = true;
+  }else{
+    positiveAngle = false;
   }
 
-  //TODO do all together instead of one at a time?
-  positive = dx > 0;                      //Move in x
-  steps = abs(dx);
-  digitalWrite(X_DIR_PIN, positive);      //Set direction
-  for(int i = 0; i < steps && !cancelOp; i++){
-    stepXMotors(positive);
-    delayMicroseconds(STEP_DELAY);
-  }
+  digitalWrite(X1_DIR_PIN, !positiveX);    //Alter motor directions
+  digitalWrite(X2_DIR_PIN, positiveX);
+  digitalWrite(Y_DIR_PIN, positiveY);
+  digitalWrite(ANGLE_DIR_PIN, positiveAngle);
 
-  positive = dy > 0;                      //Move in y
-  steps = abs(dy);
-  digitalWrite(Y_DIR_PIN, positive);      //Set direction
-  for(int i = 0; i < steps && !cancelOp; i++){
-    stepYMotor(positive);
-    delayMicroseconds(STEP_DELAY);
-  }
+  while(!finished){
+    finished = true;
+    if(targetX != currentXSteps){         //Step X motors
+      finished = false;
+      stepXMotors(positiveX, abs(targetX - currentXSteps));
+    }
 
-  positive = dTheta > 0;                  //Rotate end-effector
-  steps = abs(dTheta);
-  digitalWrite(ANGLE_DIR_PIN, positive);  //Set direction
-  for(int i = 0; i < steps && !cancelOp; i++){
-    stepRotationalMotor(positive);
-    delayMicroseconds(STEP_DELAY);
+    if(targetY != currentYSteps){         //Step Y motor
+      finished = false;
+      stepYMotor(positiveY, abs(targetY - currentYSteps));
+    }
+
+    if(targetAngle != currentAngleSteps){ //Step Angle motor
+      finished = false;
+      stepYMotor(positiveAngle, abs(targetAngle - currentAngleSteps));
+    }
+    //TODO potential issue if we reach endstop earlier than expected, will skip target and loop infinitely
   }
   
-  //TODO shoot
+  //TODO shoot pneumatic
   
   if(currentXSteps > MAX_X_STEPS / 2){    //Recalibrate to closest side
     calibrate(false);
@@ -200,38 +204,46 @@ void move(){
  */
 void calibrate(boolean zero){
   if(zero){                                     //Move to appropriate x side
-    digitalWrite(X_DIR_PIN, false);             //Set direction
-    while(!digitalRead(X_MAX_PIN) && !cancelOp){
-      stepXMotors(false);
+    Serial.println("X calibrating to zero");
+    digitalWrite(X1_DIR_PIN, false);            //Set direction
+    digitalWrite(X2_DIR_PIN, true);
+    while(digitalRead(X_MIN_PIN) && !cancelOp){
+      stepXMotors(false, currentXSteps);
     }
   }else{
-    digitalWrite(X_DIR_PIN, true);              //Set direction
-    while(!digitalRead(X_MAX_PIN) && !cancelOp){
-      stepXMotors(true);
+    Serial.println("X calibrating");
+    digitalWrite(X1_DIR_PIN, true);             //Set direction
+    digitalWrite(X2_DIR_PIN, false);
+    while(digitalRead(X_MAX_PIN) && !cancelOp){
+      stepXMotors(true, MAX_X_STEPS - currentXSteps);
     }
   }
   
   if(currentYSteps < MAX_Y_STEPS / 2){          //Move to appropriate y side
+    Serial.println("Y calibrating to zero");
     digitalWrite(Y_DIR_PIN, false);             //Set direction
-    while(!digitalRead(Y_MIN_PIN) && !cancelOp){
-      stepYMotors(false);
+    while(digitalRead(Y_MIN_PIN) && !cancelOp){
+      stepYMotor(false, currentYSteps);
     }
   }else{
-    digitalWrite(Y_DIR_PIN, true);             //Set direction
-    while(!digitalRead(Y_MAX_PIN) && !cancelOp){
-      stepYMotors(true);
+    Serial.println("Y calibrating");
+    digitalWrite(Y_DIR_PIN, true);              //Set direction
+    while(digitalRead(Y_MAX_PIN) && !cancelOp){
+      stepYMotor(true, MAX_Y_STEPS - currentYSteps);
     }
   }
 
   if(currentAngleSteps < MAX_ANGLE_STEPS / 2){  //Move to 0 angle
-    digitalWrite(Angle_DIR_PIN, false);         //Set direction
-    while(!digitalRead(ANGLE_SENSOR_PIN) && !cancelOp){
-      stepAngleMotors(false);
+    Serial.println("Y calibrating negative");
+    digitalWrite(ANGLE_DIR_PIN, false);         //Set direction
+    while(digitalRead(ANGLE_MAX_PIN) && !cancelOp){
+      stepRotationalMotor(false, currentAngleSteps);
     }
   }else{
-    digitalWrite(Angle_DIR_PIN, true);         //Set direction
-    while(!digitalRead(ANGLE_SENSOR_PIN) && !cancelOp){
-      stepAngleMotors(true);
+    Serial.println("Angle calibrating positive");
+    digitalWrite(ANGLE_DIR_PIN, true);         //Set direction
+    while(digitalRead(ANGLE_MAX_PIN) && !cancelOp){
+      stepRotationalMotor(true, MAX_ANGLE_STEPS - currentAngleSteps);
     }
   }
   
@@ -244,17 +256,22 @@ void calibrate(boolean zero){
  * 
  * @param positive - True means step in the positive direction, 
  * false means step in the negative direction.
+ * @param stepsRemaining - The number of steps expected until the destination is reached.
  */
-void stepXMotors(boolean positive){
-  if((positive && digitalRead(X_MAX_PIN))       //Prevent over moving
-    || (!positive && digitalRead(X_MIN_PIN)
+void stepXMotors(boolean positive, int stepsRemaining){
+  if((positive && !digitalRead(X_MAX_PIN))       //Prevent over moving
+    || (!positive && !digitalRead(X_MIN_PIN))
     || cancelOp){
     return;
   }
 
-  digitalWrite(X_STEP_PIN, HIGH);
+  //TODO alter delay based on stepsRemaining
+  //TODO speed-up procedure as well?
+  digitalWrite(X1_STEP_PIN, HIGH);
+  digitalWrite(X2_STEP_PIN, HIGH);
   delayMicroseconds(STEP_DELAY);
-  digitalWrite(X_STEP_PIN, LOW);
+  digitalWrite(X1_STEP_PIN, LOW);
+  digitalWrite(X2_STEP_PIN, LOW);
   
   if(positive){
     currentXSteps++;
@@ -262,9 +279,9 @@ void stepXMotors(boolean positive){
     currentXSteps--;
   }
 
-  if(digitalRead(X_MIN_PIN)){                   //Check sensors (can be removed if slow)
+  if(!digitalRead(X_MIN_PIN)){                   //Check sensors (can be removed if slow)
     currentXSteps = 0;
-  }else if(digitalRead(X_MAX_PIN)){
+  }else if(!digitalRead(X_MAX_PIN)){
     currentXSteps = MAX_X_STEPS;
   }
 }//stepXMotor()
@@ -275,14 +292,17 @@ void stepXMotors(boolean positive){
  * 
  * @param positive - True means step in the positive direction, 
  * false means step in the negative direction.
+ * @param stepsRemaining - The number of steps expected until the destination is reached.
  */
-void stepYMotor(boolean positive){
-  if((positive && digitalRead(Y_MAX_PIN))       //Prevent over moving
-    || (!positive && digitalRead(Y_MIN_PIN)
+void stepYMotor(boolean positive, int stepsRemaining){
+  if((positive && !digitalRead(Y_MAX_PIN))       //Prevent over moving
+    || (!positive && !digitalRead(Y_MIN_PIN))
     || cancelOp){
     return;
   }
 
+  //TODO alter delay based on stepsRemaining
+  //TODO speed-up procedure as well?
   digitalWrite(Y_STEP_PIN, HIGH);
   delayMicroseconds(STEP_DELAY);
   digitalWrite(Y_STEP_PIN, LOW);
@@ -293,9 +313,9 @@ void stepYMotor(boolean positive){
     currentYSteps--;
   }
   
-  if(digitalRead(Y_MIN_PIN)){                   //Check sensors
+  if(!digitalRead(Y_MIN_PIN)){                   //Check sensors
     currentYSteps = 0;
-  }else if(digitalRead(Y_MAX_PIN)){
+  }else if(!digitalRead(Y_MAX_PIN)){
     currentYSteps = MAX_Y_STEPS;
   }
 }//stepYMotor()
@@ -306,12 +326,15 @@ void stepYMotor(boolean positive){
  * 
  * @param positive - True means step in the positive direction, 
  * false means step in the negative direction.
+ * @param stepsRemaining - The number of steps expected until the destination is reached.
  */
-void stepRotationalMotor(boolean positive){
+void stepRotationalMotor(boolean positive, int stepsRemaining){
   if(cancelOp){
     return;
   }
 
+  //TODO alter delay based on stepsRemaining
+  //TODO speed-up procedure as well?
   digitalWrite(ANGLE_STEP_PIN, HIGH);
   delayMicroseconds(STEP_DELAY);
   digitalWrite(ANGLE_STEP_PIN, LOW);
@@ -328,25 +351,28 @@ void stepRotationalMotor(boolean positive){
     }
   }
 
-  if(digitalRead(ANGLE_SENSOR_PIN)){          //Check sensors
+  if(!digitalRead(ANGLE_MAX_PIN)){          //Check sensors
     currentAngleSteps = 0;
   }
 }//stepRotationalMotor()
-
-/**
- * This method signals the rest of the system that the cancel button
- * has been pressed.
- */
-void cancelBtnPress(){
-  cancelOp = true;
-}//cancelBtnPress()
 
 /**
  * This method signals the rest of the system that the move button
  * has been pressed.
  */
 void moveBtnPress(){
-  moveOp = true;
+  if(millis() - lastPressed > DEBOUNCE){
+    if(!moveOp){
+      moveOp = true;
+      lastPressed = millis();
+      Serial.println("Move");
+    }else{
+      moveOp = false;
+      cancelOp = true;
+      lastPressed = millis();
+      Serial.println("Stop");
+    }
+  }
 }//moveBtnPress()
 
 /**
@@ -354,5 +380,8 @@ void moveBtnPress(){
  * has been pressed.
  */
 void shotBtnPress(){
-  shotOp = true;
+  if(millis() - lastPressed > DEBOUNCE){
+    lastPressed = millis();
+    shotOp = true;
+  }
 }//shotBtnPress()

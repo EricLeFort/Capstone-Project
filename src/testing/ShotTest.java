@@ -9,6 +9,7 @@ import org.junit.Test;
  * @version 1.0
  */
 public class ShotTest{
+	private static final double DELTA = 1e-15;
 	
 	@Test
 	public void test(){
