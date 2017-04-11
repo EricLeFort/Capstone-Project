@@ -126,10 +126,10 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
 
   requestedX = 0;
   requestedY = 0;
-  //requestedR = 0; 
+  requestedR = 0; 
   currentX = UPPERBOUND_X - 1;
   currentY = UPPERBOUND_Y - 1; 
-  //currentR = UPPERBOUND_R - 1;
+  currentR = UPPERBOUND_R - 1;
   MoveXYR();
   
 }
@@ -273,7 +273,6 @@ void MoveXYR() //Move X Y and R simultaneously
 
       if(xDir == 1 && digitalRead(XMAX_PIN) == 0) //XMAX endstop hit 
       {
-        Serial.println(currentX);
         currentX = UPPERBOUND_X - 1;
         xDir = -1;
         digitalWrite(X1_DIR_PIN, LOW);
@@ -290,22 +289,18 @@ void MoveXYR() //Move X Y and R simultaneously
     
       if(yDir == 1 && digitalRead(YMAX_PIN) == 0) //YMAX endstop hit
       {
-        Serial.println(currentY);
         currentY = UPPERBOUND_Y - 1;
         yDir = -1;
         digitalWrite(Y_DIR_PIN, LOW);
       }
 
-      /*
-
-      if(digitalRead(RMIN_PIN) == 0 || digitalRead(RMAX_PIN) == 0) //R reference point hit
+      if(rDir == -1 && digitalRead(RMIN_PIN) == 0 && digitalRead(RMAX_PIN) == 0) //R reference point hit
       {
-        currentR = 0;
-        if(requestedR == -1) requestedR = 0;   
+          currentR = 0;
+          rDir = 1;
+          digitalWrite(R_DIR_PIN, HIGH);
       }
-      
-      */
-    
+         
       if(requestedX-currentX != 0)
       {
         digitalWrite(X1_STEP_PIN, HIGH);
