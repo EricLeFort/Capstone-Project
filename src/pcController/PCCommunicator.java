@@ -7,6 +7,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.TooManyListenersException;
 import javax.imageio.ImageIO;
@@ -26,7 +27,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	SerialPort serialPort;
 	private static BufferedReader input;
 	private static OutputStream output;
-	private static String runCCmd = "src/cppScript", imageFileType = "jpg"; //,runMatlabCmd = "src/matlabScript"
+	private static String runCCmd = "src/cScript", imageFileType = "jpg"; //,runMatlabCmd = "src/matlabScript"
 	private static boolean requestReceived, confirmReceived;
 	
 	public static void main(String[] args){
@@ -55,7 +56,7 @@ public class PCCommunicator implements SerialPortEventListener{
 		//			initiateVR();
 		
 		try{
-			InferenceEngine.updateTableState(readTableStateFromFile(), myBallType);
+			InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
 			//				shot = InferenceEngine.getBestShot();
 			shot = new Shot(1.01011010, 0.5010101, 2.101001, 1.0);
 			System.out.println(shot);
@@ -167,7 +168,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	/**
 	 * Runs the MATLAB program "TableStateVR" automatically.
 	 */
-	private static void initiateVR(){//TODO verify correctness
+	public static void initiateVR(){//TODO verify correctness
 		Process p;
 		
 		try{
@@ -181,16 +182,17 @@ public class PCCommunicator implements SerialPortEventListener{
 	
 	/**
 	 * Reads in an array of 16 ball locations from a file.
+	 * @param fileName - The file to read from.
 	 * @return A 16x2 array of doubles.
 	 * @throws IllegalStateException - Thrown if the file is ill-formatted.
 	 */
-	private static double[][] readTableStateFromFile()
-			throws IllegalStateException, FileNotFoundException, InputMismatchException{
+	public static double[][] readTableStateFromFile(File fileName)
+			throws FileNotFoundException, NoSuchElementException, IndexOutOfBoundsException, NumberFormatException{
 		Scanner in;
 		double[][] locations = new double[16][2];
 		String temp[] = new String[2];
 		
-		in = new Scanner(new FileReader(tableStateFile));
+		in = new Scanner(new FileReader(fileName));
 		for(int i = 0; i < 16; i++){
 			temp = in.nextLine().split(",");
 			locations[i][0] = Double.parseDouble(temp[0]);
