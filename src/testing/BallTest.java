@@ -76,4 +76,14 @@ public class BallTest{
 		}
 	}//testConstructor
 
+	@Test
+	public void testAlterX(){
+		fail("Not yet implemented.");
+	}//testAlterX()
+	
+	@Test
+	public void testAlterY(){
+		fail("Not yet implemented.");
+	}//testAlterY()
+	
 }//BallTest

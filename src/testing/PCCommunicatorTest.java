@@ -161,4 +161,9 @@ public class PCCommunicatorTest{
 		assertTrue(check);
 	}//testInitiateVR()
 	
+	@Test
+	public void testImageRequest(){
+		fail("Not yet implemented.");
+	}//testImageRequest()
+	
 }//PCCommunicatorTest

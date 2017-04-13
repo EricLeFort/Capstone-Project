@@ -12,8 +12,8 @@ public class PCVRTest{
 	private static final double DELTA = 1e-15;
 	
 	@Test
-	public void test(){
+	public void testVRProgram(){
 		fail("Not yet implemented");
-	}
+	}//testVRProgram()
 	
 }//PCVRTest

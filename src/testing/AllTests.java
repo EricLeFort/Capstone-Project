@@ -8,7 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	BallTest.class,
 	EventHandlerTest.class,
-	InferenceEngineTest.class,
 	PCCommunicatorTest.class,
 	PCVRTest.class,
 	ShotTest.class,

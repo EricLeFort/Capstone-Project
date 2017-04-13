@@ -85,5 +85,20 @@ public class ShotTest{
 			fail("Unexpected exception.");
 		}
 	}//testConstructor()
+
+	@Test
+	public void testAlterScore(){
+		fail("Not yet implemented.");
+	}//testAlterScore()
+	
+	@Test
+	public void testSetXPosition(){
+		fail("Not yet implemented.");
+	}//testSetXPosition()
+	
+	@Test
+	public void testSetYPosition(){
+		fail("Not yet implemented.");
+	}//testSetYPosition()
 	
 }//ShotTest

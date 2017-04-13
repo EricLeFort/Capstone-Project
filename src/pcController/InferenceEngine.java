@@ -2,9 +2,9 @@ package pcController;
 
 public class InferenceEngine{
 	public static final double MAX_X_COORDINATE = 1.848, MAX_Y_COORDINATE = 0.921;	//max coordinates in m
-	public static BallType myBallType;
-	private static final double ANGULAR_STEP = 0.0031416,							//minimum step size in radians
-			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;						//power levels in %
+	public static BallType myBallType = BallType.SOLID;
+	private static final double ANGULAR_STEP = 0.0031416, HI_POWER = 1;							//minimum step size in radians
+//			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;						//power levels in %
 	private static TableState currentTableState;
 	private static double[][] positions;
 	private static Shot bestShot;
@@ -88,11 +88,9 @@ public class InferenceEngine{
 			lowAngle -= lowAngle % ANGULAR_STEP;
 			highAngle -= highAngle % ANGULAR_STEP;
 
-			simulateShot(new Shot(0, 0, 1.696464, HI_POWER));
-			simulateShot(new Shot(0, 0, 2, HI_POWER));
 			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
-				simulateShot(new Shot(0, 0, j, LOW_POWER));//TODO uncomment
-				simulateShot(new Shot(0, 0, j, MID_POWER));
+//				simulateShot(new Shot(0, 0, j, LOW_POWER));
+//				simulateShot(new Shot(0, 0, j, MID_POWER));
 				simulateShot(new Shot(0, 0, j, HI_POWER));
 			}
 		}
