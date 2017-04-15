@@ -30,13 +30,13 @@ public class TableState{
 	 * @param i - The index of the ball to be returned.
 	 * @return The ball at index <code>i</code>.
 	 */
-	Ball getBall(int i){ return balls[i]; }//getBall()
+	public Ball getBall(int i){ return balls[i]; }//getBall()
 	
 	/**
 	 * Creates and returns a deep copy of the array of <code>Balls</code> in the current <code>TableState</code>.
 	 * @return An array of type <code>Ball</code> with length 16.
 	 */
-	Ball[] deepCopy(){
+	public Ball[] deepCopy(){
 		Ball[] balls = new Ball[16];
 		
 		for(byte i = 0; i < balls.length; i++){

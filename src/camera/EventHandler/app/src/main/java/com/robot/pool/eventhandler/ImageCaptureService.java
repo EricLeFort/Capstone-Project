@@ -68,7 +68,7 @@ public class ImageCaptureService extends Service{
 		}
 	};
 
-	public static void start(){//Activity activity){
+	public static void start(){
 		manager = (CameraManager)activity.getSystemService(CAMERA_SERVICE);
 		cameraID = getCamera(manager);
 
@@ -168,7 +168,7 @@ public class ImageCaptureService extends Service{
 			for(String cameraId : manager.getCameraIdList()){
 				if(manager.getCameraCharacteristics(cameraId)
 						.get(CameraCharacteristics.LENS_FACING)
-						== CameraCharacteristics.LENS_FACING_FRONT){
+						== CameraCharacteristics.LENS_FACING_BACK){
 					return cameraId;
 				}
 			}
@@ -180,7 +180,7 @@ public class ImageCaptureService extends Service{
 	private static void processImage(byte[] bytes){
 		OutputStream outStream;
 		Socket socket = null;
-		String address = "10.0.2.2";
+		String address = "172.17.151.210";
 		Bitmap bmp;
 		int port = 8000;
 

@@ -34,7 +34,7 @@ public class SimulationInstance extends TableState{
 			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,					//Elastic coefficients
 			BALL_TABLE_FRICTION = 0.49035,												//in m/s/s
 			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,		//Initial speeds in m/s
-			MIN_MOTION = 0.02,															//Slower motion considered 0
+			MIN_MOTION = 0.1,															//Slower motion considered 0
 			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,							//Pocket openings
 			CORNER_SIDE_LENGTH = Math.sqrt(CORNER_MOUTH_WIDTH*CORNER_MOUTH_WIDTH/2),	//Corner side opening length
 			CORNER_RADIUS = 0.0625, CORNER_CENTER_X = 0.019, CORNER_CENTER_Y = 0.017,	//Distance to center of pocket
@@ -49,7 +49,7 @@ public class SimulationInstance extends TableState{
 	/*
 	 * TESTING VARIABLES
 	 */
-	private static final boolean visual = true;
+	private static final boolean visual = false;
 	private JFrame f;
 	private PointPanel panel;
 	
@@ -251,7 +251,7 @@ public class SimulationInstance extends TableState{
 	 * @param vy2 - The y-component of the second ball's velocity.
 	 * @return The x- and y-components of the resulting velocity of the first ball.
 	 */
-	private double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){
+	public static double[] ballToBallCollision(Ball a, Ball b, double vx1, double vy1, double vx2, double vy2){
 		double alpha, newAlpha, theta1, theta2, x1, y1, x2, y2, v1, v2, v1Angle, v2Angle,
 		ax, ay, bx, by, perp, perpx, perpy, para, parax, paray, pi2 = Math.PI*2;
 		
@@ -327,7 +327,7 @@ public class SimulationInstance extends TableState{
 	 * @param perpendicular - True if the velocity is perpendicular to the wall, false otherwise.
 	 * @return The resulting one-dimensional velocity of the ball.
 	 */
-	private double ballToWallCollision(double v, boolean perpendicular){
+	public static double ballToWallCollision(double v, boolean perpendicular){
 		if(perpendicular){
 			return -v * BUMPER_COEFFICIENT;
 		}else{
@@ -341,12 +341,12 @@ public class SimulationInstance extends TableState{
 	 * @param v - An array containing the x- and y-components of the velocity (should be of length 2).
 	 * @return True if the ball will be sunk or false otherwise.
 	 */
-	private boolean inPocket(double x, double y){	//TODO check if ball will bounce out?
+	public static boolean inPocket(double x, double y){	//TODO check if ball will bounce out?
 		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,
 				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2,
-				smallX = Math.abs(x - CORNER_CENTER_X), smallY = Math.abs(y - CORNER_CENTER_Y),
-				largeX = x - InferenceEngine.MAX_X_COORDINATE + CORNER_CENTER_X,
-				largeY = y - InferenceEngine.MAX_Y_COORDINATE + CORNER_CENTER_Y;
+				smallX = x - CORNER_CENTER_X, smallY = y - CORNER_CENTER_Y,
+				largeX = InferenceEngine.MAX_X_COORDINATE + CORNER_CENTER_X - x,
+				largeY = InferenceEngine.MAX_Y_COORDINATE + CORNER_CENTER_Y - y;
 		
 		return Math.sqrt(Math.pow(smallX, 2) + Math.pow(smallY, 2))
 				< CORNER_RADIUS + SINK_PROXIMITY									//bottom-left
@@ -368,7 +368,7 @@ public class SimulationInstance extends TableState{
 	 * @param xRail - Whether we are looking for the x- or the y-wall.
 	 * @return Whether there would be a wall at this position.
 	 */
-	private boolean isWallHere(double val, boolean xRail){
+	public static boolean isWallHere(double position, boolean xRail){
 		double a, b, c, d;
 		
 		if(xRail){
@@ -377,12 +377,12 @@ public class SimulationInstance extends TableState{
 			c = b + SIDE_MOUTH_WIDTH;
 			d = InferenceEngine.MAX_X_COORDINATE - CORNER_SIDE_LENGTH;
 			
-			return (val > a && val < b) || (val > c && val < d);
+			return (position > a && position < b) || (position > c && position < d);
 		}else{
 			a = CORNER_SIDE_LENGTH;
 			b = InferenceEngine.MAX_Y_COORDINATE - CORNER_SIDE_LENGTH;
 			
-			return val > a && val < b;
+			return position > a && position < b;
 		}
 	}//isWallHere()
 	
@@ -392,7 +392,7 @@ public class SimulationInstance extends TableState{
 	 * @param y - The change in y.
 	 * @return The angle of this right triangle from the origin.
 	 */
-	public double angleFromCoordinates(double x, double y){
+	public static double angleFromCoordinates(double x, double y){
 		if(x == 0){						//Solve alpha
 			if(y > 0){					//Special case: coordinate directly along y-axis
 				return Math.PI / 2;

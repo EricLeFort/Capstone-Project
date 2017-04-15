@@ -35,6 +35,18 @@ public class Shot{
 		this.power = power;
 	}//Constructor
 	
+	@Override
+	public String toString(){
+		String newline = System.getProperty("line.separator"), message = "OPTIMAL SHOT" + newline;
+				
+		message += "X-Position: " + xPosition + newline;
+		message += "Y-Position: " + yPosition + newline;
+		message += "Angle: " + angle + newline;
+		message += "Power: " + power + newline;
+		
+		return message;
+	}//toString()
+	
 	//  GETTERS & SETTERS    //
 	/**
 	 * Adds the specified change in order to update the score.
@@ -55,7 +67,7 @@ public class Shot{
 		}
 		yPosition = position;
 	}//setYPosition
-	
+
 	public int getScore(){ return score; }//getScore()
 	public double getXPosition(){ return xPosition; }//getXPosition()
 	public double getYPosition(){ return yPosition; }//getYPosition()

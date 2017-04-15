@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
 		public void run(){
 //			for(;;){ //TODO Very difficult to run through more than once.
 				ImageCaptureService.start();
-				android.os.SystemClock.sleep(10000);
+				//android.os.SystemClock.sleep(10000);
 //			}
 		}//run()
 	};//listenTakeAndTransmitPhoto()

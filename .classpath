@@ -3,5 +3,10 @@
 	<classpathentry excluding="camera/EventHandler/app/src/main/java/com/robot/pool/eventhandler/ImageCaptureService.java|camera/EventHandler/app/src/main/java/com/robot/pool/eventhandler/MainActivity.java|camera/EventHandler/app/src/main/|camera/EventHandler/app/|camera/EventHandler/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/RXTXcomm.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/EricLeFort/Dropbox/Eclipse Workspaces/Git/Capstone-Project/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
