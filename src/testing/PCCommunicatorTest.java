@@ -23,7 +23,8 @@ public class PCCommunicatorTest{
 			invalidFile2 = "resources/testingFiles/InvalidTableState2.csv",
 			invalidFile3 = "resources/testingFiles/InvalidTableState3.csv",
 			tempFile = "resources/Temp.csv",
-			originalTableState = "resources/TableState.csv";
+			originalTableState = "resources/TableState.csv",
+			imageFile = "resources/TableImage.jpg";
 	private static final double DELTA = 1e-15;
 	
 	@Test
@@ -136,14 +137,14 @@ public class PCCommunicatorTest{
 		try{
 			Files.copy(orig.toPath(), temp.toPath());	//Copy original file
 			Files.delete(orig.toPath());				//Delete original file
-		}catch(IOException ioe){
+		}catch(Exception e){
 			fail("Preparation failure.");
 		}
 		
 		assertTrue(!orig.exists());						//Verify old file was deleted
 		
-		PCCommunicator.initiateVR();
-		//TODO do I wait here to give VR time?
+		PCCommunicator.initiateVR();					//Run VR program and give 15 seconds to complete
+		//try{ Thread.sleep(15000); }catch(InterruptedException ie){ } TODO uncomment
 		
 		check = orig.exists();							//Verify file was created -- shows that VR program ran
 		
@@ -158,12 +159,25 @@ public class PCCommunicatorTest{
 			System.out.println("WARNING: ORIGINAL FILE NOT COPIED BACK SUCCESSFULLY.");
 		}
 		
-		assertTrue(check);
+		assertTrue("File was not created", check);
 	}//testInitiateVR()
 	
 	@Test
 	public void testImageRequest(){
-		fail("Not yet implemented.");
+		File file = new File(imageFile);
+		
+		if(file.exists()){
+			file.delete();
+		}
+		
+//		if(!PCCommunicator.imageRequest()){ TODO uncomment
+		int warningMarker;
+			fail("Method returned false.");
+//		}
+		
+		if(!file.exists()){
+			fail("Image file could not be found.");
+		}
 	}//testImageRequest()
 	
 }//PCCommunicatorTest

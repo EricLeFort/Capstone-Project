@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	BallTest.class,
-	EventHandlerTest.class,
 	PCCommunicatorTest.class,
 	PCVRTest.class,
 	ShotTest.class,

@@ -78,12 +78,32 @@ public class BallTest{
 
 	@Test
 	public void testAlterX(){
-		fail("Not yet implemented.");
+		Ball a = new Ball(1, 0.5, (byte)2);
+		assertEquals(1, a.getXPosition(), DELTA);
+		
+		a.alterX(1);
+		assertEquals(2, a.getXPosition(), DELTA);
+		
+		a.alterX(505.23);
+		assertEquals(507.23, a.getXPosition(), DELTA);
+		
+		a.alterX(-504.23);
+		assertEquals(3, a.getXPosition(), DELTA);
 	}//testAlterX()
 	
 	@Test
 	public void testAlterY(){
-		fail("Not yet implemented.");
+		Ball a = new Ball(1, 0.5, (byte)2);
+		assertEquals(0.5, a.getYPosition(), DELTA);
+		
+		a.alterY(1);
+		assertEquals(1.5, a.getYPosition(), DELTA);
+		
+		a.alterY(505.23);
+		assertEquals(506.73, a.getYPosition(), DELTA);
+		
+		a.alterY(-504.23);
+		assertEquals(2.5, a.getYPosition(), DELTA);
 	}//testAlterY()
 	
 }//BallTest

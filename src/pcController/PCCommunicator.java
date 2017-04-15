@@ -111,10 +111,11 @@ public class PCCommunicator implements SerialPortEventListener{
 	}//sendShot()
 	
 	/**
-	 * Creates a socket to be accessed by the camera. Once the socket is established
-	 * @return
+	 * Creates a socket to be accessed by the camera. Once the socket is established it receives image data
+	 * from the image capture device.
+	 * @return Whether the image was successfully received or not.
 	 */
-	private static boolean imageRequest(){
+	public static boolean imageRequest(){
 		ArrayList<Byte> imageByteList = new ArrayList<Byte>();
 		byte[] imageByteArray;
 		ServerSocket serverSocket;

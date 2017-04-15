@@ -88,17 +88,63 @@ public class ShotTest{
 
 	@Test
 	public void testAlterScore(){
-		fail("Not yet implemented.");
+		Shot a = new Shot(1, 0.5, 1, 1);
+		assertEquals(-1, a.getScore());
+		
+		a.alterScore(1);
+		assertEquals(0, a.getScore());
+		
+		a.alterScore(505);
+		assertEquals(505, a.getScore());
+		
+		a.alterScore(-504);
+		assertEquals(1, a.getScore());
 	}//testAlterScore()
 	
 	@Test
 	public void testSetXPosition(){
-		fail("Not yet implemented.");
+		Shot a = new Shot(1, 0.5, 2, 1);
+		a.setXPosition(0.2);
+		assertEquals(0.2, a.getXPosition(), DELTA);
+		
+		try{									//Large X value
+			a.setXPosition(1.849);
+		}catch(IllegalArgumentException iae){
+			assertTrue(a.getXPosition() == 0.2);
+		}catch(Exception e){
+			fail("Unexpected exception.");
+		}
+		
+		try{									//Small X value
+			a.setXPosition(-0.001);
+		}catch(IllegalArgumentException iae){
+			assertTrue(a.getXPosition() == 0.2);
+		}catch(Exception e){
+			fail("Unexpected exception.");
+		}
 	}//testSetXPosition()
 	
 	@Test
 	public void testSetYPosition(){
-		fail("Not yet implemented.");
+		Shot a = new Shot(1, 0.5, 2, 1);
+		a.setYPosition(0.2);
+		assertEquals(0.2, a.getYPosition(), DELTA);
+		
+		try{									//Large Y value
+			a.setYPosition(0.922);
+		}catch(IllegalArgumentException iae){
+			assertTrue(a.getYPosition() == 0.2);
+		}catch(Exception e){
+			fail("Unexpected exception.");
+		}
+		
+		try{									//Small Y value
+			a.setYPosition(-0.001);
+		}catch(IllegalArgumentException iae){
+			assertTrue(a.getYPosition() == 0.2);
+		}catch(Exception e){
+			fail("Unexpected exception.");
+		}
 	}//testSetYPosition()
 	
 }//ShotTest

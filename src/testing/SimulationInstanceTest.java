@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
+import pcController.Ball;
 import pcController.PCCommunicator;
 import pcController.SimulationInstance;
 
@@ -19,7 +20,7 @@ public class SimulationInstanceTest{
 			oneSolidTable = "resources/testingFiles/GoodTableState2.csv",
 			oneStripeTable = "resources/testingFiles/GoodTableState3.csv",
 			eightBallTable = "resources/testingFiles/GoodTableState4.csv";
-	private static final double DELTA = 1e-15, ANGLE_PRECISION = 1e-6;
+	private static final double DELTA = 1e-15, ANGLE_PRECISION = 1e-6, VELOCITY_PRECISION = 1e-8;
 	
 	@Test
 	public void testConstructor(){
@@ -37,13 +38,13 @@ public class SimulationInstanceTest{
 				1,
 				2
 		};
-//		,expectedNextCuePosition[][] = new double[][]{
-//			{},
-//			{},
-//			{},
-//			{},
-//			{}
-//		};
+		//		,expectedNextCuePosition[][] = new double[][]{
+		//			{},
+		//			{},
+		//			{},
+		//			{},
+		//			{}
+		//		};
 		
 		try{
 			locations = new double[][][]{
@@ -62,10 +63,8 @@ public class SimulationInstanceTest{
 					}
 					
 					instance.update();							//Update positions for single timestep.
-																//Ensure cue ball moved correctly.
-//					assertEquals(instance.getBall(0).getXPosition(), expectedNextCuePosition[i][0], DELTA);
-//					assertEquals(instance.getBall(0).getYPosition(), expectedNextCuePosition[i][1], DELTA);
-					for(int k = 1; k < 16; k++){				//Ensure other balls have not moved
+					
+					for(int k = 1; k < 16; k++){				//Ensure all balls that are not the cue ball have not moved
 						assertEquals(instance.getBall(k).getXPosition(), locations[i][k][0], DELTA);
 						assertEquals(instance.getBall(k).getYPosition(), locations[i][k][1], DELTA);
 					}
@@ -87,8 +86,68 @@ public class SimulationInstanceTest{
 	
 	@Test
 	public void testBallToBallCollision(){
-		//TODO test for positive, negative, zero theta for each of the 4 quadrants
-		fail("Not yet implemented");
+		Ball a, b;
+		double expected[][] = new double[][]{		//zero, positive, negative theta for each testing category
+			{}, {}, {},			//First quadrant, b stationary //TODO compute expected
+			{}, {}, {},			//First quadrant, b moving
+			{}, {}, {},			//Second quadrant, b stationary
+			{}, {}, {},			//Second quadrant, b moving
+			{}, {}, {},			//Third quadrant, b stationary
+			{}, {}, {},			//Third quadrant, b moving
+			{}, {}, {},			//Fourth quadrant, b stationary
+			{}, {}, {}			//Third quadrant, b moving
+		}, aVelocities[][] = new double[][]{//TODO select initial values
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {}
+		}, bVelocities[][] = new double[][]{//TODO select initial values
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {}
+		}, aPositions[][] = new double[][]{//TODO select initial values
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {}
+		}, bPositions[][] = new double[][]{//TODO select initial values
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {},
+			{}, {}, {}
+		}, result[];
+		
+		for(int i = 0; i < expected.length; i++){
+			a = new Ball(aPositions[i][0], aPositions[i][1], (byte)1);
+			b = new Ball(bPositions[i][0], bPositions[i][1], (byte)2);
+			result = SimulationInstance.ballToBallCollision(
+					a,
+					b,
+					aVelocities[i][0],
+					aVelocities[i][1],
+					bVelocities[i][0],
+					bVelocities[i][1]
+					);
+			assertEquals(result[0], expected[i][0], VELOCITY_PRECISION);
+			assertEquals(result[1], expected[i][1], VELOCITY_PRECISION);
+		}
 	}//testBallToBallCollision()
 	
 	@Test
