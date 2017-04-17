@@ -212,20 +212,16 @@ void RequestPCInstruction() //Loop during PC operation
   }
 
   while(Serial.available() == 0);
-  value = Serial.parseFloat();
-  serialX = value;
+  serialX = Serial.parseFloat();
   
   while(Serial.available() == 0);
-  value = Serial.parseFloat();
-  serialY = value;
+  serialY = Serial.parseFloat();
   
   while(Serial.available() == 0);
-  value = Serial.parseFloat();
-  serialR = value;
+  serialR = Serial.parseFloat();
   
   while(Serial.available() == 0);
-  value = Serial.parseFloat();
-  requestedE = value;
+  requestedE = Serial.parseFloat();
    
   Serial.println(CONFIRM_CODE);
 
@@ -233,7 +229,7 @@ void RequestPCInstruction() //Loop during PC operation
   
 }
 
-void MapCoordinates(serialX, serialY, serialR) //Map from real coordinates to step coordinates
+void MapCoordinates(double serialX, double serialY, double serialR) //Map from real coordinates to step coordinates
 {
   
   int i;
@@ -393,6 +389,8 @@ void MoveXYR() //Move X Y and R simultaneously
       else requestedX = UPPERBOUND_X; 
       stopStart = false;
     }
+
+  }
   
 }
 
