@@ -411,7 +411,7 @@ void UserButton1() //Tell machine to move left during user turn
     if(abs(requestedX-currentX) >= 300) requestedX = currentX + (xDir*300); //Stop Moving
     if(requestedX > currentX) stopStart = true; //Change directions, must stop and start
   }
-  else  requestedX = 0;
+  else requestedX = 0;
   
 }
 
@@ -449,8 +449,7 @@ void UserButton3() //User turn, machine turn
   previousTime = currentTime;
   userControl = !userControl;
   
-  if(abs(requestedX-currentX) < 300) requestedX = currentX + (xDir*abs(requestedX-currentX));
-  else requestedX = currentX + (xDir*300);
+  if(abs(requestedX-currentX) >= 300) requestedX = currentX + (xDir*300);
   requestedY = currentY;
   requestedR = currentR;
     
