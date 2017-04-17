@@ -28,20 +28,21 @@
 \begin{tabular}{| C{3} | C{2} | C{5} | C{2.5} |}\hline
 	Date			&Revision \#	&Comments						&Authors\\\hline
 	27/02/2017		&0				&- Initial document creation	&Eric Le Fort\\\hline
+	21/03/2017		&0				&- Revision 0 completion		&Eric Le Fort\newline Guy Meyer\newline Ernest Selman\newline Andrew Danha\newline Derek Savery\newline Max Moore\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
 \newpage
 
 \section{Introduction}
-This document will provide a specification of a test plan for an automated pool playing robot and report on the results of that plan.
+This document will provide the specification of a test plan for this automated pool playing robot and report on the results of that plan.
 \subsection{Overview}
 This document breaks down the required testing for each domain of the system. It begins with the hardware aspect, then moves to the electrical side and then finishes with software. Each section will go into further detail to describe each test case. Lastly, a summary of the results of testing will be provided to conclude the document.
 \subsection{Purpose}
 The aim of this document is to illuminate any design flaws, software bugs, or other issues in the system. Once these issues are discovered, the engineering team will be able to work on eliminating them or minimizing their frequency and consequences.
+\newpage
 \subsection{Naming Conventions \& Definitions}
 This section outlines the various definitions, acronyms and abbreviations that will be used throughout this document in order to familiarize the reader prior to reading.
-\newpage
 
 \subsubsection{Definitions}
 Table \ref{tab:Definitions} lists the definitions used in this document. The definitions given below are specific to this document and may not be identical to definitions of these terms in common use. The purpose of this section is to assist the user in understanding the requirements for the system.
@@ -82,15 +83,24 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 \end{table}
 \newpage
 
+
+
+\section{Testing Policy}
+The primary purpose of the testing of this system will be to ensure the requirements are met in order of their importance. To achieve this goal, both unit and system tests will be necessary. The process of the testing will be to perform the unit tests of the physical system and any software which does not interact with the physical system first. Once those tests are satisfied, the systems will be integrated and the unit tests which deal with both elements will be tested. Finally, the systems tests will be run to ensure final validation of the system.\\~\\
+The implementations and evaluations of tests are all described for the specific test in its description further in this document. In order to sufficiently cover the full problem space, tests will be designed to focus on both sides of all edge cases. Testing resources such as dummy files will also be created in order to emulate conditions that are necessary for certain test cases.
+
+
+
 \section{Traceability Matrix}
-The following traceability matrices will demonstrate that the tests to be performed prove that each of the specified requirements have been tested.\\~\\
+The following traceability matrices will demonstrate that the tests to be performed prove that each of the specified requirements have been tested.
+\newpage
 \large{\textbf{Functional Requirements Traceability Matrix}}
 \begin{center}
 \begin{table}[h!]
 \hspace*{-7.5mm}
 \begin{tabular}{|c|c|c|c|c |c|c|c|c|c |c|c|c|c|c |c|c|c|c|c|}\hline
 \multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&F1	&F2	&F3	&F4	&F5	&F6	&F7	&F8	&F9	&F10	&F11	&F12	&F13	&F14	&F15	&F16	&F17	&F18\\\hline
-\multicolumn{1}{|C{1.5}|}{Test Cases}&184 &4 &4 &5 &33 &16 &12 &18 &2 &16 &9 &9 &19 &4 &6 &11 &9 &3 &4\\\hline
+\multicolumn{1}{|C{1.5}|}{Test Cases}&140 &4 &4 &5 &15 &6 &4 &10 &2 &16 &9 &9 &19 &4 &6 &11 &9 &3 &4\\\hline
 1.1 &3&&& &&&&& &&&&X& &&X&X&&\\\hline
 1.2 &3&&& &&&&& &&&&X& &&X&X&&\\\hline
 1.3 &2&&& &&&&& &&&&X& &&&X&&\\\hline
@@ -119,14 +129,8 @@ The following traceability matrices will demonstrate that the tests to be perfor
 2.10 &1&&& &&&&& &&&&& &&&&&X\\\hline
 2.11 &0&&& &&&&& &&&&& &&&&&\\\hline
 3.1.1 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.2 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.3 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.4 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.5 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.6 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.7 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.8 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.9 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.2 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.3 &1&&& &X&&&& &&&&& &&&&&\\\hline
 \end{tabular}
 \caption{Functional Requirements Traceability Matrix - 1}
 \end{table}
@@ -137,32 +141,20 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \hspace*{-7.5mm}
 \begin{tabular}{|c|c|c|c|c |c|c|c|c|c |c|c|c|c|c |c|c|c|c|c|}\hline
 \multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&F1	&F2	&F3	&F4	&F5	&F6	&F7	&F8	&F9	&F10	&F11	&F12	&F13	&F14	&F15	&F16	&F17	&F18\\\hline
-3.1.10 &1&&& &&X&&& &&&&& &&&&&\\\hline
-3.1.11 &1&&& &&X&&& &&&&& &&&&&\\\hline
-3.1.12 &1&&& &&X&&& &&&&& &&&&&\\\hline
-3.1.13 &1&&&X &&&&& &&&&& &&&&&\\\hline
-3.1.14 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.15 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.16 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.17 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.18 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.19 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.20 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.21 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.22 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
-3.1.23 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.24 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.25 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.26 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.27 &2&&& &X&&X&& &&&&& &&&&&\\\hline
-3.1.28 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.29 &1&&& &X&&&& &&&&& &&&&&\\\hline
-3.1.30 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.31 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.32 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.33 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.34 &2&&& &X&X&&& &&&&& &&&&&\\\hline
-3.1.35 &2&&& &X&X&&& &&&&& &&&&&\\\hline
+3.1.4 &1&&& &&X&&& &&&&& &&&&&\\\hline
+3.1.5 &1&&& &&X&&& &&&&& &&&&&\\\hline
+3.1.6 &1&&& &&X&&& &&&&& &&&&&\\\hline
+3.1.7 &1&&&X &&&&& &&&&& &&&&&\\\hline
+3.1.8 &3&&& &X&&X&X& &&&&& &&&&&\\\hline
+3.1.9 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.10 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.11 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.12 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.13 &2&&& &X&&X&& &&&&& &&&&&\\\hline
+3.1.14 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.15 &1&&& &X&&&& &&&&& &&&&&\\\hline
+3.1.16 &2&&& &X&X&&& &&&&& &&&&&\\\hline
+3.1.17 &2&&& &X&X&&& &&&&& &&&&&\\\hline
 3.2.1 &3&X&X&X &&&&& &&&&& &&&&&\\\hline
 3.2.2 &3&X&X&X &&&&& &&&&& &&&&&\\\hline
 3.3.1 &5&&& &&&&X& &X&&&X& &X&X&&&\\\hline
@@ -185,7 +177,8 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \caption{Functional Requirements Traceability Matrix - 2}
 \end{table}
 \end{center}
-\newpage
+\newpage~
+\newpage~
 
 \large{\textbf{Non-Functional Requirements Traceability Matrix}}
 \begin{center}
@@ -194,7 +187,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \setlength\tabcolsep{1pt}
 \begin{tabular}{|c|c|*{20}{C{0.8}|}}\hline
 \multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&LF1	&UH1	&UH2	&UH3	&P1	&P2	&P3	&P4	&OE1	&MS1	&MS2	&S1	&S2	&S3	&S4	&S5	&S6	&S7	&CP1	&L1\\\hline
-\multicolumn{1}{|C{1.5}|}{Test Cases}&68 &2 &5 &3 &2 &4 &20 &1 &2 &2 &1 &1 &2 &10 &2 &4 &2 &1 &3 &1 &0\\\hline
+\multicolumn{1}{|C{1.5}|}{Test Cases}&60 &2 &5 &3 &2 &4 &12 &1 &2 &2 &1 &1 &2 &10 &2 &4 &2 &1 &3 &1 &0\\\hline
 1.1 &2&&X&& &X&&&& &&&&& &&&&& &\\\hline
 1.2 &2&&X&& &X&&&& &&&&& &&&&& &\\\hline
 1.3 &1&&X&& &&&&& &&&&& &&&&& &\\\hline
@@ -229,13 +222,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 3.1.5 &0&&&& &&&&& &&&&& &&&&& &\\\hline
 3.1.6 &0&&&& &&&&& &&&&& &&&&& &\\\hline
 3.1.7 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.8 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.9 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.10 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.11 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.12 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.13 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.14 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.8 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
 \end{tabular}
 \caption{Non-Functional Requirements Traceability Matrix - 1}
 \end{table}
@@ -247,27 +234,15 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \setlength\tabcolsep{1pt}
 \begin{tabular}{|c|c|*{20}{C{0.8}|}}\hline
 \multicolumn{1}{|C{1.5}|}{Req IDs}	&\multicolumn{1}{|C{1}|}{Reqs Tested}	&LF1	&UH1	&UH2	&UH3	&P1	&P2	&P3	&P4	&OE1	&MS1	&MS2	&S1	&S2	&S3	&S4	&S5	&S6	&S7	&CP1	&L1\\\hline
-3.1.15 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.16 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.17 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.18 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.19 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.20 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.21 &2&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.22 &1&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.23 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.24 &2&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.25 &1&&&& &&X&&& &&&&X& &&&&& &\\\hline
-3.1.26 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.27 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.28 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.29 &0&&&& &&X&&& &&&&& &&&&& &\\\hline
-3.1.30 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.31 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.32 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.33 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.34 &0&&&& &&&&& &&&&& &&&&& &\\\hline
-3.1.35 &0&&&& &&&&& &&&&& &&&&& &\\\hline
+3.1.9 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.10 &2&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.11 &1&&&& &&X&&& &&&&X& &&&&& &\\\hline
+3.1.12 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.13 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.14 &1&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.15 &0&&&& &&X&&& &&&&& &&&&& &\\\hline
+3.1.16 &0&&&& &&&&& &&&&& &&&&& &\\\hline
+3.1.17 &0&&&& &&&&& &&&&& &&&&& &\\\hline
 3.2.1 &0&&&& &&&&& &&&&& &&&&& &\\\hline
 3.2.2 &0&&&& &&&&& &&&&& &&&&& &\\\hline
 3.3.1 &0&&&& &&&&& &&&&& &&&&& &\\\hline
@@ -290,36 +265,37 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \caption{Non-Functional Requirements Traceability Matrix - 2}
 \end{table}
 \end{center}
-\newpage
+\newpage~
+\newpage~
 
 
 \section{Mechanical Components}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.1	&Status: TBT\\[-3mm]
+	Test ID: 1.1	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Synchronous Motion in X Rail}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that X-Rails can synchronously move to the same location at the same speed without getting stuck while loaded}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: If rail moves adequately and quickly as expected}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Location along x-direction (i.e. 2000 steps)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion along axis until position is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion along axis until position is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Motion in the X-rail performs as required.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Rails are stationary with no slip.}\\\hline
 \end{tabular}
 \caption{Synchronous Motion in X Rail}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.2	&Status: TBT\\[-3mm]
+	Test ID: 1.2	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Motion in Y Rail}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description:Verify that Y-Rail can move to a location without getting stuck while loaded}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: If rail moves adequately and quickly as expected}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Location along y-direction}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion along axis until position is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion along axis until position is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Motion in the Y-rail performs as required.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Rail is stationary with no slip.}\\\hline
 \end{tabular}
 \caption{Motion in Y Rail}
@@ -349,11 +325,11 @@ The following traceability matrices will demonstrate that the tests to be perfor
 	Test ID: 1.4	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Shooting Mechanism Orientation}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: EE is positioned correctly and waiting command to power piston}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: Piston is settled at correct oreintation, awaiting command to actuate piston}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Motors orient piston to proper orentation}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: Piston is settled at correct orientation, awaiting command to actuate piston}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Motors orient piston to proper orientation}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Position and orientation components sent to Arduino}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System moves to desired location and waits for piston signal}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Piston can be safely actauted and strike cue ball}\\\hline
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Piston can be safely actuated and strike cue ball}\\\hline
 \end{tabular}
 \caption{Shooting Mechanism Orientation}
 \end{table}
@@ -364,7 +340,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \begin{tabular}{|l r|}\hline&\\[-2mm]
 	Test ID: 1.5	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Perimeter Coverage}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: EE will be moved around the table to ensure that it is able to reach all locations  and orientations}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: EE will be moved around the table to ensure that it is able to reach all locations and orientations}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: EE is capable of completing a full trip around the perimeter without stops}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Motion command from Arduino}\\[2mm]\hline
@@ -375,16 +351,16 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.6	&Status: TBT\\[-3mm]
+	Test ID: 1.6	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Ball Avoidance}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: As the EE is moving around the table it much avoid the balls to not interfere with gameplay}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: Able to move randomly around table without moving rolling or stationary balls}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Ball in motion OR stationary}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Random motion along table}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: EE travels directly over balls and does not make contact}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: EE travels directly over balls and does not make contact}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The end effector does not interfere with the balls while moving.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Ball Avoidance}
@@ -392,81 +368,80 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.7	&Status: TBT\\[-3mm]
+	Test ID: 1.7	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Table Visibility}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The amount of table visible is approximated.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if players are able to see 100\% table setup upon their turn.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if players are able to see 100\% of the table setup upon their turn.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine is in a position where it is ready for a ``Take a Shot'' command.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Percentage visibility of the table.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player can see 100\% of the table without excessive effort or movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player can see 100\% of the table without excessive effort or movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The player can see the whole table when its their turn.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Table Visibility}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.8	&Status: TBT\\[-3mm]
+	Test ID: 1.8	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{System Obstruction}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The machine will be placed in positions which make it as difficult as possible to take a shot. The difficulty of the shot will then be determined.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the design of the machine allows users to take any shot they would normally be able to make.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The machine and balls should be setup in a way that makes a shot as difficult as possible.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Difficulty of shot.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player is able to make their shot with no more than a low degree of difficulty relative to the shot difficulty without the machine.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Player is able to make their shot with no more than a low degree of difficulty relative to the shot difficulty without the machine.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system makes it slightly more difficult for users to take shots due to the distance the arms protrude from the table. However, the user would still be able to play the game and so the conditions are met.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{System Obstruction}
 \end{table}
 \end{center}
-\newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.9	&Status: TBT\\[-3mm]
+	Test ID: 1.9	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{System Weight}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The components of the machine will be weighed and those weights will be added together to get the total weight.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the weight of the machine is less than 250 lbs.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Weights of all components used.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine weighs less than 250 lbs.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Machine weighs less than 250 lbs.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine weighs about 40kg.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{System Weight}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID:   1.10	&Status: TBT\\[-3mm]
+	Test ID:   1.10	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Rigidity of Machine Body}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The machine must be rigid such that nominal strain $<$ 0.1}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the body of the machine is rigid such that nominal strain $<$ 0.1}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: The impulse from the strongest shot on the machine in multiple locations and directions.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine body should not suffer deformation greater than magnitude 0.1 nominal strain.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine body should not suffer deformation greater than magnitude 0.1 nominal strain.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine is sufficiently rigid.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine body should return to its initial state.}\\\hline
 \end{tabular}
 \caption{Rigidity of Machine Body}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.11	&Status: TBT\\[-3mm]
+	Test ID: 1.11	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Transformer Stability}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Machine will move around the table as sharply as possible in typical execution and the transformer will be checked for stability.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the transformer remains sturdy and secured.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Quickest movement along the table in each direction.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The transformer remains secured in position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The transformer remains secured in position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The transformer is in no risk of becoming unsecured.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Transformer Stability}
@@ -474,16 +449,16 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.12	&Status: TBT\\[-3mm]
+	Test ID: 1.12	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{User Proximity Safety}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The machine will move to the furthest points it can reach and the distance from the table will be measured.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the machine is never further than 2 ft away from the table.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: End-effector moved in various locations to test the extreme distances it can reach.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Mechanism extends less than 2ft from the perimeter of the table at all times.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Mechanism extends less than 2ft from the perimeter of the table at all times.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine remained within 2ft of the perimeter.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{User Proximity Safety}
@@ -506,100 +481,99 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.14	&Status: TBT\\[-3mm]
+	Test ID: 1.14	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Striking Force - Strong}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Ensure shot is strong enough so that the cue ball can reach the whole table with sufficient force}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: At maximum strength the cue ball can cover the length of the table and return to half after hitting a bank}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Cue ball placed along one maximum x position}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Maximum strength shot}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Cue ball rolls across long edge of table, reflects of the bank and returns to half}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The cue ball rolls across long edge of table, bounces off the bank and returns to at least the halfway point.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The cue ball achieved the minimum range.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Balls are stationary and Shooting mechanism is retracted}\\\hline
 \end{tabular}
 \caption{Striking Force - Strong}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.15	&Status: TBT\\[-3mm]
+	Test ID: 1.15	&Status: FAIL\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Striking Force - Soft}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Ensure shot is soft enough so that the cue ball can reach nearby balls with control}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: At minimum/low strength the cue ball can lightly strike a nearby ball (within 20 cm) while moving no more than 20 cm after the hit}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Cue ball placed within 20 cm of another ball}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: Minimum stength shot}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Cue ball rolls towards other ball, makes contact and quickly comes to a stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: Minimum strength shot}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Cue ball rolls towards other ball, makes contact and quickly comes to a stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Machine not capable on modifying shot strength, therefore a soft shot is not possible.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Balls are stationary and Shooting mechanism is retracted}\\\hline
 \end{tabular}
 \caption{Striking Force - Soft}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.16	&Status: TBT\\[-3mm]
+	Test ID: 1.16	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Sufficient Acceleration and Stepping Consistency}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: At maximum loading capacity the system can accelerate to a terminal speed at which the EE is moved quickly enough}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: While the physcial construction is finished the system will be told to move long distances several times to ensure repeatability and consistency in acceleration}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: While the physical construction is finished the system will be told to move long distances several times to ensure repeatability and consistency in acceleration}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: System is stationary}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Move EE between opposite corners multiple times (x10 cycles)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After completion the EE should return to its original location within a couple of steps}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After completion the EE should return to its original location within a couple of steps}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system successfully maintained its step count.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Balls are stationary and Shooting mechanism is retracted}\\\hline
 \end{tabular}
 \caption{Sufficient Acceleration and Stepping Consistency}
 \end{table}
 \end{center}
-\newpage
 
 
 
 \section{Electrical System}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.1	&Status: TBT\\[-3mm]
+	Test ID: 2.1	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{User Input to Arduino}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: User applies input, then the Arduino indicates a message was received}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: Arduino output to console correct desired status}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: User pressed input button}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Related console output: make shot, cancel, or move, depending on the button pressed}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The console will output ``make shot,'' ``cancel,'' or ``move,'' depending on the button pressed}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The console had the correct output.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{User Input to Arduino}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.2	&Status: TBT\\[-3mm]
+	Test ID: 2.2	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: X-Rail}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the x-rail.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if both sensors are triggered.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Attempt to move system along the x-rail to the lower-limit position then the upper limit position.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: X-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: X-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Sensors operate as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Current Physical State: X-Rail}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.3	&Status: TBT\\[-3mm]
+	Test ID: 2.3	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: Y-Rail}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the y-rail.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if both sensors are triggered.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Attempt to move system along the y-rail to the lower-limit position then the upper limit position.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Y-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Y-rail sensors indicate that the system is in lower-limit/upper-limit positions and motion is stopped.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Sensors operate as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Current Physical State: Y-Rail}
@@ -628,8 +602,8 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \begin{tabular}{|l r|}\hline&\\[-2mm]
 	Test ID: 2.5	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: End-Effector}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain locations along the end-effector's range of motion.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the sensors indicate that the system in in the target position within 2 millimetres.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can determine the machine's current physical state at certain locations along the end-effector's range of motion.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the stored location correctly indicates that the system is in the target position within 2 millimetres.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Predetermined target locations}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: End-effector sensors indicate that the end-effector is in the target location.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
@@ -656,32 +630,32 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.7	&Status: TBT\\[-3mm]
+	Test ID: 2.7	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Sensitive Component Isolation from High Voltage}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The voltage near sensitive components will be measured to ensure they are at safe levels.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if wires connected to sensitive components fall within their maximum parameters as specified by the device.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Inspect wires connected to electrical equipment stated above.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All components are isolated from unsafely high voltage.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All components are isolated from unsafely high voltage.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Sensitive components are adequately shielded.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Sensitive Component Isolation from High Voltage}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.8	&Status: TBT\\[-3mm]
+	Test ID: 2.8	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Voltage Regulation}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The circuit to the $\mu$C will be provided various voltages and t.}\\[1mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the output voltage from the transformer is within the required $\mu$C voltage requirements.}\\[1mm]\hline&\\[-3mm]\hline&\\[-3mm]%Make a range
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the output voltage from the transformer is within the required $\mu$C voltage requirements.}\\[1mm]\hline&\\[-3mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Reading of voltage fed into $\mu$C using a multimeter.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Voltage is within 7 V DC - 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Voltage is within 7 V DC - 12 V DC.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The voltage remains within the required range.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Voltage Regulation}
@@ -706,32 +680,32 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.10	&Status: TBT\\[-3mm]
+	Test ID: 2.10	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{AC/DC Converter}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the transformer converts 110 AC, 60 Hz to DC ranges that power the $\mu$C at the appropriate voltage.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the output voltage is a DC voltage within 7-12}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Multimeter output voltage readings from the transformer.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The output voltage is a DC voltage within 7 - 12 VDC}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The output voltage is a DC voltage within 7 - 12 VDC}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: Power is converted correctly.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{AC/DC Converter}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.11	&Status: TBT\\[-3mm]
+	Test ID: 2.11	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Power Supply from Standard Socket}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The system will be plugged into a standard wall socket and functionality will be assessed.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: All components of the system are supplied with sufficient power.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: The power from a standard wall socket.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The system has enough power to perform normally.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The system has enough power to perform normally.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system is successfully powered using a wall socket.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Power Supply from Standard Socket}
@@ -745,161 +719,68 @@ The software system is comprised of four main components: a control system runni
 \subsection{Unit Tests}
 This section will provide a plethora of test cases which aim to prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
 \subsubsection{PC Controller Program}
-%Ball Tests
 \large{\textbf{Ball Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.1	&Status: TBT\\[-3mm]
+	Test ID: 3.1.1	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Tests}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if all the fields inside of Ball are correctly initialized.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A new ball with x-coordinate 1, y-coordinate 0.7, and the value 0.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A new Ball object should be available.}\\\hline
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if all the fields inside of the Ball are correctly initialized or if the correct exception is thrown.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The Ball object points to a null value.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline
+	1, 0.7, 0\newline
+	1.87658, 0.7, 0\newline
+	1, 0.94958, 0\newline
+	-1.001, 0.7, 0\newline
+	1, -1.001, 0\newline
+	1, 0.7, -1\newline
+	1, 0.7, 16}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline
+	- A new ball with x-coordinate 1, y-coordinate 0.7, and the value 0.\newline
+	- An IllegalArgumentException has been thrown.\newline
+	- An IllegalArgumentException has been thrown.\newline
+	- An IllegalArgumentException has been thrown.\newline
+	- An IllegalArgumentException has been thrown.\newline
+	- An IllegalArgumentException has been thrown.\newline}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A new Ball object should be available or if an exception is expected, the Ball should still point to null.}\\\hline
 \end{tabular}
-\caption{Ball Constructor Good Inputs}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.2	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large X}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with an x-coordinate that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1.87658, 0.7, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Large X}
+\caption{Ball Constructor Tests}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.3	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large Y}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a y-coordinate that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.94958, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Large Y}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.4	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small X}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with an x-coordinate that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: -1.001, 0.7, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Small X}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.5	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small Y}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a y-coordinate that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, -1.001, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Small Y}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.6	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Small Value}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a value that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, -1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Small Value}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.7	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Ball}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Constructor Large Value}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Ball object with a value that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.7, 16}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: There should not have been a Ball created.}\\\hline
-\end{tabular}
-\caption{Ball Constructor Large Value}
-\end{table}
-\end{center}
-\newpage
 
 %InferenceEngine tests
 \large{\textbf{InferenceEngine Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.8	&Status: TBT\\[-3mm]
+	Test ID: 3.1.2	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: InferenceEngine}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Updating Table State}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Updates the current table state being tested.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if all post-conditions are met.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles that are valid positions, BallType.STRIPES}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: None}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: None}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 0}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: 0}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: \begin{enumerate}\item Stored BallType is BallType.STRIPES. \item The stored positions array is the same as the one passed in. \item The stored best shot is null. \item The stored table state reflects the positions passed in.\end{enumerate}}\\\hline
 \end{tabular}
 \caption{Updating Table State}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.9	&Status: TBT\\[-3mm]
+	Test ID: 3.1.3	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: InferenceEngine}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Selecting an Optimal Shot}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which simulates all direct shots that can be made.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if a reasonable Shot is returned.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The current table state is not null and the current ball type is not null or BallType.CUE.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A reasonable Shot (no bank shots, shooting the right ball, valid x-/y-coordinates).}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A reasonable Shot (no bank shots, shooting the right ball, valid x-/y-coordinates).}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: A Shot as described in expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The best shot for the current table state is stored.}\\\hline
 \end{tabular}
 \caption{Selecting an Optimal Shot}
@@ -909,34 +790,34 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 %PCCommunicator tests
 \large{\textbf{PCCommunicator Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.10	&Status: TBT\\[-3mm]
+	Test ID: 3.1.4	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Valid Table State from File}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Reads a table state from a file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the output matches the data in the text file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A text file with 16 ball positions}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The 16 ball positions stored in the text file.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The 16 ball positions stored in the text file.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Read Valid Table State from File}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.11	&Status: TBT\\[-3mm]
+	Test ID: 3.1.5	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Table State from Non-Existent File}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Attempts to read from a non-existent table state file.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if a FileNotFoundException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A FileNotFoundException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A FileNotFoundException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Read Table State from Non-Existent File}
@@ -944,17 +825,17 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.12	&Status: TBT\\[-3mm]
+	Test ID: 3.1.6	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Read Table State from File with Invalid Data}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Attempts to read from a file that is not correctly formatted.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an InputMismatchException is thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A file containing the text ``Bad data''.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An InputMismatchException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A NumberFormatException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Read Table State from File with Invalid Data}
@@ -964,7 +845,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \begin{center}%TODO test results
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.13	&Status: TBT\\[-3mm]
+	Test ID: 3.1.7	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Initiating the VR Program}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which automatically invokes the VR program.}\\[1mm]\hline&\\[-3mm]
@@ -981,229 +862,107 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 %Shot tests
 \large{\textbf{Shot Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.14	&Status: TBT\\[-3mm]
+	Test ID: 3.1.8	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the Shot is successfully created and stores the correct information.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A new Shot with an x-coordinate of 1, a y-coordinate of 0.5, an angle of 3.5, and a power of 1.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has been created.}\\\hline
+	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Tests}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Description: Attempts to build various Shots with both acceptable and marginally unacceptable inputs.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the Shot is successfully created and stores the correct information or if the inputs are not valid, the expected exception.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The Shot object points to null.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input:\newline
+	1, 0.5, 3.5, 1\newline
+	1.87658, 0.5, 3.5, 1\newline
+	-0.001, 0.5, 3.5, 1\newline
+	1, 0.94958, 3.5, 1\newline
+	1, -0.001, 3.5, 1\newline
+	1, 0.5, 6.284, 1\newline
+	1, 0.5, -0.01, 1\newline
+	1, 0.5, 3.5, 1.001\newline
+	1, 0.5, 3.5, 0\newline}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline
+	- A new Shot with an x-coordinate of 1, a y-coordinate of 0.5, an angle of 3.5, and a power of 1.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline
+	- An IllegalArgumentException is thrown.\newline}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has been created if the inputs are valid or the Shot still points to null otherwise.}\\\hline
 \end{tabular}
-\caption{Shot Constructor Good Inputs}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.15	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large X}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an x-value that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1.87658, 0.5, 3.5, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Large X}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.16	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small X}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an x-value that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: -0.001, 0.5, 3.5, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Small X}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.17	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Y}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a y-value that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.94958, 3.5, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Large Y}
+\caption{Shot Constructor Tests}
 \end{table}
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.18	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Y}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a y-value that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, -0.001, 3.5, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Small Y}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.19	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Angle}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an angle that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 6.284, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Large Angle}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.20	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Y}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with an angle that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, -0.01, 1}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Small Angle}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.21	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Large Power}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a power that is too large.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 1.001}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Large Power}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.22	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: Shot}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Shot Constructor Small Power}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new Shot with a power that is too small.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException is thrown.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: 1, 0.5, 3.5, 0}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException is thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Shot has not been created.}\\\hline
-\end{tabular}
-\caption{Shot Constructor Small Power}
-\end{table}
-\end{center}
 
 %SimulationInstance tests
 \large{\textbf{SimulationInstance Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.23	&Status: TBT\\[-3mm]
+	Test ID: 3.1.9	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Not Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance that is not shooting for the 8-ball.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is not the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with at least one ball of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A SimulationInstance has been created.}\\\hline
 \end{tabular}
 \caption{Simulation Instance Constructor Good Inputs}
 \end{table}
 \end{center}
-\newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.24	&Status: TBT\\[-3mm]
+	Test ID: 3.1.10	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Good Inputs Shooting 8-Ball}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance that is shooting for the 8-ball.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls is created, the 8-ball is the target ball, and the initial velocity of the cue ball is set.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: InferenceEngine.myBallType = BallType.SOLID}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles with no balls of type ``solid'' on the table, 2, 0.4}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A SimulationInstance has been created with an array of Balls with positions corresponding to the array, the initial velocity vectors of the cue ball have been set according to the power and angle.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: A SimulationInstance has been created.}\\\hline
 \end{tabular}
 \caption{Simulation Instance Constructor Good Inputs}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.25	&Status: TBT\\[-3mm]
+	Test ID: 3.1.11	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Simulation Instance Constructor Large Power}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new SimulationInstance with a power that is too large.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if an IllegalArgumentException has been thrown.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles, 2, 1.001}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: An IllegalArgumentException has been thrown.}\\\hline
 \end{tabular}
 \caption{Simulation Instance Constructor Large Power}
 \end{table}
 \end{center}
-\newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.26	&Status: TBT\\[-3mm]
+	Test ID: 3.1.12	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Check for Walls}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which checks for a wall at the given coordinates.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline(0.07070, true)\newline (0.07072, true)\newline (0.866, true)\newline (0.868, true)\newline (0.980, true)\newline (0.982, true)\newline (1.776, true)\newline (1.778, true)\newline (0.07070, false)\newline (0.07072, false)\newline (0.849, false)\newline (0.851, false)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false\newline false\newline true\newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Check for Walls}
@@ -1211,17 +970,17 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.27	&Status: TBT\\[-3mm]
+	Test ID: 3.1.13	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Get Angle from Coordinates}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Run the method which uses an x- and a y-coordinate to obtain the angle from that imaginary triangle.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results. Notably in the case where x = y = 0, the angle will be $\frac{3}{2}\pi$ which is not technically correct but that does not matter for this project.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0) \newline (2, 1) \newline (0, 1) \newline (-1, 2) \newline (-1, 0) \newline (-1, -5) \newline (0, -1) \newline (2, -3)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline 0\newline 0.463647609\newline $\frac{\pi}{2}$\newline 2.034443936\newline $\pi$\newline 4.514993421\newline $\frac{3\pi}{2}$\newline 5.300391584}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline 0\newline 0.463647609\newline $\frac{\pi}{2}$\newline 2.034443936\newline $\pi$\newline 4.514993421\newline $\frac{3\pi}{2}$\newline 5.300391584}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Get Angle from Coordinates}
@@ -1229,17 +988,29 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.28	&Status: TBT\\[-3mm]
+	Test ID: 3.1.14	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Ball-Wall Collision}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which evaluates the resulting velocities from ball-wall collisions.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are within 0.0001 of the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (5, true)\newline (-1.2, false)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline -4.33\newline -1.2}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline
+	(5, true)\newline
+	(-1.2, false)\newline
+	(0, true)\newline
+	(0, false)\newline
+	(-15.24, true)\newline
+	(0.0001, true)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline
+	-4.33\newline
+	-1.2\newline
+	0\newline
+	0\newline
+	13.19784\newline
+	-0.0000866}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Ball-Wall Collision}
@@ -1247,23 +1018,25 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.29	&Status: TBT\\[-3mm]
+	Test ID: 3.1.15	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: SimulationInstance}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Check if in Pocket}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which checks whether the given coordinate would result in a ball being sunk into a pocket.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the expected results are equal to the actual results.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0.5) \newline (0,0)\newline (0.06, 0.02)\newline (0, 0.921)\newline (0.03, 0.92)\newline (0.924,0)\newline (0.92, 0.02)\newline (0.924, 0.921)\newline (0.95, 0.921)\newline (1.848,0)\newline (1.84, 0.04)\newline (1.848, 0.921)\newline (1.84, 0.915)}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Inputs:\newline (1, 0.5) \newline (0,0)\newline (0.08, 0.05)\newline (0, 0.921)\newline (0.08, 0.895)\newline (0.924,0)\newline (0.92, 0.02)\newline (0.924, 0.921)\newline (0.967, 0.921)\newline (1.848, 0)\newline (1.828, 0.07)\newline (1.848, 0.921)\newline (1.8, 0.87)}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results:\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false \newline true\newline false}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Check if in Pocket}
 \end{table}
 \end{center}
-\newpage
+\newpage~
+\newpage~
+\newpage~
 
 %TODO write test -- needs 4*5(both balls moving) + 12(one ball moving) test cases
 %\begin{center}
@@ -1285,104 +1058,39 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 %TableState tests
 \large{\textbf{TableState Tests}}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.30	&Status: TBT\\[-3mm]
+	Test ID: 3.1.16	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Good Inputs}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Tests}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new TableState.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is successfully created and stores the correct information.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-2 array of doubles that hold the position of the balls}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: A new TableState with 16 balls in positions corresponding to those passed in.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has been created.}\\\hline
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is successfully created and stores the correct information or if the expected exception is thrown.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: The TableState points to null.}\\[4mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input:\newline
+	- A 16-by-2 array of doubles that hold the position of the balls\newline
+	- A 17-by-2 array of doubles\newline
+	- A 15-by-2 array of doubles\newline
+	- A 16-by-2 array of doubles, except one has a length of 1.\newline
+	- A 16-by-2 array of doubles, except one has a length of 3.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The same as expected}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has been created or if the inputs were invalid, the TableState still points to null.}\\\hline
 \end{tabular}
-\caption{TableState Constructor Good Inputs}
+\caption{TableState Constructor Tests}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.31	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: TableState}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Too Many Elements}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new TableState with too many elements in the outer array.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: A 17-by-2 array of doubles}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has not been created.}\\\hline
-\end{tabular}
-\caption{TableState Constructor Too Many Elements}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.32	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: TableState}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Not Enough Elements}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new TableState with not enough elements in the outer array.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: A 15-by-2 array of doubles}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has not been created.}\\\hline
-\end{tabular}
-\caption{TableState Constructor Not Enough Elements}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.33	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: TableState}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Elements Too Small}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Builds a new TableState with not enough elements in one of the inner arrays.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-1 array of doubles}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has not been created.}\\\hline
-\end{tabular}
-\caption{TableState Constructor Elements Too Small}
-\end{table}
-\end{center}
-\newpage
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.34	&Status: TBT\\[-3mm]
-	\multicolumn{2}{|c|}{Module: TableState}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{TableState Constructor Elements Too Large}}}\\&\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Description: Description: Builds a new TableState with too many elements in one of the inner arrays.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the TableState is not created.}\\[1mm]\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: A 16-by-3 array of doubles}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An IllegalArgumentException has been thrown.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
-	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState has not been created.}\\\hline
-\end{tabular}
-\caption{TableState Constructor Elements Too Large}
-\end{table}
-\end{center}
-
-\begin{center}%TODO test results
-\begin{table}[h!]
-\begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.35	&Status: TBT\\[-3mm]
+	Test ID: 3.1.17	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: TableState}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{TableState Deep Copy}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which returns a deep copy of the TableState passed in.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the array of Balls returned have the same values but are not the same Objects.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: A TableState exists in memory.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An array of Balls that have the same positions as those in the TableState.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: An array of Balls that have the same positions as those in the TableState.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{TableState Deep Copy}
@@ -1393,12 +1101,12 @@ This section will provide a plethora of test cases which aim to prove correctnes
 
 
 \subsubsection{PC VR Program}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
 	Test ID: 3.2.1	&Status: PASS\\[-3mm]
-	\multicolumn{2}{|c|}{Module: PC VR test 1}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Recognition and colour}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|c|}{Module: PC VR}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Ball Recognition and Colour: Test 1}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: An image of the table is provided and the results of the VR }\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The measured positions are within 5 millimetres of the actual positions.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
@@ -1422,17 +1130,17 @@ This section will provide a plethora of test cases which aim to prove correctnes
 (1450, 560)\newline}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Results are written to TableState.csv}\\\hline
 \end{tabular}
-\caption{Test Title}
+\caption{Ball Recognition and Colour: Test 1}
 \end{table}
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
 	Test ID: 3.2.2	&Status: PASS\\[-3mm]
-	\multicolumn{2}{|c|}{Module: PC VR test 2}\\&\\
-	\multicolumn{2}{|c|}{\textbf{\large{Ball Recognition and colour}}}\\&\\\hline&\\[-3mm]
+	\multicolumn{2}{|c|}{Module: PC VR}\\&\\
+	\multicolumn{2}{|c|}{\textbf{\large{Ball Recognition and Colour: Test 2}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: An image of the table is provided and the results of the VR }\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The measured positions are within 5 millimetres of the actual positions.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
@@ -1456,7 +1164,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 (-1, -1)\newline}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Results are written to TableState.csv}\\\hline
 \end{tabular}
-\caption{Test Title}
+\caption{Ball Recognition and Colour: Test 2}
 \end{table}
 \end{center}
 \newpage
@@ -1465,32 +1173,32 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \subsubsection{$\mu$C Program}
 Certain functions of this program (such as functionality of sensors) are tested in the electrical section and so will NOT be tested again here.
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.1	&Status: TBT\\[-3mm]
+	Test ID: 3.3.1	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal steps for X Motion}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to move the machine to the destination.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System is capable is tracking an arbitrary number of steps upon request of motion (concurrently with all axes and rotations).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Motion request in X axis (system repeats arbitrary motion 10 times).}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system generated the appropriate steps.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal steps for X Motion}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.2	&Status: TBT\\[-3mm]
+	Test ID: 3.3.2	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal steps for Y Motion}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to move the machine to the destination.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System is capable is tracking an arbitrary number of steps upon request of motion (concurrently with all axes and rotations).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Motion request in X axis (system repeats arbitrary motion 10 times).}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system generated the appropriate steps.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal steps for Y Motion}
@@ -1498,16 +1206,16 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.3	&Status: TBT\\[-3mm]
+	Test ID: 3.3.3	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal steps for Rotational Motion}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to rotate the machine to the destination angle.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System is capable is tracking an arbitrary number of steps upon request of motion (concurrently with all axes and rotations).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Motion request in X axis (system repeats arbitrary motion 10 times).}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system generated the appropriate steps.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal steps for Rotational Motion}
@@ -1536,7 +1244,7 @@ Certain functions of this program (such as functionality of sensors) are tested 
 	Test ID: 3.3.5	&Status: TBT\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal for Pneumatic Extension}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to fire the piston as appropriate.}\\\hline
-	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System powers on 12VDC signal to power pneumatic valve necessary for piston extension.}\\[1mm]\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System powers on 12V DC signal to power pneumatic valve necessary for piston extension.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: System request signal for pneumatic piston extension.}\\[2mm]\hline
 	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 12VDC detected and at output (use multimeter or oscilloscope) and output to console.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
@@ -1563,16 +1271,16 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.7	&Status: TBT\\[-3mm]
+	Test ID: 3.3.7	&Status: FAIL\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal Steps for Rotational Motion of Air Flow Controller}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to rotate the air flow valve}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System is capable is tracking an arbitrary number of steps upon request of motion (concurrently with all axes and rotations).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:rotational distance (repeat this test with a variety of values (both positive and negative)).}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: After testing cycle the system step count should match theoretical count.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: This functionality was not implemented.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal Steps for Rotational Motion of Air Flow Controller}
@@ -1654,34 +1362,34 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.5	&Status: TBT\\[-3mm]
+	Test ID: 4.5	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Move Request (To Zero X-Coordinate)}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Move'' button. The machine will then move to the zero x-coordinate.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the zero x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine's y-rail is located closer to the large x-coordinate.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Move} button pressed}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the zero x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the zero x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system moved appropriately.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should be located at the zero x-coordinate.}\\\hline
 \end{tabular}
 \caption{Move Request (To Zero X-Coordinate)}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.6	&Status: TBT\\[-3mm]
+	Test ID: 4.6	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Move Request (To Largest X-Coordinate)}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Move'' button. The machine will then move to the largest x-coordinate.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine moves to the largest x-coordinate within 20 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine's y-rail is located closer to the zero x-coordinate.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Move} button pressed}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the largest x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should move to the largest x-coordinate of the table.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system moved appropriately.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should be located at the largest x-coordinate.}\\\hline
 \end{tabular}
 \caption{Move Request (To Largest X-Coordinate)}
@@ -1689,33 +1397,33 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.7	&Status: TBT\\[-3mm]
+	Test ID: 4.7	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Power Modification}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Users should not be able to modify system to perform unsafe actions such as setting the power of a shot beyond a certain safe value. The test will attempt to make the system do just that.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the user cannot modify the power the shot beyond system parameters.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
-	\multicolumn{2}{|p{\textwidth}|}{Input: User attemtpts to take a shot with power outside of system parameters.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System does not take a shot at that level of force.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{2}{|p{\textwidth}|}{Input: User attempts to take a shot with power outside of system parameters.}\\[2mm]\hline
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System does not take a shot at that level of force.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected (the maximum power of the pneumatic is within safe operational power).}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Shot Power Modification}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.8	&Status: TBT\\[-3mm]
+	Test ID: 4.8	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Check For Political Correctness}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Colleagues will be asked whether the machine has any direct references to any religious or political groups.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: All interviewees agree that there are no direct references to any religious or political groups.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: 20 colleagues will be asked to give their opinion on whether the system created has no direct reference to any religious or political groups.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Colleagues decide that there are no direct references to any religious or political groups.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Colleagues decide that there are no direct references to any religious or political groups.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The same as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Check For Legality and Political Correctness}
@@ -1723,17 +1431,17 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.9	&Status: TBT\\[-3mm]
+	Test ID: 4.9	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Assessment of Durability}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The machine will play through 3 games.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The machine is still in full functional order.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: The machine will be used to play 3 full games.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine is still fully functional.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine is still fully functional.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine remained in full working order.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Assessment of Durability}
@@ -1747,8 +1455,6 @@ Certain functions of this program (such as functionality of sensors) are tested 
 This section will be completed once the first version of the system is completed and all tests can be run.
 %TODO overall satisfaction with results
 %TODO relate back to requirements, goals
-
-%\end{comment}
 \end{document}
 
 
