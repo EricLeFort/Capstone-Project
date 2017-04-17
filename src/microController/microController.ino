@@ -120,11 +120,11 @@ void loop(){
   }
   
   if(!userControl){
-    requestPCInstruction(shot);  
+    requestPCInstruction();  
   }
   
   if(!userControl){
-    takeShot(shot);  
+    takeShot();  
   }
 }//loop()
 
@@ -192,15 +192,15 @@ void requestPCInstruction(){ //Loop during PC operation
   //TODO convert to requested X here
   
   while(Serial.available() == 0);
-  shot[1] = Serial.parseFloat();
+  value = Serial.parseFloat();
   //TODO convert to requested Y here
   
   while(Serial.available() == 0);
-  shot[2] = Serial.parseFloat();
+  value = Serial.parseFloat();
   //TODO convert to requested angle here
   
   while(Serial.available() == 0);
-  shot[3] = Serial.parseFloat();
+  value = Serial.parseFloat();
 
   Serial.println(CONFIRM_CODE);
 }//requestPCInstruction()
