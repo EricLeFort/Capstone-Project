@@ -80,12 +80,13 @@ public class SimulationInstanceTest{
 				}
 			}
 		}catch(FileNotFoundException fnfe){
-			fail("Error reading table state file.");
+			fail("Table state file not found.");
 		}
 	}//testConstructor()
 	
 	@Test
 	public void testBallToBallCollision(){
+		int warningMarker;
 		Ball a, b;
 		double expected[][] = new double[][]{		//zero, positive, negative theta for each testing category
 			{}, {}, {},			//First quadrant, b stationary //TODO compute expected

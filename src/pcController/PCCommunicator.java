@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 public class PCCommunicator implements SerialPortEventListener{
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
-	private static final String PORT_NAME = "/dev/tty.usbmodem1411";
+	private static final String PORT_NAME = "//dev/tty.usbmodem1411";
 	private static final int PORT = 8000, TIMEOUT = 20000, SETUP_DELAY = 1500, DATA_RATE = 9600,
 			SHOT_SPEC = 170, REQUEST = 55, CONFIRM = 200;
 	private static final BallType myBallType = BallType.SOLID;
