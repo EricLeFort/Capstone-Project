@@ -38,19 +38,19 @@
 #define USERBUTTON2_PIN      21 //move right button  
 #define USERBUTTON3_PIN      35 //user control button
 
-#define UPPERBOUND_X         13382 //Max step for for full range of motion in X
+#define UPPERBOUND_X         13389 //Max step for for full range of motion in X
 #define UPPERBOUND_Y         16921 //Max step for full range of motion in Y
 #define UPPERBOUND_R         1599  //Max step for full rotation in R
 
-#define REAL_TABLE_X         1.8  //Length of pool table in meters
-#define REAL_TABLE_Y         1.6  //Width of pool table in meters
-#define REAL_TABLE_R         359  //Degrees of rotational motion
+#define REAL_TABLE_X         1.848  //Length of pool table in meters
+#define REAL_TABLE_Y         0.921  //Width of pool table in meters
+#define REAL_TABLE_R         6.283185307 //Range of rotational motion in radians
 
 #define MOD_LENGTH           90   //Modify X,Y coordinates for end-effector length
 #define OOB_MOD_LENGTH       30   //Out of bound mod length for when ball is near edge of table   
 
-#define X_MIN_OFFSET         300  //Steps from min X end stop to edge of pool table
-#define X_MAX_OFFSET         300  //Steps from max X end stop to edge of pool table
+#define X_MIN_OFFSET         840  //Steps from min X end stop to edge of pool table
+#define X_MAX_OFFSET         940  //Steps from max X end stop to edge of pool table
 #define Y_MIN_OFFSET         300  //Steps from min Y end stop to edge of pool table
 #define Y_MAX_OFFSET         300  //Steps from max Y end stop to edge of pool table
 
@@ -137,9 +137,10 @@ void loop()
 {
 
   AllowUserTurn();
-  if(!userControl) PoseForPicture();
-  if(!userControl) RequestPCInstruction();  
-  if(!userControl) TakeShot();  
+  TakeShot();
+  //if(!userControl) PoseForPicture();
+  //if(!userControl) RequestPCInstruction();  
+  //if(!userControl) TakeShot();  
   
 }
 
@@ -181,6 +182,7 @@ void AllowUserTurn() //Loop during user turn
 void PoseForPicture() //Move machine so camera can see unobstructed table
 {
 
+  delay(250);
   if(currentX < UPPERBOUND_X / 2) requestedX = 0;
   else requestedX = UPPERBOUND_X;
   if(currentY < UPPERBOUND_Y / 2) requestedY = 0;
@@ -243,23 +245,25 @@ void MapCoordinates(double serialX, double serialY, double serialR) //Map from r
     if(outOfBoundCheck > OOB_MOD_LENGTH) break; 
   }
   
-  requestedX = (requestedX * (UPPERBOUND_X - X_MIN_OFFSET - X_MAX_OFFSET) / REAL_TABLE_X) + X_MIN_OFFSET; 
-  requestedY = (requestedY * (UPPERBOUND_Y - Y_MIN_OFFSET - Y_MAX_OFFSET) / REAL_TABLE_Y) + Y_MIN_OFFSET;
-  requestedR = requestedR * UPPERBOUND_R / REAL_TABLE_R;
+  requestedX = (serialX * (UPPERBOUND_X - X_MIN_OFFSET - X_MAX_OFFSET) / REAL_TABLE_X) + X_MIN_OFFSET; 
+  requestedY = (serialY * (UPPERBOUND_Y - Y_MIN_OFFSET - Y_MAX_OFFSET) / REAL_TABLE_Y) + Y_MIN_OFFSET;
+  requestedR = serialR * UPPERBOUND_R / REAL_TABLE_R;
   
 }
 
 void TakeShot()
 {
   
-  MoveXYR();
-  delay(500);
+  //MoveXYR();
+  delay(1000);
+  Serial.println("Taking Shot 1");
   digitalWrite(E_EXTEND_PIN, HIGH);
-  delay(100);
+  delay(1000);
   digitalWrite(E_EXTEND_PIN, LOW);
-  delay(100);
+  delay(1000);
+  Serial.println("Taking Shot 2");
   digitalWrite(E_RETRACT_PIN, HIGH);
-  delay(100);
+  delay(1000);
   digitalWrite(E_RETRACT_PIN, LOW);
   
 }
@@ -293,20 +297,22 @@ void MoveXYR() //Move X Y and R simultaneously
     {    
       if(xDir == -1 && digitalRead(XMIN_PIN) == 0) //XMIN endstop hit 
       {
+        Serial.println(currentX);
         currentX = 0;
         xDir = 1;
         digitalWrite(X1_DIR_PIN, HIGH);
         digitalWrite(X2_DIR_PIN, LOW); 
-        delay(500); 
+        delay(250); 
       }
 
       if(xDir == 1 && digitalRead(XMAX_PIN) == 0) //XMAX endstop hit 
       {
+        Serial.println(currentX);
         currentX = UPPERBOUND_X;
         xDir = -1;
         digitalWrite(X1_DIR_PIN, LOW);
         digitalWrite(X2_DIR_PIN, HIGH);  
-        delay(500); 
+        delay(250); 
       }
 
       if(yDir == -1 && digitalRead(YMIN_PIN) == 0) //YMIN endstop hit 
@@ -388,6 +394,7 @@ void MoveXYR() //Move X Y and R simultaneously
       if(xDir > 0) requestedX = 0;
       else requestedX = UPPERBOUND_X; 
       stopStart = false;
+      delay(250);
     }
 
   }
