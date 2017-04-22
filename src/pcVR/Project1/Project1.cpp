@@ -98,7 +98,7 @@ for (int k = 0; k < 16; k++) {
 			balls[k][6] = 14; // green blue ball (stripe)
 		}
 		*/
-		if (balls[k][4] <50 && balls[k][3] <50 && balls[k][2] <50) {
+		if (balls[k][4] <110 && balls[k][3] <110 && balls[k][2] <110) {
 			balls[k][6] = 8; // black ball 
 		}
 		else if (balls[k][4] >250 && balls[k][3] >250 && balls[k][2] >250) {
@@ -143,6 +143,7 @@ for (int k = 0; k < 16; k++) {
 	myfile << "[" << realposition[k][1] << "]  " << "  [" << realposition[k][0] << "]  " << "ball " << balls[k][6] << endl;
 }
 
+myfile.close();
 
 
 return(true);
@@ -204,7 +205,7 @@ bool iswhite(int B, int G, int R)
 	return (G_ok && B_ok && R_ok);
 	
 }
-
+//adb pull sdcard / DCIM / Camera / TESTER.jpg "C:\Users\Max\Documents\Visual Studio 2015\Projects\Project1\TESTER.png"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 int main() {
 
@@ -214,8 +215,60 @@ int main() {
 	cv::Mat imgforwhitedetection;         // intermediate blured image
 	cv::Mat imgCanny;           // Canny edge image
 	vector<Vec3f> output;
+	system("C:\\Users\\Max\\Desktop\\switchscript2.exe");
 
-	imgOriginal = cv::imread("image15.jpg");          // open image
+
+
+	//HOPEFULLY THIS WILL GRAB THE PHOTO
+	////
+
+	if (remove("PICTURES.txt") != 0) {
+		cout << "first run, nothing to clean (or error)" << endl;
+	}
+	else {
+		cout << "File successfully reset" << endl;
+	}
+
+	ifstream text; //("PICTURES.txt");
+	
+	// this just deletes the previous output ^
+	system("ADB ls sdcard/DCIM/Camera >> \"C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\Project1\\PICTURES.txt\"");
+
+	text.open("PICTURES.txt");
+	char next = 'a';
+	std::string s1;
+	string temp = "";
+
+		cout << "atleast we got here";
+		while (std::getline(text, s1))
+		{
+			if (size(s1) > 5) {temp = s1; }
+			//cout << s1 << "this is totally a thing";
+			//cout << temp << " AND THIS WAS SAVED !!!";
+		}
+		text.close();
+	
+	temp = temp.substr(27, 49);
+	temp = "adb pull \"sdcard/DCIM/Camera/" +  temp + "\" ";
+	string s2 = "\"C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\Project1\\TESTER.jpg\"";
+	string s3 = "C:\\Users\\Max\\Capstone\\Capstone-Project\\resources\\TableImage.jpg";
+	string commd = temp + s2;
+	string commd2 = temp + s3;
+	cout << commd;
+	const char * formatcomm = commd.c_str();
+	const char * formatcomm2 = commd2.c_str();
+
+	if (size(temp) > 5){
+		system(formatcomm);
+	}
+	else { cout << "error reading"; }
+	cout << "we got " << s1 << "photo";
+	///////////
+
+
+
+
+	imgOriginal = cv::imread("TESTER.jpg");          // open image// using full reference now.
 
 	if (imgOriginal.empty()) {                                  // if unable to open image
 		std::cout << "error: image not read from file\n\n";     // show error message on command line
@@ -533,6 +586,8 @@ int main() {
 	//cv::namedWindow("circles", CV_WINDOW_NORMAL);
 	//cv::imshow("circles", imgOriginal);
 	
+
+
 
 
 	ballinfo(balls, finallines, ballfound);
