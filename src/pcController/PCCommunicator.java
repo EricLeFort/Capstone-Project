@@ -6,7 +6,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.TooManyListenersException;
@@ -19,7 +18,8 @@ import javax.imageio.ImageIO;
 public class PCCommunicator implements SerialPortEventListener{
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
-	private static final String PORT_NAME = "//dev/tty.usbmodem1411";
+	private static final String PORT_NAME_1 = "/dev/tty.usbmodem1411",
+			PORT_NAME_2 = "TBD";															//TODO different name for Windows
 	private static final int PORT = 8000, TIMEOUT = 20000, SETUP_DELAY = 1500, DATA_RATE = 9600,
 			SHOT_SPEC = 170, REQUEST = 55, CONFIRM = 200;
 	private static final BallType myBallType = BallType.SOLID;
@@ -27,7 +27,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	SerialPort serialPort;
 	private static BufferedReader input;
 	private static OutputStream output;
-	private static String runCCmd = "src/cScript", imageFileType = "jpg"; //,runMatlabCmd = "src/matlabScript"
+	private static String runCCmd = "src/pcVR/Project1/Project.exe", imageFileType = "jpg";	//TODO executable location
 	private static boolean requestReceived, confirmReceived;
 	
 	public static void main(String[] args){
@@ -52,23 +52,23 @@ public class PCCommunicator implements SerialPortEventListener{
 		}
 		senduCReceipt();
 		
-		//		if(imageRequest()){					//Image received successfully
-		//			initiateVR();
-		
-		try{
-			InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
-			//				shot = InferenceEngine.getBestShot();
-			shot = new Shot(1.01011010, 0.5010101, 2.101001, 1.0);
-			System.out.println(shot);
+		if(imageRequest()){					//Image received successfully
+			initiateVR();
 			
-			while(!sendShot(shot));
-			confirmReceived = false;
-		}catch(FileNotFoundException fnfe){
-			System.out.println("Table state file not found.");
+			try{
+				InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
+				shot = InferenceEngine.getBestShot();
+				//shot = new Shot(0.2, 0.2, 0, 1.0);
+				System.out.println(shot);
+				
+				while(!sendShot(shot));
+				confirmReceived = false;
+			}catch(FileNotFoundException fnfe){
+				System.out.println("Table state file not found.");
+			}
+		}else{
+			System.out.println("Error receiving image.");
 		}
-		//		}else{
-		//			System.out.println("Error receiving image.");
-		//		}
 	}//uCListener()
 	
 	/**
@@ -96,6 +96,11 @@ public class PCCommunicator implements SerialPortEventListener{
 		writeStringBytes((float)shot.getYPosition());
 		writeStringBytes((float)shot.getAngle());
 		writeStringBytes((float)shot.getPower());
+		try{
+			output.write('\n');
+			output.flush();
+		}catch(IOException e){ }
+		
 		
 		System.out.println("Shot communicated!");
 		
@@ -173,7 +178,6 @@ public class PCCommunicator implements SerialPortEventListener{
 		Process p;
 		
 		try{
-			//p = Runtime.getRuntime().exec(runMatlabCmd);
 			p = Runtime.getRuntime().exec(runCCmd);
 			p.waitFor();
 		}catch (Exception e){
@@ -213,7 +217,8 @@ public class PCCommunicator implements SerialPortEventListener{
 		
 		while(portEnum.hasMoreElements()){
 			currPortId = (CommPortIdentifier) portEnum.nextElement();
-			if(currPortId.getName().equals(PORT_NAME)){
+			if(currPortId.getName().equals(PORT_NAME_1)
+					|| currPortId.getName().equals(PORT_NAME_2)){
 				portId = currPortId;
 				break;
 			}
@@ -304,7 +309,7 @@ public class PCCommunicator implements SerialPortEventListener{
 			}
 		}
 		
-		try{								//TODO this seems sub-optimal..
+		try{
 			Thread.sleep(1200);				//Pause for the Arduino to catch up
 		}catch(InterruptedException ie){ ie.printStackTrace(); }
 	}//writeStringBytes()
