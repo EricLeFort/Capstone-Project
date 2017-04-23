@@ -29,6 +29,7 @@
 	Date			&Revision \#	&Comments						&Authors\\\hline
 	27/02/2017		&0				&- Initial document creation	&Eric Le Fort\\\hline
 	21/03/2017		&0				&- Revision 0 completion		&Eric Le Fort\newline Guy Meyer\newline Ernest Selman\newline Andrew Danha\newline Derek Savery\newline Max Moore\\\hline
+	23/04/2017		&1				&- Testing performed, results included\newline - Certain testing cases grouped into single testing blocks.	&Eric Le Fort\\\hline
 \end{tabular}
 \caption{Revision History}
 \end{table}
@@ -76,7 +77,6 @@ Table \ref{tab:Acronyms} lists the acronyms and abbreviations used in this docum
 	PC								&Personal Computer\\\hline
 	$\mu$C							&Micro-Controller\\\hline
 	CRC								&Class Responsibility Collaboration\\\hline
-	TBT								&To Be Tested\\\hline
 \end{tabular}
 \caption{Acronyms and Abbreviations}
 \label{tab:Acronyms}
@@ -302,16 +302,16 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.3	&Status: TBT\\[-3mm]
+	Test ID: 1.3	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{End-Effector Orientation}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that EE-Base Motor can orient to a specific angle without getting stuck while loaded}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: If motor turns adequately and quickly as expected to correct angle}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Angle of orientation with respect to the x-axis}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion until orientation is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Smooth and consistent motion until orientation is met. Followed by an immediate stop}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The end-effector moved as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Motor is stationary.}\\\hline
 \end{tabular}
 \caption{End-Effector Orientation}
@@ -319,32 +319,32 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.4	&Status: TBT\\[-3mm]
+	Test ID: 1.4	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Shooting Mechanism Orientation}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: EE is positioned correctly and waiting command to power piston}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: Piston is settled at correct orientation, awaiting command to actuate piston}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Motors orient piston to proper orientation}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Position and orientation components sent to Arduino}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System moves to desired location and waits for piston signal}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: System moves to desired location and waits for piston signal.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The end-effector was in the correct position and struck the cue ball as expected.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: Piston can be safely actuated and strike cue ball}\\\hline
 \end{tabular}
 \caption{Shooting Mechanism Orientation}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.5	&Status: TBT\\[-3mm]
+	Test ID: 1.5	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Perimeter Coverage}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: EE will be moved around the table to ensure that it is able to reach all locations and orientations}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: EE is capable of completing a full trip around the perimeter without stops}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Motion command from Arduino}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: EE will travel around perimeter of table. Inspection that its location is sufficient for shot-taking is required.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: EE will travel around perimeter of table. Inspection that its location is sufficient for shot-taking is required.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine is easily capable of reaching the full perimeter of the table.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: System awaits next command.}\\\hline
 \end{tabular}
 \caption{Perimeter Coverage}
@@ -465,16 +465,16 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 1.13	&Status: TBT\\[-3mm]
+	Test ID: 1.13	&Status: FAIL\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Shut Down Button Locations}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The distance from pinch points to a stop button is measured.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if there are shut down buttons located within the smallest reach of a typical adult of pinch points.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: The distance from pinch points when the system is moved to various positions.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Shut down buttons are always less than the smallest reach of a typical adult from pinch points.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Shut down buttons are always less than the smallest reach of a typical adult from pinch points.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: There is only one stop button located on the side with the Arduino. The other side is lacking a stop button.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Shut Down Buttons}
@@ -581,32 +581,32 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.4	&Status: TBT\\[-3mm]
+	Test ID: 2.4	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: Rotation}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can detect the machine's current physical state at certain angular positions.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the sensor indicates that the system in the position the machine is actually in to within 0.3 degrees.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Rotate the end-effector to various set positions.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Sensor indicates that the system is in reference position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Sensor indicates that the system is in reference position.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The sensors were reliably triggered as expected and the rotational accuracy is within the requirements.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Current Physical State: Rotation}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.5	&Status: TBT\\[-3mm]
+	Test ID: 2.5	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Current Physical State: End-Effector}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Verify that the system can determine the machine's current physical state at certain locations along the end-effector's range of motion.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This condition is passed if the stored location correctly indicates that the system is in the target position within 2 millimetres.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Predetermined target locations}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: End-effector sensors indicate that the end-effector is in the target location.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: End-effector sensors indicate that the end-effector is in the target location.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The sensors were reliably triggered as expected and the end-effector is moved within the required tolerance of the ordered coordinates and orientation.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None}\\\hline
 \end{tabular}
 \caption{Current Physical State: End-Effector}
@@ -614,16 +614,16 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.6	&Status: TBT\\[-3mm]
+	Test ID: 2.6	&Status: FAIL\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Check for Exposed Circuitry}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Circuitry will be inspected to ensure none is exposed.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if no circuitry is exposed.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Result of wire inspection.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: No exposed circuitry.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: No exposed circuitry.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: There is still some exposed circuitry to allow for alterations if necessary.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Check for Exposed Circuitry}
@@ -661,19 +661,18 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \caption{Voltage Regulation}
 \end{table}
 \end{center}
-\newpage
 
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 2.9	&Status: TBT\\[-3mm]
+	Test ID: 2.9	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Circuit Breakers}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: High voltage will be applied to components to ensure that the circuit breakers perform as expected.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Condition: This test is passed if the circuits to all high voltage components are broken before unsafe voltage is applied.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Sufficiently hight voltage.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All circuits with unsafe voltages are broken.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results:}\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: All circuits with unsafe voltages are broken.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The circuits have appropriate breakers.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Circuit Breakers}
@@ -711,6 +710,7 @@ The following traceability matrices will demonstrate that the tests to be perfor
 \caption{Power Supply from Standard Socket}
 \end{table}
 \end{center}
+\newpage
 
 
 \section{Software System}
@@ -718,6 +718,7 @@ The software system is comprised of four main components: a control system runni
 
 \subsection{Unit Tests}
 This section will provide a plethora of test cases which aim to prove correctness of the program. Each individual class will be tested in order to make finding specific test cases easier.
+\newpage
 \subsubsection{PC Controller Program}
 \large{\textbf{Ball Tests}}
 \begin{center}
@@ -749,6 +750,7 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \caption{Ball Constructor Tests}
 \end{table}
 \end{center}
+\newpage
 
 
 %InferenceEngine tests
@@ -842,17 +844,17 @@ This section will provide a plethora of test cases which aim to prove correctnes
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.1.7	&Status: TBT\\[-3mm]
+	Test ID: 3.1.7	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: PCCommunicator}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Initiating the VR Program}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Runs the method which automatically invokes the VR program.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: The test is passed if the VR Program has been run.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: None.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Program is run and TableState.csv has been updated.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Program is run and TableState.csv has been updated.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The program was run and the file was created.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: TableState.csv contains the results of the VR Program.}\\\hline
 \end{tabular}
 \caption{Initiating the VR Program}
@@ -1222,32 +1224,32 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.4	&Status: TBT\\[-3mm]
+	Test ID: 3.3.4	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Calculation of Steps Required}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: A target location will be used to compute the required signals to move the machine to that location.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: Is capable of converting between linear or rotational displacement and number of steps}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: Linear or rotational distance (repeat this test with a vareity of values (both positive and negative)).}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Ouput to console actual number of steps corresponding to the theoretical values.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Output to console of the actual number of steps corresponding to the theoretical values.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system successfully calculates the required steps.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should not have moved or be moving.}\\\hline
 \end{tabular}
 \caption{Calculation of Steps Required}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.5	&Status: TBT\\[-3mm]
+	Test ID: 3.3.5	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal for Pneumatic Extension}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to fire the piston as appropriate.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System powers on 12V DC signal to power pneumatic valve necessary for piston extension.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: System request signal for pneumatic piston extension.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 12VDC detected and at output (use multimeter or oscilloscope) and output to console.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 12VDC detected and at output (use multimeter or oscilloscope) and output to console.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The pneumatic is controlled as needed.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal for Pneumatic Extension}
@@ -1255,16 +1257,16 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 3.3.6	&Status: TBT\\[-3mm]
+	Test ID: 3.3.6	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{\textbf{\large{Signal for Pneumatic retraction}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: Generates the signals to retract the piston to its default position.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: System powers on 12VDC signal to power pneumatic valve necessary for piston retraction.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: System request signal for pneumatic piston retraction.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 12VDC detected and at output (use multimeter or oscilloscope) and output to console.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: 12VDC detected and at output (use multimeter or oscilloscope) and output to console.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The pneumatic is controlled as needed. Furthermore, it was able to be operated so that it can escape the area where the balls move as quickly as possible.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: None.}\\\hline
 \end{tabular}
 \caption{Signal for Pneumatic Extension}
@@ -1292,34 +1294,34 @@ Certain functions of this program (such as functionality of sensors) are tested 
 
 
 \subsection{System Tests}
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.1	&Status: TBT\\[-3mm]
+	Test ID: 4.1	&Status: INCONCLUSIVE\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Aligned Shot}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Take Shot'' button, the system will go through its whole process and then shoot the cue ball to sink the target ball.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the target ball is sunk by the machine 50\% of the time and the shot should be made within 90 seconds (as per the \textit{Summary and Goals} document).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must not be currently moving or taking a shot. There are three balls on the table, the cue ball, the target ball, and the eight ball. The cue ball, target ball, and one of the pockets are aligned near perfectly along an imaginary line. The eight ball is not in a position to interfere with motion of the balls along that line.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: \textit{Take Shot} button pressed.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Only the target ball should be sunk.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Only the target ball should be sunk.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The results of this test seem promising. However, additional testing will be performed immediately to verify correctness to a much higher degree of certainty.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The eight ball should remain on the table. The target ball should be sunk. There are no requirements for the cue ball, but bonus points if it remains on the table.}\\\hline
 \end{tabular}
 \caption{Aligned Shot}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.2	&Status: TBT\\[-3mm]
+	Test ID: 4.2	&Status: INCONCLUSIVE\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Angled Shot}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Take Shot'' button, the system will go through its whole process and then shoot the cue ball to sink the target ball.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the target ball is sunk by the machine 50\% of the time and the shot should be made within 90 seconds (as per the \textit{Summary and Goals} document).}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: Machine must not be currently moving or taking a shot. There are three balls on the table, the cue ball, the target ball, and the eight ball. There should be a shot that can be made with a modest angle that will sink the target ball. The eight ball is not in a position to interfere with expected motion of the balls.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input: \textit{Take Shot} button pressed.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Only the target ball should be sunk.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: Only the target ball should be sunk.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The results of this test seem promising. However, additional testing will be performed immediately to verify correctness to a much higher degree of certainty.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The eight ball should remain on the table. The target ball should be sunk. There are no requirements for the cue ball, but bonus points if it remains on the table.}\\\hline
 \end{tabular}
 \caption{Angled Shot}
@@ -1327,34 +1329,34 @@ Certain functions of this program (such as functionality of sensors) are tested 
 \end{center}
 \newpage
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.3	&Status: TBT\\[-3mm]
+	Test ID: 4.3	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Cancelled Before Motion}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Take Shot'' button, the system will begin going through its process. Before motion begins, the ``Cancel'' button will be pressed. The system will then cease its prior execution.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine does not move.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Take Shot} button pressed,\newline Then \textit{Cancel} button pressed before machine moves.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should cancel the instruction and not move.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should cancel the instruction and not move.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The system stops moving immediately after the button is pressed. This is different than expected since we always move the system to allow for a shot before communicating to the PC, however, it should still be considered as a successful result.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should not have moved or be moving.}\\\hline
 \end{tabular}
 \caption{Shot Cancelled Before Motion}
 \end{table}
 \end{center}
 
-\begin{center}%TODO test results
+\begin{center}
 \begin{table}[h!]
 \begin{tabular}{|l r|}\hline&\\[-2mm]
-	Test ID: 4.4	&Status: TBT\\[-3mm]
+	Test ID: 4.4	&Status: PASS\\[-3mm]
 	\multicolumn{2}{|c|}{Module: System}\\&\\
 	\multicolumn{2}{|c|}{\textbf{\large{Shot Cancelled During Motion}}}\\&\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Description: The user will press the ``Take Shot'' button, the system will begin going through its process. After motion begins, the ``Cancel'' button will be pressed. The system will then cease motion.}\\\hline
 	\multicolumn{2}{|p{\textwidth}|}{Pass/Fail Conditions: This test is passed if the machine ceases movement within 2 seconds.}\\[1mm]\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Pre-Conditions: None.}\\[4mm]
 	\multicolumn{2}{|p{\textwidth}|}{Input:\newline\textit{Take Shot} button pressed,\newline Then \textit{Cancel} button pressed while machine is moving.}\\[2mm]\hline
-	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should cease movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: }\\\hline&\\[-3mm]
+	\multicolumn{1}{|p{0.49\textwidth}}{Expected Results: The machine should cease movement.}	&\multicolumn{1}{|p{0.45\textwidth}|}{Actual Results: The machine ceased its movement immediately.}\\\hline&\\[-3mm]
 	\multicolumn{2}{|p{\textwidth}|}{Post-Conditions: The machine should not be moving.}\\\hline
 \end{tabular}
 \caption{Shot Cancelled During Motion}
@@ -1452,9 +1454,10 @@ Certain functions of this program (such as functionality of sensors) are tested 
 
 
 \section{Summary of Results}
-This section will be completed once the first version of the system is completed and all tests can be run.
-%TODO overall satisfaction with results
-%TODO relate back to requirements, goals
+Only four of the sixty-one test cases were failed. The test cases that were failed are: ensuring all pinch points have emergency stops, ensuring a soft strike can be performed, ensuring there is no exposed circuitry, and calculating the steps required for controlling air flow to the compressor. The second and fourth of these requirements are non-consequential since it is not crucial for the system to have multiple shot strengths in order to satisfy the intended functionality. The circuitry requirement is slightly more severe. However, this issue is simple to fix and can be rectified before completion of the final prototype. Furthermore, the wiring that is still exposed does not pose any significant danger to users. The only truly significant shortcoming of the system as discovered through these tests is the lack of a second emergency stop on the opposite end of the y-rail. This issue will be the first item to be corrected time permitting.\\~\\
+In relation to our set requirements, the traceability matrices provided early in this document show that thorough coverage was ensured in proving that all outlined requirements have been met. The only exception is the legal requirement of the system since no members of the team are adequately educated enough in legal matters to perform any necessary tests of that nature.\\~\\
+Tracing back to our outlined success criteria, it is probable that our system has achieved that mark! The only concern holding the result as ``probable'' rather than confirmed is a lack of quantity of tests. To confidently say that ``50\% of the time, the system should be able to sink the intended ball if it?s a straight shot,'' many more systems test must still be performed. In terms of the mid-level goals, it is possible that this level of success has also been achieved. The most questionable of the goals are concerning its marketability. It would be hard to argue that the system would sell many units as is. However, as a prototype it is fairly well polished considering.\\~\\
+As a final summary, the results of the aforementioned testing indicates that the system is performing well.
 \end{document}
 
 
