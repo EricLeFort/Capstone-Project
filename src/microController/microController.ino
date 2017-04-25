@@ -169,6 +169,7 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
   currentY = UPPERBOUND_Y; 
   currentR = 0;
   MoveXYR();
+  currentR = 0;
   
 }
 
@@ -263,19 +264,20 @@ void RequestPCInstruction() //Loop during PC operation
 
 void MapCoordinates(double serialX, double serialY, double serialR) //Map from real coordinates to step coordinates
 {
-  /* Handle case where EE is near edge of table
-  if(serialX/REAL_TABLE_X < 0.05 || serialX/REAL_TABLE_X > 0.95 || serialY/REAL_TABLE_Y < 0.05 || serialY/REAL_TABLE_Y > 0.95)
-  {
-    serialX += OOB_MOD_LENGTH*cos(serialR);
-    serialY += OOB_MOD_LENGTH*sin(serialR);
-  }
-  */
 
   serialX -= OOB_MOD_LENGTH*cos(serialR);
   serialY -= OOB_MOD_LENGTH*sin(serialR);
+  
   requestedX = (serialX * (UPPERBOUND_X - X_MIN_OFFSET - X_MAX_OFFSET) / REAL_TABLE_X) + X_MIN_OFFSET; 
   requestedY = (serialY * (UPPERBOUND_Y - Y_MIN_OFFSET - Y_MAX_OFFSET) / REAL_TABLE_Y) + Y_MIN_OFFSET;
-  requestedR = (int)((REAL_TABLE_R - serialR) * UPPERBOUND_R / REAL_TABLE_R + R_OFFSET) % UPPERBOUND_R;
+  requestedR = (int)((REAL_TABLE_R - serialR) * UPPERBOUND_R / REAL_TABLE_R + R_OFFSET) % (UPPERBOUND_R + 1);
+
+  if(requestedX < 0) requestedX = 0;
+  if(requestedX > UPPERBOUND_X) requestedX = UPPERBOUND_X;
+  if(requestedY < 0) requestedY = 0;
+  if(requestedY > UPPERBOUND_Y) requestedY = UPPERBOUND_Y;
+  if(requestedR < 0) requestedR = 0;
+  if(requestedR > UPPERBOUND_R) requestedR = UPPERBOUND_R;
   
 }
 
