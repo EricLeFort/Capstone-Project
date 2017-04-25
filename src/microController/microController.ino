@@ -1,3 +1,4 @@
+
 // Include  ////////////////////////////////////////////////////////////////////////////////
 
 #include  <math.h>
@@ -56,7 +57,7 @@
 #define X_MAX_OFFSET         940  //Steps from max X end stop to edge of pool table
 #define Y_MIN_OFFSET         2600 //Steps from min Y end stop to edge of pool table
 #define Y_MAX_OFFSET         2745 //Steps from max Y end stop to edge of pool table
-#define R_OFFSET             278  //Steps from R initialization point to zero angle
+#define R_OFFSET             230  //Steps from R initialization point to zero angle
 
 #define MICRODELAY           800  //Pause between stepper motor steps
 #define SLOWSTEP             300  //300 is normal slow, 0 is off 
