@@ -4,12 +4,13 @@ import gnu.io.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.TooManyListenersException;
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;		//TODO 1.38
 
 /**
  * @author Eric Le Fort
@@ -27,7 +28,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	SerialPort serialPort;
 	private static BufferedReader input;
 	private static OutputStream output;
-	private static String runCCmd = "src/pcVR/Project1/Project.exe", imageFileType = "jpg";	//TODO executable location
+	private static String runCCmd = "src/pcVR/TableStateVR.exe", imageFileType = "jpg";
 	private static boolean requestReceived, confirmReceived;
 	
 	public static void main(String[] args){
@@ -50,24 +51,33 @@ public class PCCommunicator implements SerialPortEventListener{
 		while(!requestReceived){			//Await request
 			try{ Thread.sleep(100); }catch(InterruptedException ie){ }
 		}
-		senduCReceipt();
 		
-		if(imageRequest()){					//Image received successfully
-			initiateVR();
+		senduCReceipt();
+		initiateVR();
+		
+		try{
+			InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
+			shot = InferenceEngine.getBestShot();
+			System.out.println("k");
+			
+			System.out.println(shot);
+			SimulationInstance.setVisible(true);		//Display anticipated result of optimal shot.
+			InferenceEngine.simulateShot(shot);
+			SimulationInstance.setVisible(false);
+			System.out.println("k");
 			
 			try{
-				InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
-				shot = InferenceEngine.getBestShot();
-				//shot = new Shot(0.2, 0.2, 0, 1.0);
-				System.out.println(shot);
-				
-				while(!sendShot(shot));
-				confirmReceived = false;
-			}catch(FileNotFoundException fnfe){
-				System.out.println("Table state file not found.");
+				if(tableStateFile.exists()){			//Trash old table state after use
+					Files.delete(tableStateFile.toPath());
+				}
+			}catch(IOException ioe){
+				System.out.println("Old table state file not deleted.");
 			}
-		}else{
-			System.out.println("Error receiving image.");
+			
+			while(!sendShot(shot));
+			confirmReceived = false;
+		}catch(FileNotFoundException fnfe){
+			System.out.println("Table state file not found.");
 		}
 	}//uCListener()
 	
@@ -174,12 +184,24 @@ public class PCCommunicator implements SerialPortEventListener{
 	/**
 	 * Runs the MATLAB program "TableStateVR" automatically.
 	 */
-	public static void initiateVR(){//TODO verify correctness
+	public static void initiateVR(){
+		ProcessBuilder pb;
 		Process p;
+		BufferedReader in;
+		String line;
 		
 		try{
-			p = Runtime.getRuntime().exec(runCCmd);
-			p.waitFor();
+			pb = new ProcessBuilder(runCCmd);
+			pb.redirectErrorStream(true);
+			
+			p = pb.start();
+			in = new BufferedReader(new InputStreamReader(p.getInputStream())); 
+			
+			while((line = in.readLine()) != null){
+				System.out.println(line);
+			}
+			//p = Runtime.getRuntime().exec(runCCmd);		Alternative angle
+			//p.waitFor();
 		}catch (Exception e){
 			e.printStackTrace();
 		}

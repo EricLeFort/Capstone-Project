@@ -9,9 +9,6 @@ import javax.swing.*;
 
 /*
  * Notes:
- * soft shots last < 3s
- * medium shots last < 6s
- * hard shots last < 9s
  * 
  * If a continuous set of shots result in the same score, it might be wise to choose the shot in the middle of that
  * set. This will minimize the effect of precision errors on the shot.
@@ -22,7 +19,6 @@ import javax.swing.*;
 /*
  * TODO Possible errors:
  * Physical constants might be inaccurate or unusable, certain ones should be measured:
- * 		- initial speeds/
  * 		- friction coefficient
  * Equations may not be correct, especially:
  * 		- friction slowdown from hitting wall/ball at an angle
@@ -33,7 +29,7 @@ public class SimulationInstance extends TableState{
 	private final static double TIME_STEP = 0.001,										//Simulation time step in s
 			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,					//Elastic coefficients
 			BALL_TABLE_FRICTION = 0.49035,												//in m/s/s
-			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 2,		//Initial speeds in m/s
+			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 1.34,	//Initial speeds in m/s
 			MIN_MOTION = 0.1,															//Slower motion considered 0
 			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,							//Pocket openings
 			CORNER_SIDE_LENGTH = Math.sqrt(CORNER_MOUTH_WIDTH*CORNER_MOUTH_WIDTH/2),	//Corner side opening length
@@ -49,9 +45,10 @@ public class SimulationInstance extends TableState{
 	/*
 	 * TESTING VARIABLES
 	 */
-	private static final boolean visual = false;
+	private static boolean visual = false;
 	private JFrame f;
 	private PointPanel panel;
+	public static void setVisible(boolean visible){ visual = visible; }
 	
 	/**
 	 * Constructs a new <code>SimulationInstance</code> according to the parameters passed in.<br>
@@ -331,7 +328,7 @@ public class SimulationInstance extends TableState{
 		if(perpendicular){
 			return -v * BUMPER_COEFFICIENT;
 		}else{
-			return v;	//TODO do we need to handle this slowdown due to friction?
+			return v;
 		}
 	}//ballToWallCollision()
 	
@@ -341,7 +338,7 @@ public class SimulationInstance extends TableState{
 	 * @param v - An array containing the x- and y-components of the velocity (should be of length 2).
 	 * @return True if the ball will be sunk or false otherwise.
 	 */
-	public static boolean inPocket(double x, double y){	//TODO check if ball will bounce out?
+	public static boolean inPocket(double x, double y){
 		double midpoint = InferenceEngine.MAX_X_COORDINATE / 2,
 				lowMidpoint = midpoint - SIDE_PLAY/2, hiMidpoint = midpoint + SIDE_PLAY/2,
 				smallX = x - CORNER_CENTER_X, smallY = y - CORNER_CENTER_Y,

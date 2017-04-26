@@ -21,6 +21,7 @@ public class TableState{
 			if(positions[i].length != 2){
 				throw new IllegalArgumentException("Element in array not of length 2.");
 			}
+			
 			balls[i] = new Ball(positions[i][0], positions[i][1], i);
 		}
 	}//Constructor

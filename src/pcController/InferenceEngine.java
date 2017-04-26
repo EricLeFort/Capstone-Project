@@ -3,7 +3,7 @@ package pcController;
 public class InferenceEngine{
 	public static final double MAX_X_COORDINATE = 1.848, MAX_Y_COORDINATE = 0.921;	//max coordinates in m
 	public static BallType myBallType = BallType.SOLID;
-	private static final double ANGULAR_STEP = 0.0031416, HI_POWER = 1;							//minimum step size in radians
+	private static final double ANGULAR_STEP = 0.019634954, HI_POWER = 1;			//minimum step size in radians
 //			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;						//power levels in %
 	private static TableState currentTableState;
 	private static double[][] positions;
@@ -16,6 +16,20 @@ public class InferenceEngine{
 	 */
 	public static void updateTableState(double[][] positions, BallType myBallType){
 		InferenceEngine.positions = positions;
+		
+		for(int i = 0; i < positions.length; i++){			//Correct positions if just outside of range.
+			if(positions[i][0] + Ball.RADIUS > MAX_X_COORDINATE){
+				positions[i][0] = MAX_X_COORDINATE - Ball.RADIUS - 0.001;
+			}else if(positions[i][0] - Ball.RADIUS < 0){
+				positions[i][0] = Ball.RADIUS + 0.001;
+			}
+			if(positions[i][1] + Ball.RADIUS > MAX_Y_COORDINATE){
+				positions[i][1] = MAX_Y_COORDINATE - Ball.RADIUS - 0.001;
+			}else if(positions[i][1] - Ball.RADIUS < 0){
+				positions[i][1] = Ball.RADIUS + 0.001;
+			}
+		}
+		
 		currentTableState = new TableState(positions);
 		bestShot = null;
 		InferenceEngine.myBallType = myBallType;
@@ -105,7 +119,7 @@ public class InferenceEngine{
 	 * Simulates the results of the <code>Shot</code> passed in and updates the best shot as appropriate.
 	 * @param shot - The <code>Shot</code> to be simulated.
 	 */
-	private static void simulateShot(Shot shot){
+	public static void simulateShot(Shot shot){
 		SimulationInstance instance = new SimulationInstance(positions, shot.getAngle(), shot.getPower());
 		
 		while(instance.inMotion()){				//Updates until the balls have stopped moving.

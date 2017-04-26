@@ -1,3 +1,4 @@
+
 // Include  ////////////////////////////////////////////////////////////////////////////////
 
 #include  <math.h>
@@ -7,7 +8,7 @@
 #define X1_STEP_PIN          54 //X1->X
 #define X1_DIR_PIN           55
 #define X1_ENABLE_PIN        38
-
+ 
 #define X2_STEP_PIN          46 //X2->Z
 #define X2_DIR_PIN           48
 #define X2_ENABLE_PIN        62
@@ -52,11 +53,11 @@
 
 #define OOB_MOD_LENGTH       0.16   //Out of bound mod length for when ball is near edge of table   
 
-#define X_MIN_OFFSET         920  //Steps from min X end stop to edge of pool table
-#define X_MAX_OFFSET         940  //Steps from max X end stop to edge of pool table
+#define X_MIN_OFFSET         950  //Steps from min X end stop to edge of pool table
+#define X_MAX_OFFSET         885  //Steps from max X end stop to edge of pool table
 #define Y_MIN_OFFSET         2600 //Steps from min Y end stop to edge of pool table
-#define Y_MAX_OFFSET         2745 //Steps from max Y end stop to edge of pool table
-#define R_OFFSET             278  //Steps from R initialization point to zero angle
+#define Y_MAX_OFFSET         2785 //Steps from max Y end stop to edge of pool table
+#define R_OFFSET             242  //Steps from R initialization point to zero angle
 
 #define MICRODELAY           800  //Pause between stepper motor steps
 #define SLOWSTEP             300  //300 is normal slow, 0 is off 
@@ -89,6 +90,8 @@ bool stopStart = false; //Move left pressed while moving right, or vice versa
 
 int previousTime = millis(); //Used for button de-bounce
 int currentTime; 
+
+int isInitialized = 0; //Has the system finished initialization?
 
 // Setup  /////////////////////////////////////////////////////////////////////////////////
 
@@ -169,6 +172,8 @@ void InitializeRoutine() //Move end effector such that X,Y,R are in initialized 
   currentY = UPPERBOUND_Y; 
   currentR = 0;
   MoveXYR();
+  currentR = 0;
+  isInitialized = 2;
   
 }
 
@@ -263,19 +268,20 @@ void RequestPCInstruction() //Loop during PC operation
 
 void MapCoordinates(double serialX, double serialY, double serialR) //Map from real coordinates to step coordinates
 {
-  /* Handle case where EE is near edge of table
-  if(serialX/REAL_TABLE_X < 0.05 || serialX/REAL_TABLE_X > 0.95 || serialY/REAL_TABLE_Y < 0.05 || serialY/REAL_TABLE_Y > 0.95)
-  {
-    serialX += OOB_MOD_LENGTH*cos(serialR);
-    serialY += OOB_MOD_LENGTH*sin(serialR);
-  }
-  */
-
+  
   serialX -= OOB_MOD_LENGTH*cos(serialR);
   serialY -= OOB_MOD_LENGTH*sin(serialR);
+  
   requestedX = (serialX * (UPPERBOUND_X - X_MIN_OFFSET - X_MAX_OFFSET) / REAL_TABLE_X) + X_MIN_OFFSET; 
   requestedY = (serialY * (UPPERBOUND_Y - Y_MIN_OFFSET - Y_MAX_OFFSET) / REAL_TABLE_Y) + Y_MIN_OFFSET;
-  requestedR = (int)((REAL_TABLE_R - serialR) * UPPERBOUND_R / REAL_TABLE_R + R_OFFSET) % UPPERBOUND_R;
+  requestedR = (int)((REAL_TABLE_R - serialR) * UPPERBOUND_R / REAL_TABLE_R + R_OFFSET) % (UPPERBOUND_R + 1);
+
+  if(requestedX < 0) requestedX = 0;
+  if(requestedX > UPPERBOUND_X) requestedX = UPPERBOUND_X;
+  if(requestedY < 0) requestedY = 0;
+  if(requestedY > UPPERBOUND_Y) requestedY = UPPERBOUND_Y;
+  if(requestedR < 0) requestedR = 0;
+  if(requestedR > UPPERBOUND_R) requestedR = UPPERBOUND_R;
   
 }
 
@@ -476,6 +482,8 @@ void UserButton2() //Tell machine to move right during user turn
 void UserButton3() //User turn, machine turn
 {
 
+  if(isInitialized == 1) return;
+  if(isInitialized == 0) isInitialized = 1;
   if(userThreeHeld) return;
   
   userThreeHeld = true;
