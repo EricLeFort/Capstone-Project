@@ -39,7 +39,7 @@ public class SimulationInstance extends TableState{
 			TIME_PENALTY_A = 1.25E-8, TIME_PENALTY_B = -2.75E-4, TIME_PENALTY_C = 1,	//Penalties based on duration before event
 			COLLISION_PENALTY_2 = 0.75, COLLISION_PENALTY_3 = 0.4,						//Penalties based on collisions before event
 			COLLISION_PENALTY_4 = 0.1;
-			
+	
 	private final static int CUE_SCORE = -80,											//Scoring for sinking certain balls
 			RIGHT_BALLTYPE_SUNK = 8, WRONG_BALLTYPE_SUNK = -12, MIN_SCORE = -5000,
 			RIGHT_EIGHT_SUNK = 48;
@@ -137,8 +137,8 @@ public class SimulationInstance extends TableState{
 				newVelocities[i][0] = newVelocities[i][1] = 0;
 			}
 			
-			if(newVelocities[i][0] != 0 || newVelocities[i][1] != 0){
-				if(visual){
+			if(visual && balls[i].getXPosition() >= 0){
+				if(newVelocities[i][0] != 0 || newVelocities[i][1] != 0){
 					panel.addPoint(balls[i].getXPosition(), balls[i].getYPosition(), i);
 				}
 			}
@@ -146,7 +146,7 @@ public class SimulationInstance extends TableState{
 		
 		outerloop:
 			for(int i = 0; i < balls.length; i++){
-				while(balls[i].getXPosition() < 0){										//Ignore balls not in motion
+				while(velocities[i][0] == 0 && velocities[i][1] == 0){					//Ignore balls not in motion
 					i++;
 					if(i == balls.length){
 						break outerloop;
@@ -155,7 +155,7 @@ public class SimulationInstance extends TableState{
 				if(!(isWallHere(balls[i].getYPosition(), false) || isWallHere(balls[i].getXPosition(), true))
 						& inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
 					timeFactor = TIME_PENALTY_A*Math.pow(time, 2) + TIME_PENALTY_B*time + TIME_PENALTY_C;
-																						//Calculate time adjust
+					//Calculate time adjust
 					if(collisions < 2){													//Calculate collision adjust
 						collisionFactor = 1;
 					}else if(collisions == 2){
@@ -201,12 +201,12 @@ public class SimulationInstance extends TableState{
 							}
 						}
 					}
-					balls[i].alterX(-1);											//Sinks the ball
-					balls[i].alterY(-1);
+					balls[i].alterX(-10);											//Sinks the ball
+					balls[i].alterY(-10);
 					newVelocities[i][0] = 0;
 					newVelocities[i][1] = 0;
 					if(visual){
-						panel.addPoint(-1, -1, i);
+						panel.addPoint(-10, -10, i);
 					}
 				}else{
 					if((balls[i].getXPosition() - Ball.RADIUS <= 0 &&				//BALL-BUMPER collision (y-wall)

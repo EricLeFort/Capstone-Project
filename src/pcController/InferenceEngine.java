@@ -25,12 +25,12 @@ public class InferenceEngine{
 		for(int i = 0; i < positions.length; i++){			//Correct positions if just outside of range.
 			if(positions[i][0] + Ball.RADIUS > MAX_X_COORDINATE){
 				positions[i][0] = MAX_X_COORDINATE - Ball.RADIUS - 0.001;
-			}else if(positions[i][0] - Ball.RADIUS < 0){
+			}else if(positions[i][0] > -1 && positions[i][0] - Ball.RADIUS < 0){
 				positions[i][0] = Ball.RADIUS + 0.001;
 			}
 			if(positions[i][1] + Ball.RADIUS > MAX_Y_COORDINATE){
 				positions[i][1] = MAX_Y_COORDINATE - Ball.RADIUS - 0.001;
-			}else if(positions[i][1] - Ball.RADIUS < 0){
+			}else if(positions[i][1] > -1 && positions[i][1] - Ball.RADIUS < 0){
 				positions[i][1] = Ball.RADIUS + 0.001;
 			}
 		}
