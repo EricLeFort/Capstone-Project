@@ -1,6 +1,7 @@
 package pcController;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
@@ -66,7 +67,6 @@ public class SimulationInstance extends TableState{
 		if(visual){
 			f = new JFrame();
 			panel = new PointPanel(balls);
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.getContentPane().add(panel);
 			f.setSize(1300, 671);
 			f.setLocation(75,0);
@@ -234,6 +234,7 @@ public class SimulationInstance extends TableState{
 		}
 		
 		velocities = newVelocities;
+		
 		return updateScore;
 	}//update()
 	
