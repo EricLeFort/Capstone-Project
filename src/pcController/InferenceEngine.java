@@ -8,6 +8,8 @@ public class InferenceEngine{
 	private static TableState currentTableState;
 	private static double[][] positions;
 	private static Shot bestShot;
+	private static double optimalStartAngle;
+	private static boolean optimalRegion;
 	
 	/**
 	 * Updates the current <code>TableState</code> to represent the new positions passed in.
@@ -121,12 +123,23 @@ public class InferenceEngine{
 	 */
 	public static void simulateShot(Shot shot){
 		SimulationInstance instance = new SimulationInstance(positions, shot.getAngle(), shot.getPower());
+		double n;
 		
 		while(instance.inMotion()){				//Updates until the balls have stopped moving.
 			shot.alterScore(instance.update());
 		}
 		
 		if(bestShot == null || shot.getScore() > bestShot.getScore()){
+			optimalRegion = true;
+			optimalStartAngle = shot.getAngle();
+			bestShot = shot;
+		}else if(optimalRegion && shot.getScore() < bestShot.getScore()){	//Choose shot in middle of this range
+			n = Math.floor((shot.getAngle() - ANGULAR_STEP - bestShot.getAngle()) / (2*ANGULAR_STEP));
+			shot = new Shot(0, 0, bestShot.getAngle() + n*ANGULAR_STEP, 1);
+			while(instance.inMotion()){										//Should recalculate this shot's results
+				shot.alterScore(instance.update());
+			}
+			optimalRegion = false;
 			bestShot = shot;
 		}
 	}//simulateShot()

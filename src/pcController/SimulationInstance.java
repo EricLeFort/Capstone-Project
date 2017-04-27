@@ -40,6 +40,7 @@ public class SimulationInstance extends TableState{
 			RIGHT_BALLTYPE_SUNK = 2, WRONG_BALLTYPE_SUNK = -3, MIN_SCORE = -5000;
 	Ball[] balls;
 	private double[][] velocities = new double[16][2];
+	private int time;
 	private boolean inMotion, shooting8;
 	
 	/*
@@ -61,12 +62,12 @@ public class SimulationInstance extends TableState{
 		
 		int start, end;
 		
+		time = 0;
 		balls = super.deepCopy();
 		
 		if(visual){
 			f = new JFrame();
 			panel = new PointPanel(balls);
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.getContentPane().add(panel);
 			f.setSize(1300, 671);
 			f.setLocation(75,0);
