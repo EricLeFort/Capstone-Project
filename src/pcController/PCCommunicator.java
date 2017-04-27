@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.TooManyListenersException;
-import javax.imageio.ImageIO;		//TODO 1.38
+import javax.imageio.ImageIO;
 
 /**
  * @author Eric Le Fort

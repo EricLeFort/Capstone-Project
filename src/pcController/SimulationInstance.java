@@ -40,7 +40,7 @@ public class SimulationInstance extends TableState{
 			COLLISION_PENALTY_2 = 0.75, COLLISION_PENALTY_3 = 0.4,						//Penalties based on collisions before event
 			COLLISION_PENALTY_4 = 0.1;
 			
-	private final static int CUE_SCORE = -20,											//Scoring for sinking certain balls
+	private final static int CUE_SCORE = -80,											//Scoring for sinking certain balls
 			RIGHT_BALLTYPE_SUNK = 8, WRONG_BALLTYPE_SUNK = -12, MIN_SCORE = -5000,
 			RIGHT_EIGHT_SUNK = 48;
 	Ball[] balls;
@@ -169,7 +169,7 @@ public class SimulationInstance extends TableState{
 					}
 					
 					if(shooting8){
-						if(balls[i].getValue() == 0){									//Sunk cue ball
+						if(balls[i].getValue() == 0){								//Sunk cue ball
 							updateScore = MIN_SCORE;
 							inMotion = false;
 							return updateScore;
@@ -185,21 +185,19 @@ public class SimulationInstance extends TableState{
 					}else{
 						if(balls[i].getValue() == 0){								//Sunk cue ball
 							updateScore += CUE_SCORE * timeFactor * collisionFactor;
-							System.out.println(timeFactor);
 						}else if(balls[i].getValue() == 8){							//Sunk eight ball
 							updateScore = MIN_SCORE;
+							System.out.println("Fuck me");
 							inMotion = false;
 							return updateScore;										//Sunk right type of ball
 						}else if(balls[i].getValue() > 8 && InferenceEngine.myBallType == BallType.STRIPE
 								|| balls[i].getValue() < 8 && InferenceEngine.myBallType == BallType.SOLID){
 							if(timeFactor > 0 && collisionFactor > 0){
 								updateScore += RIGHT_BALLTYPE_SUNK * timeFactor * collisionFactor;
-								System.out.println(timeFactor);
 							}
 						}else{														//Sunk wrong type of ball
 							if(timeFactor > 0 && collisionFactor > 0){
 								updateScore += WRONG_BALLTYPE_SUNK * timeFactor * collisionFactor;
-								System.out.println(timeFactor);
 							}
 						}
 					}

@@ -45,7 +45,6 @@ public class Shot{
 		message += "Y-Position: " + yPosition + newline;
 		message += "Angle: " + angle + newline;
 		message += "Power: " + power + newline;
-		message += "Score: " + score + newline;
 		
 		return message;
 	}//toString()
