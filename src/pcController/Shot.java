@@ -5,6 +5,8 @@ package pcController;
  * @version 1.0
  */
 public class Shot{
+	private static final int START_SCORE = -4;					//Should be half the good ball sunk score
+	
 	private double xPosition, yPosition, angle, power;
 	private int score;
 	
@@ -17,7 +19,7 @@ public class Shot{
 	 * @param power - The power with which to take this shot (from 0 to 1).
 	 */
 	public Shot(double xPosition, double yPosition, double angle, double power){
-		score = -1;
+		score = START_SCORE;
 		
 		if(yPosition < 0 || yPosition > InferenceEngine.MAX_Y_COORDINATE){			//Verify parameters.
 			throw new IllegalArgumentException("Y-Coordinate out of range.");
@@ -43,6 +45,7 @@ public class Shot{
 		message += "Y-Position: " + yPosition + newline;
 		message += "Angle: " + angle + newline;
 		message += "Power: " + power + newline;
+		message += "Score: " + score + newline;
 		
 		return message;
 	}//toString()
