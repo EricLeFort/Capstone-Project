@@ -20,7 +20,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
 	private static final String PORT_NAME_1 = "/dev/tty.usbmodem1411",
-			PORT_NAME_2 = "TBD";															//TODO different name for Windows
+			PORT_NAME_2 = "COM5";															//TODO different name for Windows
 	private static final int PORT = 8000, TIMEOUT = 20000, SETUP_DELAY = 1500, DATA_RATE = 9600,
 			SHOT_SPEC = 170, REQUEST = 55, CONFIRM = 200;
 	private static final BallType myBallType = BallType.SOLID;
@@ -58,13 +58,11 @@ public class PCCommunicator implements SerialPortEventListener{
 		try{
 			InferenceEngine.updateTableState(readTableStateFromFile(tableStateFile), myBallType);
 			shot = InferenceEngine.getBestShot();
-			System.out.println("k");
 			
 			System.out.println(shot);
 			SimulationInstance.setVisible(true);		//Display anticipated result of optimal shot.
 			InferenceEngine.simulateShot(shot);
 			SimulationInstance.setVisible(false);
-			System.out.println("k");
 			
 			try{
 				if(tableStateFile.exists()){			//Trash old table state after use
@@ -197,11 +195,10 @@ public class PCCommunicator implements SerialPortEventListener{
 			p = pb.start();
 			in = new BufferedReader(new InputStreamReader(p.getInputStream())); 
 			
-			while((line = in.readLine()) != null){
+			while(!(line = in.readLine()).equals("finished")){
 				System.out.println(line);
 			}
-			//p = Runtime.getRuntime().exec(runCCmd);		Alternative angle
-			//p.waitFor();
+			System.out.println("Finished");
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -250,7 +247,6 @@ public class PCCommunicator implements SerialPortEventListener{
 			System.out.println("Could not find port.");
 			return;
 		}
-		
 		
 		try{
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIMEOUT);

@@ -1,6 +1,7 @@
 package pcController;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
@@ -235,6 +236,7 @@ public class SimulationInstance extends TableState{
 		}
 		
 		velocities = newVelocities;
+		
 		return updateScore;
 	}//update()
 	
