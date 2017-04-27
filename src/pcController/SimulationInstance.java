@@ -155,7 +155,7 @@ public class SimulationInstance extends TableState{
 				if(!(isWallHere(balls[i].getYPosition(), false) || isWallHere(balls[i].getXPosition(), true))
 						& inPocket(balls[i].getXPosition(), balls[i].getYPosition())){	//Ball sunk
 					timeFactor = TIME_PENALTY_A*Math.pow(time, 2) + TIME_PENALTY_B*time + TIME_PENALTY_C;
-					//Calculate time adjust
+																						//Calculate time adjust
 					if(collisions < 2){													//Calculate collision adjust
 						collisionFactor = 1;
 					}else if(collisions == 2){
