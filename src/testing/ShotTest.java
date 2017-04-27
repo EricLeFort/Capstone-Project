@@ -89,9 +89,9 @@ public class ShotTest{
 	@Test
 	public void testAlterScore(){
 		Shot a = new Shot(1, 0.5, 1, 1);
-		assertEquals(-1, a.getScore());
+		assertEquals(-4, a.getScore());
 		
-		a.alterScore(1);
+		a.alterScore(4);
 		assertEquals(0, a.getScore());
 		
 		a.alterScore(505);

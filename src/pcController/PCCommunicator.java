@@ -20,7 +20,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	private static File tableStateFile = new File("resources/TableState.csv"),
 			imageFile = new File("resources/TableImage.jpg");
 	private static final String PORT_NAME_1 = "/dev/tty.usbmodem1411",
-			PORT_NAME_2 = "COM5";															//TODO different name for Windows
+			PORT_NAME_2 = "COM5";
 	private static final int PORT = 8000, TIMEOUT = 20000, SETUP_DELAY = 1500, DATA_RATE = 9600,
 			SHOT_SPEC = 170, REQUEST = 55, CONFIRM = 200;
 	private static final BallType myBallType = BallType.SOLID;
@@ -37,7 +37,9 @@ public class PCCommunicator implements SerialPortEventListener{
 		
 		try{ Thread.sleep(SETUP_DELAY); }catch(InterruptedException ie){ }
 		
-		for(;;){ uCListener(); }
+		for(;;){
+			uCListener(); 
+		}
 	}
 	
 	/**
@@ -198,7 +200,6 @@ public class PCCommunicator implements SerialPortEventListener{
 			while(!(line = in.readLine()).equals("finished")){
 				System.out.println(line);
 			}
-			System.out.println("Finished");
 		}catch (Exception e){
 			e.printStackTrace();
 		}
