@@ -1,5 +1,9 @@
 package pcController;
 
+/**
+ * @author Eric Le Fort
+ * @version 1.0
+ */
 public class InferenceEngine{
 	public static final double MAX_X_COORDINATE = 1.848, MAX_Y_COORDINATE = 0.921;	//max coordinates in m
 	public static BallType myBallType = BallType.SOLID;
@@ -8,7 +12,6 @@ public class InferenceEngine{
 	private static TableState currentTableState;
 	private static double[][] positions;
 	private static Shot bestShot;
-	private static double optimalStartAngle;
 	private static boolean optimalRegion;
 	
 	/**
@@ -131,7 +134,6 @@ public class InferenceEngine{
 		
 		if(bestShot == null || shot.getScore() > bestShot.getScore()){
 			optimalRegion = true;
-			optimalStartAngle = shot.getAngle();
 			bestShot = shot;
 		}else if(optimalRegion && shot.getScore() < bestShot.getScore()){	//Choose shot in middle of this range
 			n = Math.floor((shot.getAngle() - ANGULAR_STEP - bestShot.getAngle()) / (2*ANGULAR_STEP));
@@ -139,8 +141,8 @@ public class InferenceEngine{
 			while(instance.inMotion()){										//Should recalculate this shot's results
 				shot.alterScore(instance.update());
 			}
-			optimalRegion = false;
 			bestShot = shot;
+			optimalRegion = false;
 		}
 	}//simulateShot()
 	
