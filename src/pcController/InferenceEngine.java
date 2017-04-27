@@ -24,14 +24,14 @@ public class InferenceEngine{
 		
 		for(int i = 0; i < positions.length; i++){			//Correct positions if just outside of range.
 			if(positions[i][0] + Ball.RADIUS > MAX_X_COORDINATE){
-				positions[i][0] = MAX_X_COORDINATE - Ball.RADIUS - 0.001;
+				//positions[i][0] = MAX_X_COORDINATE - Ball.RADIUS - 0.001;
 			}else if(positions[i][0] > -1 && positions[i][0] - Ball.RADIUS < 0){
-				positions[i][0] = Ball.RADIUS + 0.001;
+				//positions[i][0] = Ball.RADIUS + 0.001;
 			}
 			if(positions[i][1] + Ball.RADIUS > MAX_Y_COORDINATE){
-				positions[i][1] = MAX_Y_COORDINATE - Ball.RADIUS - 0.001;
+				//positions[i][1] = MAX_Y_COORDINATE - Ball.RADIUS - 0.001;
 			}else if(positions[i][1] > -1 && positions[i][1] - Ball.RADIUS < 0){
-				positions[i][1] = Ball.RADIUS + 0.001;
+				//positions[i][1] = Ball.RADIUS + 0.001;
 			}
 		}
 		
@@ -135,15 +135,16 @@ public class InferenceEngine{
 		if(bestShot == null || shot.getScore() > bestShot.getScore()){
 			optimalRegion = true;
 			bestShot = shot;
-		}else if(optimalRegion && shot.getScore() < bestShot.getScore()){	//Choose shot in middle of this range
-			n = Math.floor((shot.getAngle() - ANGULAR_STEP - bestShot.getAngle()) / (2*ANGULAR_STEP));
-			shot = new Shot(0, 0, bestShot.getAngle() + n*ANGULAR_STEP, 1);
-			while(instance.inMotion()){										//Should recalculate this shot's results
-				shot.alterScore(instance.update());
-			}
-			bestShot = shot;
-			optimalRegion = false;
 		}
+//		}else if(optimalRegion && shot.getScore() < bestShot.getScore()){	//Choose shot in middle of this range
+//			n = Math.floor((shot.getAngle() - ANGULAR_STEP - bestShot.getAngle()) / (2*ANGULAR_STEP));
+//			shot = new Shot(0, 0, bestShot.getAngle() + n*ANGULAR_STEP, 1);
+//			while(instance.inMotion()){										//Should recalculate this shot's results
+//				shot.alterScore(instance.update());
+//			}
+//			bestShot = shot;
+//			optimalRegion = false;
+//		}
 	}//simulateShot()
 	
 }//InferenceEngine
