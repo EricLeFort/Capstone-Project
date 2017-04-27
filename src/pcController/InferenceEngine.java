@@ -8,7 +8,7 @@ public class InferenceEngine{
 	public static final double MAX_X_COORDINATE = 1.848, MAX_Y_COORDINATE = 0.921;	//max coordinates in m
 	public static BallType myBallType = BallType.SOLID;
 	private static final double ANGULAR_STEP = 0.019634954, HI_POWER = 1;			//minimum step size in radians
-//			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;						//power levels in %
+	//			LOW_POWER = 0.4, MID_POWER = 0.75, HI_POWER = 1;						//power levels in %
 	private static TableState currentTableState;
 	private static double[][] positions;
 	private static Shot bestShot;
@@ -86,33 +86,34 @@ public class InferenceEngine{
 		}
 		
 		outerloop:
-		for(int i = startBall; i <= endBall; i++){
-			while(currentTableState.getBall(i).getXPosition() < 0){		//Ignore balls off the table
-				i++;
-				if(i > endBall){
-					break outerloop;
+			for(int i = startBall; i <= endBall; i++){
+				while(currentTableState.getBall(i).getXPosition() < 0){		//Ignore balls off the table
+					i++;
+					if(i > endBall){
+						break outerloop;
+					}
+				}
+				deltaX = currentTableState.getBall(i).getXPosition() - currentTableState.getBall(0).getXPosition();
+				deltaY = currentTableState.getBall(i).getYPosition() - currentTableState.getBall(0).getYPosition();
+				startAngle = Math.atan2(deltaY, deltaX);									//direct cue-target ball angle
+				if(startAngle < 0){
+					startAngle += pi2;
+				}
+				
+				deltaAngle = (2*Ball.RADIUS)/(Math.sqrt(deltaX*deltaX + deltaY*deltaY));	//arc length / radius
+				lowAngle = (startAngle - deltaAngle + pi2) % pi2;							//prevents angle over/underflow
+				highAngle = (startAngle + deltaAngle + pi2) % pi2;
+				
+				lowAngle -= lowAngle % ANGULAR_STEP;
+				highAngle -= highAngle % ANGULAR_STEP;
+				
+				optimalRegion = false;
+				for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
+					//				simulateShot(new Shot(0, 0, j, LOW_POWER));
+					//				simulateShot(new Shot(0, 0, j, MID_POWER));
+					simulateShot(new Shot(0, 0, j, HI_POWER));
 				}
 			}
-			deltaX = currentTableState.getBall(i).getXPosition() - currentTableState.getBall(0).getXPosition();
-			deltaY = currentTableState.getBall(i).getYPosition() - currentTableState.getBall(0).getYPosition();
-			startAngle = Math.atan2(deltaY, deltaX);									//direct cue-target ball angle
-			if(startAngle < 0){
-				startAngle += pi2;
-			}
-			
-			deltaAngle = (2*Ball.RADIUS)/(Math.sqrt(deltaX*deltaX + deltaY*deltaY));	//arc length / radius
-			lowAngle = (startAngle - deltaAngle + pi2) % pi2;							//prevents angle over/underflow
-			highAngle = (startAngle + deltaAngle + pi2) % pi2;
-			
-			lowAngle -= lowAngle % ANGULAR_STEP;
-			highAngle -= highAngle % ANGULAR_STEP;
-
-			for(double j = lowAngle; j < highAngle; j += ANGULAR_STEP){					//Iterate through angles
-//				simulateShot(new Shot(0, 0, j, LOW_POWER));
-//				simulateShot(new Shot(0, 0, j, MID_POWER));
-				simulateShot(new Shot(0, 0, j, HI_POWER));
-			}
-		}
 		
 		bestShot.setXPosition(currentTableState.getBall(0).getXPosition() +
 				Ball.RADIUS * Math.cos((Math.PI + bestShot.getAngle()) % pi2));			//opposite angle
@@ -137,11 +138,14 @@ public class InferenceEngine{
 			bestShot = shot;
 		}else if(optimalRegion && shot.getScore() < bestShot.getScore()){	//Choose shot in middle of this range
 			n = Math.floor((shot.getAngle() - ANGULAR_STEP - bestShot.getAngle()) / (2*ANGULAR_STEP));
-			shot = new Shot(0, 0, bestShot.getAngle() + n*ANGULAR_STEP, 1);
-			while(instance.inMotion()){										//Should recalculate this shot's results
-				shot.alterScore(instance.update());
+			if(n > 0){
+				shot = new Shot(0, 0, bestShot.getAngle() + n*ANGULAR_STEP, 1);
+				while(instance.inMotion()){										//Should recalculate this shot's results
+					shot.alterScore(instance.update());
+				}
+				bestShot = shot;
+				System.out.println("Compromise");
 			}
-			bestShot = shot;
 			optimalRegion = false;
 		}
 	}//simulateShot()
