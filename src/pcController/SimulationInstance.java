@@ -28,7 +28,7 @@ import javax.swing.*;
 public class SimulationInstance extends TableState{
 	private final static double TIME_STEP = 0.001,										//Simulation time step in s
 			BUMPER_COEFFICIENT = 0.866, BALL_BALL_COEFFICIENT = 0.96,					//Elastic coefficients
-			BALL_TABLE_FRICTION = 0.45,												//in m/s/s
+			BALL_TABLE_FRICTION = 0.45,													//in m/s/s
 			INITIAL_LOW_SPEED = 1, INITIAL_MED_SPEED = 1.5, INITIAL_HI_SPEED = 1.34,	//Initial speeds in m/s
 			MIN_MOTION = 0.1,															//Slower motion considered 0
 			CORNER_MOUTH_WIDTH = 0.1, SIDE_MOUTH_WIDTH = 0.114,							//Pocket openings

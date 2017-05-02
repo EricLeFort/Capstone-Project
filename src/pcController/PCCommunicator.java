@@ -222,6 +222,7 @@ public class PCCommunicator implements SerialPortEventListener{
 			temp = in.nextLine().split(",");
 			locations[i][0] = Double.parseDouble(temp[0]);
 			locations[i][1] = Double.parseDouble(temp[1]);
+			System.out.println(locations[i][0] + ", " + locations[i][1]);
 		}
 		in.close();
 		
@@ -329,7 +330,7 @@ public class PCCommunicator implements SerialPortEventListener{
 		}
 		
 		try{
-			Thread.sleep(1200);				//Pause for the Arduino to catch up
+			Thread.sleep(2000);				//Pause for the Arduino to catch up
 		}catch(InterruptedException ie){ ie.printStackTrace(); }
 	}//writeStringBytes()
 }//PCCommunicator

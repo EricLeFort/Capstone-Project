@@ -59,14 +59,15 @@ public class Shot{
 	
 	public void setXPosition(double position){
 		if(position < 0 || position > InferenceEngine.MAX_X_COORDINATE){			//Verify parameter.
-			throw new IllegalArgumentException("Coordinate out of range.");
+			System.out.println("Damn.. " + position);
+			throw new IllegalArgumentException("Shot X-Coordinate out of range.");
 		}
 		xPosition = position;
 	}//setXPosition
 	
 	public void setYPosition(double position){
 		if(position < 0 || position > InferenceEngine.MAX_Y_COORDINATE){			//Verify parameter.
-			throw new IllegalArgumentException("Coordinate out of range.");
+			throw new IllegalArgumentException("Shot Y-Coordinate out of range.");
 		}
 		yPosition = position;
 	}//setYPosition

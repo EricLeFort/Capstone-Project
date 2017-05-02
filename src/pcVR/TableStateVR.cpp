@@ -20,6 +20,10 @@ using namespace cv::cuda;
 bool ballinfo(int balls[16][7], Vec4i lines[4], int N) {
 
 	//stored as x,y,B,G,R,#ofwhitepixels,ballid.// the final lines are stored as botthoriz. right vert. top hori, left verti //(xinit,yinit,xfin,yfin)
+	int finalballs[16][7];
+	int stripecnt = 0;
+	int solidcnt = 1;
+	double finalposition[16][2];
 	double MILYLEN = 1880;
 	double MILXLEN = 960;
 	double realposition[16][2] = { 0 };
@@ -103,36 +107,84 @@ bool ballinfo(int balls[16][7], Vec4i lines[4], int N) {
 			
 			if (balls[k][4] <110 && balls[k][3] <110 && balls[k][2] <110) {
 				balls[k][6] = 8; // black ball 
+				finalballs[8][1] = balls[k][1];
+				finalballs[8][2] = balls[k][2];
+				finalballs[8][3] = balls[k][3];
+				finalballs[8][4] = balls[k][4];
+				finalballs[8][5] = balls[k][5];
+				finalballs[8][6] = balls[k][6];
+				finalballs[8][7] = balls[k][7];
+				finalposition[8][0] = realposition[k][0];
+				finalposition[8][1] = realposition[k][1];
 			}
 			else if (balls[k][5] > 35) {
 				balls[k][6] = 0; // cue ball 
+				finalballs[0][1] = balls[k][1];
+				finalballs[0][2] = balls[k][2];
+				finalballs[0][3] = balls[k][3];
+				finalballs[0][4] = balls[k][4];
+				finalballs[0][5] = balls[k][5];
+				finalballs[0][6] = balls[k][6];
+				finalballs[0][7] = balls[k][7];
+				finalposition[0][0] = realposition[k][0];
+				finalposition[0][1] = realposition[k][1];
 			}
 			else if (balls[k][5] >= 8) {
 				balls[k][6] = 9; // stripe 
+				finalballs[9+stripecnt][1] = balls[k][1];
+				finalballs[9 + stripecnt][2] = balls[k][2];
+				finalballs[9 + stripecnt][3] = balls[k][3];
+				finalballs[9 + stripecnt][4] = balls[k][4];
+				finalballs[9 + stripecnt][5] = balls[k][5];
+				finalballs[9 + stripecnt][6] = balls[k][6];
+				finalballs[9 + stripecnt][7] = balls[k][7];
+				finalposition[9 + stripecnt][0] = realposition[k][0];
+				finalposition[9 + stripecnt][1] = realposition[k][1];
+
+				stripecnt = stripecnt + 1;
+				if (stripecnt > 7) { solidcnt = 0; }
+				//TODO MAKE THAT NOT WIPE BALLS
 			}
 			else if (balls[k][5] < 8) {
 				balls[k][6] = 2; // solid 
+				finalballs[0+solidcnt][1] = balls[k][1];
+				finalballs[0 + solidcnt][2] = balls[k][2];
+				finalballs[0 + solidcnt][3] = balls[k][3];
+				finalballs[0 + solidcnt][4] = balls[k][4];
+				finalballs[0 + solidcnt][5] = balls[k][5];
+				finalballs[0 + solidcnt][6] = balls[k][6];
+				finalballs[0 + solidcnt][7] = balls[k][7];
+				finalposition[0 + solidcnt][0] = realposition[k][0];
+				finalposition[0 + solidcnt][1] = realposition[k][1];
+				solidcnt = solidcnt + 1;
+				if (solidcnt > 7) { solidcnt = 1; }
 			}
-			//cout << balls[k][2] << " B " << balls[k][3] << " G " << balls[k][4] << " R " << balls[k][6] << " ID " << endl;
+			
 
 			//THIS IS BUBBLE SORT>>> HAHAHA
-			for (int in = 0; in < 16; in++){
-					if (balls[in][6] == 0) {
-						swap(balls[in], balls[0]);
-						break;
-					}
-				if (balls[in][6] == 8) {
-					swap(balls[in], balls[8]);
-					break;
-				}
-			}
+			
+			
+			//cout << balls[k][2] << " B " << balls[k][3] << " G " << balls[k][4] << " R " << balls[k][6] << " ID " << endl;
+
+		}
+
+	}
+	balls = finalballs; 
+	
+	/*
+	for (int in = 0; in < 16; in++) {
+		if (balls[in][6] == 0) {
+			swap(balls[in], balls[0]);
+			break;
+		}
+		if (balls[in][6] == 8) {
+			//tempball = balls[in];
+			swap(balls[in], balls[8]);
+			break;
 		}
 	}
 
-
-
-
-
+	*/
 
 
 
@@ -154,7 +206,7 @@ bool ballinfo(int balls[16][7], Vec4i lines[4], int N) {
 
 	for (int k = 0; k < 16; k++) {
 		//TODO sort balls
-		myfile << (realposition[k][1] * 0.001) - OFFSETX << "," << (realposition[k][0] * 0.001) - OFFSETY << endl;
+		myfile << (finalposition[k][1] * 0.001) - OFFSETX << "," << (finalposition[k][0] * 0.001) - OFFSETY << endl;
 	}
 
 	myfile.close();

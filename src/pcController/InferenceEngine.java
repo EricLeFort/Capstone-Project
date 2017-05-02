@@ -23,15 +23,11 @@ public class InferenceEngine{
 		InferenceEngine.positions = positions;
 		
 		for(int i = 0; i < positions.length; i++){			//Correct positions if just outside of range.
-			if(positions[i][0] + Ball.RADIUS > MAX_X_COORDINATE){
-				//positions[i][0] = MAX_X_COORDINATE - Ball.RADIUS - 0.001;
-			}else if(positions[i][0] > -1 && positions[i][0] - Ball.RADIUS < 0){
-				//positions[i][0] = Ball.RADIUS + 0.001;
+			if(positions[i][0] < 0){
+				positions[i][0] = -1;
 			}
-			if(positions[i][1] + Ball.RADIUS > MAX_Y_COORDINATE){
-				//positions[i][1] = MAX_Y_COORDINATE - Ball.RADIUS - 0.001;
-			}else if(positions[i][1] > -1 && positions[i][1] - Ball.RADIUS < 0){
-				//positions[i][1] = Ball.RADIUS + 0.001;
+			if(positions[i][1] < 0){
+				positions[i][1] = -1;
 			}
 		}
 		
@@ -115,10 +111,8 @@ public class InferenceEngine{
 				}
 			}
 		
-		bestShot.setXPosition(currentTableState.getBall(0).getXPosition() +
-				Ball.RADIUS * Math.cos((Math.PI + bestShot.getAngle()) % pi2));			//opposite angle
-		bestShot.setYPosition(currentTableState.getBall(0).getYPosition() +
-				Ball.RADIUS * Math.sin((Math.PI + bestShot.getAngle()) % pi2));
+		bestShot.setXPosition(currentTableState.getBall(0).getXPosition());
+		bestShot.setYPosition(currentTableState.getBall(0).getYPosition());
 	}//calculateBestShot()
 	
 	/**
