@@ -1,6 +1,0 @@
-Software-Hardware Interfacing		-Andrew
-Mechanical Design			-Guy
-Electronic Sensors			-Derek
-Electronic Hardware Controls		-Ernest
-Architecture				-Eric
-Algorithms				-Max
