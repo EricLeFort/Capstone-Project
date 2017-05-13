@@ -86,7 +86,7 @@ public class SimulationInstanceTest{
 	
 	@Test
 	public void testBallToBallCollision(){
-		int warningMarker;
+		fail("not yet implemented");
 		Ball a, b;
 		double expected[][] = new double[][]{		//zero, positive, negative theta for each testing category
 			{}, {}, {},			//First quadrant, b stationary //TODO compute expected

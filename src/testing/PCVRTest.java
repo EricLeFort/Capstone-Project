@@ -56,7 +56,7 @@ public class PCVRTest{
 				{}, {}, {}, {}
 			}
 		};
-		int warningMarker;
+		fail("not yet implemented");
 		
 		for(int i = 0; i < expected.length; i++){
 			testImage = new File(fileNames[i]);

@@ -166,13 +166,13 @@ public class PCCommunicatorTest{
 	public void testImageRequest(){
 		File file = new File(imageFile);
 		
+		fail("Not yet implemented");
 		if(file.exists()){
 			file.delete();
 		}
 		
 //		if(!PCCommunicator.imageRequest()){ TODO uncomment
-		int warningMarker;
-			fail("Method returned false.");
+//			fail("Method returned false.");
 //		}
 		
 		if(!file.exists()){

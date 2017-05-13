@@ -28,7 +28,7 @@ public class PCCommunicator implements SerialPortEventListener{
 	SerialPort serialPort;
 	private static BufferedReader input;
 	private static OutputStream output;
-	private static String runCCmd = "src/pcVR/TableStateVR.exe", imageFileType = "jpg";
+	private static String runCCmd = "src/pcVR/TableStateVR", imageFileType = "jpg";
 	private static boolean requestReceived, confirmReceived;
 	
 	public static void main(String[] args){
@@ -67,8 +67,10 @@ public class PCCommunicator implements SerialPortEventListener{
 			SimulationInstance.setVisible(false);
 			
 			try{
-				if(tableStateFile.exists()){			//Trash old table state after use
+				if(tableStateFile.exists()){			//Trash old files after use
 					Files.delete(tableStateFile.toPath());
+					Files.delete(new File("pictures.txt").toPath());
+					Files.delete(new File("tester.txt").toPath());
 				}
 			}catch(IOException ioe){
 				System.out.println("Old table state file not deleted.");

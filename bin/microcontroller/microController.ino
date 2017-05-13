@@ -1,9 +1,4 @@
-
-// Include  ////////////////////////////////////////////////////////////////////////////////
-
-#include  <math.h>
-
-// Define  ////////////////////////////////////////////////////////////////////////////////
+#include <math.h>
 
 #define X1_STEP_PIN          54 //X1->X
 #define X1_DIR_PIN           55
@@ -47,9 +42,9 @@
 #define UPPERBOUND_Y         16921 //Max step for full range of motion in Y
 #define UPPERBOUND_R         1599  //Max step for full rotation in R
 
-#define REAL_TABLE_X         1.848  //Length of pool table in meters
-#define REAL_TABLE_Y         0.921  //Width of pool table in meters
-#define REAL_TABLE_R         6.283185307 //Range of rotational motion in radians
+#define REAL_TABLE_X         1.848        //Length of pool table in meters
+#define REAL_TABLE_Y         0.921        //Width of pool table in meters
+#define REAL_TABLE_R         6.283185307  //Range of rotational motion in radians
 
 #define OOB_MOD_LENGTH       0.16   //Out of bound mod length for when ball is near edge of table   
 
@@ -67,63 +62,41 @@
 #define CONFIRM_CODE         200
 #define SHOT_CODE            170
 
-// Globals  /////////////////////////////////////////////////////////////////////////////// 
+int requestedX, requestedY, requestedR, requestedE,
+    currentX, currentY, currentR,
+    xDir, yDir, rDir,
+    previousTime = millis(),
+    isInitialized = 0;      //Has the system finished initialization?
 
-int requestedX; //X coord for shot alignment
-int requestedY; //Y coord for shot alignment
-int requestedR; //Rotation angle for shot alignment
-int requestedE; //Power of shot 
-
-int currentX; //Current X position
-int currentY; //Current Y position
-int currentR; //Current R position
-
-int xDir; //Direction X should move
-int yDir; //Direction Y should move
-int rDir; //Direction R should move
-
-bool userControl = false; //Enable or disable user turn
-bool userOneHeld = false; //True while user button one is held down
-bool userTwoHeld = false; //True while user button two is held down
+bool userControl = false;   //Enable or disable user turn
+bool userOneHeld = false;   //True while user button one is held down
+bool userTwoHeld = false;   //True while user button two is held down
 bool userThreeHeld = false; //True while user button three is held down
-bool stopStart = false; //Move left pressed while moving right, or vice versa
+bool stopStart = false;     //Move left pressed while moving right, or vice versa
 
-int previousTime = millis(); //Used for button de-bounce
-int currentTime; 
-
-int isInitialized = 0; //Has the system finished initialization?
-
-// Setup  /////////////////////////////////////////////////////////////////////////////////
-
-void setup()
-{
-  
+void setup(){
   Serial.begin(9600);
-  while(!Serial) delay(10);
+  while(!Serial){
+    delay(10);
+  }
   
   pinMode(X1_STEP_PIN, OUTPUT);  
   pinMode(X1_DIR_PIN, OUTPUT); 
   pinMode(X1_ENABLE_PIN, OUTPUT); 
-
   pinMode(X2_STEP_PIN, OUTPUT);  
   pinMode(X2_DIR_PIN, OUTPUT); 
   pinMode(X2_ENABLE_PIN, OUTPUT); 
-
   pinMode(Y_STEP_PIN, OUTPUT);  
   pinMode(Y_DIR_PIN, OUTPUT); 
   pinMode(Y_ENABLE_PIN, OUTPUT); 
-
   pinMode(R_STEP_PIN, OUTPUT);  
   pinMode(R_DIR_PIN, OUTPUT); 
   pinMode(R_ENABLE_PIN, OUTPUT); 
-
   pinMode(E_STEP_PIN, OUTPUT);  
   pinMode(E_DIR_PIN, OUTPUT); 
   pinMode(E_ENABLE_PIN, OUTPUT); 
-
   pinMode(E_EXTEND_PIN, OUTPUT);
   pinMode(E_RETRACT_PIN, OUTPUT);
-
   pinMode(RED_LED_PIN, OUTPUT);  
   pinMode(BLUE_LED_PIN, OUTPUT); 
   pinMode(GREEN_LED_PIN, OUTPUT); 
@@ -138,87 +111,88 @@ void setup()
   pinMode(USERBUTTON2_PIN, INPUT);
   pinMode(USERBUTTON3_PIN, INPUT);
 
-  InitializeRoutine();
-  
-}
-
-// Main  //////////////////////////////////////////////////////////////////////////////////
-
-void loop()
-{
-
-  AllowUserTurn();
-  if(!userControl) PoseForPicture();
-  if(!userControl) RequestPCInstruction();  
-  if(!userControl) TakeShot();  
-  
-}
-
-// High-Level Functionality  //////////////////////////////////////////////////////////////
-
-void InitializeRoutine() //Move end effector such that X,Y,R are in initialized positions (0,0,0) and let user break
-{
-
   digitalWrite(RED_LED_PIN, HIGH);  
   digitalWrite(BLUE_LED_PIN, LOW); 
   digitalWrite(GREEN_LED_PIN, LOW); 
 
-  while(digitalRead(USERBUTTON3_PIN) != 0) delay(10); //Wait for button press
+  while(digitalRead(USERBUTTON3_PIN) != 0){   //Wait for button press
+    delay(10);
+  }
   userThreeHeld = true;
+  
   requestedX = 0;
   requestedY = 0;
   requestedR = -1*UPPERBOUND_R;
+  
   currentX = UPPERBOUND_X;
   currentY = UPPERBOUND_Y; 
   currentR = 0;
-  MoveXYR();
+  
+  moveXYR();
   currentR = 0;
   isInitialized = 2;
-  
-}
+}//setup()
 
-void AllowUserTurn() //Loop during user turn
-{
-  
+void loop(){
+  allowUserTurn();
+  if(!userControl){ poseForPicture(); }
+  if(!userControl){ requestPCInstruction(); }
+  if(!userControl){ takeShot(); }
+}//loop()
+
+void allowUserTurn(){ //Loop during user turn
   digitalWrite(RED_LED_PIN, LOW);  
   digitalWrite(BLUE_LED_PIN, LOW); 
   digitalWrite(GREEN_LED_PIN, HIGH); 
 
   userControl = true;
-  while(userControl)
-  {
-    MoveXYR();
+  while(userControl){
+    moveXYR();
     delay(10); 
-    if(digitalRead(USERBUTTON1_PIN) == 0) UserButton1();
-    else userOneHeld = false;
-    if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2(); 
-    else userTwoHeld = false;
-    if(digitalRead(USERBUTTON3_PIN) == 0) UserButton3();
-    else userThreeHeld = false;
+    
+    if(digitalRead(USERBUTTON1_PIN) == 0){
+      userButton1();
+    }else{
+      userOneHeld = false;
+    }
+    
+    if(digitalRead(USERBUTTON2_PIN) == 0){
+      userButton2(); 
+    }else{
+      userTwoHeld = false;
+    }
+    
+    if(digitalRead(USERBUTTON3_PIN) == 0){
+      userButton3();
+    }else{
+      userThreeHeld = false;
+    }
   }
-  
-}
+}//allowUserTurn()
 
-void PoseForPicture() //Move machine so camera can see unobstructed table
-{
-
+void poseForPicture(){ //Move machine so camera can see unobstructed table
   digitalWrite(RED_LED_PIN, LOW);  
   digitalWrite(BLUE_LED_PIN, HIGH); 
   digitalWrite(GREEN_LED_PIN, LOW); 
 
   delay(250);
-  if(currentX < UPPERBOUND_X / 2) requestedX = 0;
-  else requestedX = UPPERBOUND_X;
-  if(currentY < UPPERBOUND_Y / 2) requestedY = 0;
-  else requestedY = UPPERBOUND_Y;
+  if(currentX < UPPERBOUND_X / 2){
+    requestedX = 0;
+  }else{
+    requestedX = UPPERBOUND_X;
+  }
+  
+  if(currentY < UPPERBOUND_Y / 2){
+    requestedY = 0;
+  }else{
+    requestedY = UPPERBOUND_Y;
+  }
+  
   requestedR = 0;
-  MoveXYR();  
-  
-}
+  moveXYR();  
+}//poseForPicture()
 
-void RequestPCInstruction() //Loop during PC operation
-{ 
-  
+void requestPCInstruction(){ //Loop during PC operation
   double serialX;
   double serialY;
   double serialR;
@@ -227,23 +201,24 @@ void RequestPCInstruction() //Loop during PC operation
   digitalWrite(BLUE_LED_PIN, HIGH); 
   digitalWrite(GREEN_LED_PIN, LOW); 
 
-  while(true)
-  { 
+  while(true){ 
     Serial.println(REQUEST_CODE);
 
-    while(Serial.available() == 0)
-    {
-      if(digitalRead(USERBUTTON3_PIN) == 0) UserButton3(); 
-      else userThreeHeld = false;
-      if(userControl) return;
+    while(Serial.available() == 0){
+      if(digitalRead(USERBUTTON3_PIN) == 0){
+        userButton3(); 
+      }else{
+        userThreeHeld = false;
+      }
+      
+      if(userControl){
+        return;
+      }
     }
 
-    if((int)Serial.parseFloat() != SHOT_CODE)
-    {
+    if((int)Serial.parseFloat() != SHOT_CODE){
       Serial.println("Communication fault!");
-    }
-    else
-    {
+    }else{
       break;
     }
   }
@@ -262,13 +237,10 @@ void RequestPCInstruction() //Loop during PC operation
    
   Serial.println(CONFIRM_CODE);
 
-  MapCoordinates(serialX, serialY, serialR);
-  
-}
+  mapCoordinates(serialX, serialY, serialR);
+}//requestPCInstruction()
 
-void MapCoordinates(double serialX, double serialY, double serialR) //Map from real coordinates to step coordinates
-{
-  
+void mapCoordinates(double serialX, double serialY, double serialR){ //Map from real coordinates to step coordinates
   serialX -= OOB_MOD_LENGTH*cos(serialR);
   serialY -= OOB_MOD_LENGTH*sin(serialR);
   
@@ -276,23 +248,31 @@ void MapCoordinates(double serialX, double serialY, double serialR) //Map from r
   requestedY = (serialY * (UPPERBOUND_Y - Y_MIN_OFFSET - Y_MAX_OFFSET) / REAL_TABLE_Y) + Y_MIN_OFFSET;
   requestedR = (int)((REAL_TABLE_R - serialR) * UPPERBOUND_R / REAL_TABLE_R + R_OFFSET) % (UPPERBOUND_R + 1);
 
-  if(requestedX < 0) requestedX = 0;
-  if(requestedX > UPPERBOUND_X) requestedX = UPPERBOUND_X;
-  if(requestedY < 0) requestedY = 0;
-  if(requestedY > UPPERBOUND_Y) requestedY = UPPERBOUND_Y;
-  if(requestedR < 0) requestedR = 0;
-  if(requestedR > UPPERBOUND_R) requestedR = UPPERBOUND_R;
+  if(requestedX < 0){
+    requestedX = 0;
+  }else if(requestedX > UPPERBOUND_X){
+    requestedX = UPPERBOUND_X;
+  }
   
-}
+  if(requestedY < 0){
+    requestedY = 0;
+  }else if(requestedY > UPPERBOUND_Y){
+    requestedY = UPPERBOUND_Y;
+  }
+  
+  if(requestedR < 0){
+    requestedR = 0;
+  }else if(requestedR > UPPERBOUND_R){
+    requestedR = UPPERBOUND_R;
+  }
+}//mapCoordinates()
 
-void TakeShot()
-{
-
+void takeShot(){
   digitalWrite(RED_LED_PIN, HIGH);  
   digitalWrite(BLUE_LED_PIN, HIGH); 
   digitalWrite(GREEN_LED_PIN, HIGH); 
   
-  MoveXYR();
+  moveXYR();
   delay(500);
   digitalWrite(E_EXTEND_PIN, HIGH);
   delay(25);
@@ -301,38 +281,43 @@ void TakeShot()
   digitalWrite(E_RETRACT_PIN, HIGH);
   delay(25);
   digitalWrite(E_RETRACT_PIN, LOW);
+}//takeShot()
+
+void moveXYR(){ //Move X Y and R simultaneously
+  int speedUp;
   
-}
-
-// Low-Level Functionality  ///////////////////////////////////////////////////////////////
-
-void MoveXYR() //Move X Y and R simultaneously
-{
-
-  if(requestedX-currentX != 0 || requestedY-currentY != 0 || requestedR-currentR != 0)
-  {
-    int speedUp = 0;
+  if(requestedX-currentX != 0 || requestedY-currentY != 0 || requestedR-currentR != 0){
+    speedUp = 0;
       
-    if (requestedX > currentX) xDir = 1;
-    else xDir = -1;
+    if(requestedX > currentX){
+      xDir = 1;
+    }else{
+      xDir = -1;
+    }
 
     digitalWrite(X1_DIR_PIN, xDir > 0);
     digitalWrite(X2_DIR_PIN, xDir < 0);
 
-    if (requestedY > currentY)  yDir = 1;
-    else  yDir = -1;
+    if(requestedY > currentY){
+      yDir = 1;
+    }else{
+      yDir = -1;
+    }
   
     digitalWrite(Y_DIR_PIN, yDir > 0);
 
-    if (requestedR > currentR)  rDir = 1;
-    else  rDir = -1;
+    if(requestedR > currentR){
+      rDir = 1;
+    }else{
+      rDir = -1;
+    }
     
     digitalWrite(R_DIR_PIN, rDir > 0);
 
-    while(requestedX-currentX != 0 || requestedY-currentY != 0 || requestedR-currentR != 0)
-    {    
-      if(xDir == -1 && digitalRead(XMIN_PIN) == 0) //XMIN endstop hit 
-      {
+    while(requestedX-currentX != 0
+          || requestedY-currentY != 0
+          || requestedR-currentR != 0){
+      if(xDir == -1 && digitalRead(XMIN_PIN) == 0){ //XMIN endstop hit 
         currentX = 0;
         xDir = 1;
         digitalWrite(X1_DIR_PIN, HIGH);
@@ -340,8 +325,7 @@ void MoveXYR() //Move X Y and R simultaneously
         delay(250); 
       }
 
-      if(xDir == 1 && digitalRead(XMAX_PIN) == 0) //XMAX endstop hit 
-      {
+      if(xDir == 1 && digitalRead(XMAX_PIN) == 0){ //XMAX endstop hit 
         currentX = UPPERBOUND_X;
         xDir = -1;
         digitalWrite(X1_DIR_PIN, LOW);
@@ -349,156 +333,186 @@ void MoveXYR() //Move X Y and R simultaneously
         delay(250); 
       }
 
-      if(yDir == -1 && digitalRead(YMIN_PIN) == 0) //YMIN endstop hit 
-      {
+      if(yDir == -1 && digitalRead(YMIN_PIN) == 0){ //YMIN endstop hit 
         currentY = 0;
         yDir = 1;
         digitalWrite(Y_DIR_PIN, HIGH);
       }
     
-      if(yDir == 1 && digitalRead(YMAX_PIN) == 0) //YMAX endstop hit
-      {
+      if(yDir == 1 && digitalRead(YMAX_PIN) == 0){ //YMAX endstop hit
         currentY = UPPERBOUND_Y;
         yDir = -1;
         digitalWrite(Y_DIR_PIN, LOW);
       }
 
-      if(rDir == -1 && currentR < UPPERBOUND_R/2 && digitalRead(RMIN_PIN) == 0) //R reference point hit
-      {
+      if(rDir == -1 && currentR < UPPERBOUND_R/2 && digitalRead(RMIN_PIN) == 0){ //R reference point hit
           currentR = 0;
           if(requestedR < 0) requestedR = 0; //For initialization 
           rDir = 1;
           digitalWrite(R_DIR_PIN, HIGH);
       }
          
-      if(requestedX-currentX != 0)
-      {
+      if(requestedX-currentX != 0){
         digitalWrite(X1_STEP_PIN, HIGH);
         digitalWrite(X2_STEP_PIN, HIGH);
       }
 
-      if(requestedY-currentY != 0)
-      {
+      if(requestedY-currentY != 0){
         digitalWrite(Y_STEP_PIN, HIGH);
       }
 
-      if(requestedR-currentR != 0) 
-      {
+      if(requestedR-currentR != 0){
         digitalWrite(R_STEP_PIN, HIGH);
       }
 
-      if(abs(currentX-requestedX) < SLOWSTEP && currentX-requestedX != 0) delayMicroseconds(MICRODELAY*(abs(currentX-requestedX)*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
-      else if(speedUp < SLOWSTEP) delayMicroseconds(MICRODELAY*(speedUp*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
-      else delayMicroseconds(MICRODELAY);
+      if(abs(currentX-requestedX) < SLOWSTEP && currentX-requestedX != 0){
+        delayMicroseconds(MICRODELAY*(abs(currentX-requestedX)*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
+      }else if(speedUp < SLOWSTEP){
+        delayMicroseconds(MICRODELAY*(speedUp*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
+      }else{
+        delayMicroseconds(MICRODELAY);
+      }
 
-      if(requestedX-currentX != 0)
-      {
+      if(requestedX-currentX != 0){
         digitalWrite(X1_STEP_PIN, LOW);
         digitalWrite(X2_STEP_PIN, LOW);
         currentX += xDir;
       }
 
-      if(requestedY-currentY != 0)
-      { 
+      if(requestedY-currentY != 0){
         digitalWrite(Y_STEP_PIN, LOW);
         currentY += yDir;
       }
 
-      if(requestedR-currentR != 0) 
-      {
+      if(requestedR-currentR != 0){
         digitalWrite(R_STEP_PIN, LOW);
         currentR += rDir;
       }
     
-      if(abs(currentX-requestedX) < SLOWSTEP && currentX-requestedX != 0) delayMicroseconds(MICRODELAY*(abs(currentX-requestedX)*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
-      else if(speedUp < SLOWSTEP) delayMicroseconds(MICRODELAY*(speedUp*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
-      else delayMicroseconds(MICRODELAY);
+      if(abs(currentX-requestedX) < SLOWSTEP && currentX-requestedX != 0){
+        delayMicroseconds(MICRODELAY*(abs(currentX-requestedX)*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
+      }else if(speedUp < SLOWSTEP){
+        delayMicroseconds(MICRODELAY*(speedUp*((1.0-2.0)/SLOWSTEP)+SLOWRATE));
+      }else{
+        delayMicroseconds(MICRODELAY);
+      }
 
-      if(digitalRead(USERBUTTON1_PIN) == 0) UserButton1();
-      else userOneHeld = false;
-      if(digitalRead(USERBUTTON2_PIN) == 0) UserButton2(); 
-      else userTwoHeld = false;
-      if(digitalRead(USERBUTTON3_PIN) == 0) UserButton3();
-      else userThreeHeld = false;
+      if(digitalRead(USERBUTTON1_PIN) == 0){
+        userButton1();
+      }else{
+        userOneHeld = false;
+      }
+      
+      if(digitalRead(USERBUTTON2_PIN) == 0){
+        userButton2(); 
+      }else{
+        userTwoHeld = false;
+      }
+      
+      if(digitalRead(USERBUTTON3_PIN) == 0){
+        userButton3();
+      }else{
+        userThreeHeld = false;
+      }
 
-      if(speedUp < SLOWSTEP) speedUp++;
-         
+      if(speedUp < SLOWSTEP){
+        speedUp++;
+      }    
     }
 
-    if(stopStart) 
-    {
-      if(xDir > 0) requestedX = 0;
-      else requestedX = UPPERBOUND_X; 
+    if(stopStart){
+      if(xDir > 0){
+        requestedX = 0;
+      }else{
+        requestedX = UPPERBOUND_X; 
+      }
       stopStart = false;
       delay(250);
     }
-
   }
-  
-}
+}//moveXYR()
 
-void UserButton1() //Tell machine to move left during user turn
-{
+void userButton1(){ //Tell machine to move left during user turn
+  int currentTime;
   
-  if (!userControl || userOneHeld) return;
+  if(!userControl || userOneHeld){
+    return;
+  }
   
   userOneHeld = true;
   currentTime = millis();
     
-  if(abs(currentTime - previousTime) <= 250) return;
+  if(abs(currentTime - previousTime) <= 250){
+    return;
+  }
      
   previousTime = currentTime;
       
-  if(requestedX != currentX) 
-  {
-    if(abs(requestedX-currentX) >= 300) requestedX = currentX + (xDir*300); //Stop Moving
-    if(requestedX > currentX) stopStart = true; //Change directions, must stop and start
+  if(requestedX != currentX) {
+    if(abs(requestedX-currentX) >= 300){   //Stop Moving
+      requestedX = currentX + (xDir*300);
+    }
+    
+    if(requestedX > currentX){             //Change directions, must stop and start
+      stopStart = true;
+    }
+  }else{
+    requestedX = 0;
   }
-  else requestedX = 0;
-  
-}
+}//userButton1()
 
-void UserButton2() //Tell machine to move right during user turn
-{
+void userButton2(){ //Tell machine to move right during user turn
+  int currentTime;
   
-  if (!userControl || userTwoHeld) return;
+  if(!userControl || userTwoHeld){
+    return;
+  }
    
   userTwoHeld = true;
   currentTime = millis();
   
-  if(abs(currentTime - previousTime) <= 250) return;
+  if(abs(currentTime - previousTime) <= 250){
+    return;
+  }
       
   previousTime = currentTime;
 
-  if(requestedX != currentX) 
-  {
-    if(abs(requestedX-currentX) >= 300) requestedX = currentX + (xDir*300); //Stop Moving
-    if(requestedX < currentX) stopStart = true; //Change directions, must stop and start
+  if(requestedX != currentX){
+    if(abs(requestedX-currentX) >= 300){   //Stop Moving
+      requestedX = currentX + (xDir*300);
+    }
+    
+    if(requestedX < currentX){             //Change directions, must stop and start
+      stopStart = true;
+    }
+  }else{
+    requestedX = UPPERBOUND_X;
   }
-  else requestedX = UPPERBOUND_X;
+}//userButton2()
 
-}
-
-void UserButton3() //User turn, machine turn
-{
-
-  if(isInitialized == 1) return;
-  if(isInitialized == 0) isInitialized = 1;
-  if(userThreeHeld) return;
+void userButton3(){ //User turn, machine turn
+  int currentTime;
+  
+  if(userThreeHeld || isInitialized == 1){
+    return;
+  }else if(isInitialized == 0){
+    isInitialized = 1;
+  }
   
   userThreeHeld = true;
   currentTime = millis();
   
-  if(abs(currentTime - previousTime) <= 250) return;
+  if(abs(currentTime - previousTime) <= 250){
+    return;
+  }
   
   previousTime = currentTime;
   userControl = !userControl;
   
-  if(abs(requestedX-currentX) >= 300) requestedX = currentX + (xDir*300);
+  if(abs(requestedX - currentX) >= 300){
+    requestedX = currentX + 300 * xDir;
+  }
+  
   requestedY = currentY;
   requestedR = currentR;
-    
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
+}//userButton3()

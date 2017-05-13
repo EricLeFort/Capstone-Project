@@ -1,10 +1,7 @@
-// CannyStill.cpp
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
-#include <conio.h>
 #include <math.h>
 #include <iomanip>
 #include <fstream>
@@ -13,7 +10,6 @@
 
 using namespace std;
 using namespace cv;
-using namespace cv::cuda;
 
 //Stored as x,y,B,G,R,#ofwhitepixels,ballId.
 //The final lines are stored as botthoriz. right vert. top hori, left verti //(xinit,yinit,xfin,yfin)
@@ -21,9 +17,9 @@ bool ballinfo(int balls[16][7], Vec4i lines[4], int N){
 	ofstream myfile;
 	int finalballs[16][7];
 	int zero[2] = {lines[3][0], lines[0][1]};
-	int stripecnt = 0, solidcnt = 1, full_dx = lines[1][0] - lines[3][0], full_dy = lines[2][1] - lines[0][1];
-	double finalposition[16][2], realposition[16][2] = {0};
-	double MILYLEN = 1880, MILXLEN = 960, milpery = MILYLEN / full_dy, milperx = MILXLEN / full_dx;
+	int stripecnt = 0, solidcnt = 0, full_dx = lines[1][0] - lines[3][0], full_dy = lines[2][1] - lines[0][1];
+	double finalposition[16][2], realposition[16][2];
+	double MILYLEN = 1880, MILXLEN = 960, milpery = MILYLEN / full_dy, milperx = MILXLEN / full_dx, resultx, resulty;
 	float OFFSETX = 0.020, OFFSETY = 0.018;
 
 	for(int k = 0; k < 16; k++){
@@ -35,63 +31,75 @@ bool ballinfo(int balls[16][7], Vec4i lines[4], int N){
 			
 			if(balls[k][4] < 110 && balls[k][3] < 110 && balls[k][2] < 110){
 				balls[k][6] = 8; // black ball 
+				finalballs[8][0] = balls[k][0];
 				finalballs[8][1] = balls[k][1];
 				finalballs[8][2] = balls[k][2];
 				finalballs[8][3] = balls[k][3];
 				finalballs[8][4] = balls[k][4];
 				finalballs[8][5] = balls[k][5];
 				finalballs[8][6] = balls[k][6];
-				finalballs[8][7] = balls[k][7];
 				finalposition[8][0] = realposition[k][0];
 				finalposition[8][1] = realposition[k][1];
 			}else if(balls[k][5] > 35){
 				balls[k][6] = 0; // cue ball 
+				finalballs[0][0] = balls[k][0];
 				finalballs[0][1] = balls[k][1];
 				finalballs[0][2] = balls[k][2];
 				finalballs[0][3] = balls[k][3];
 				finalballs[0][4] = balls[k][4];
 				finalballs[0][5] = balls[k][5];
 				finalballs[0][6] = balls[k][6];
-				finalballs[0][7] = balls[k][7];
 				finalposition[0][0] = realposition[k][0];
 				finalposition[0][1] = realposition[k][1];
 			}else if(balls[k][5] >= 8){
-				balls[k][6] = 9; // stripe 
-				finalballs[9+stripecnt][1] = balls[k][1];
-				finalballs[9 + stripecnt][2] = balls[k][2];
-				finalballs[9 + stripecnt][3] = balls[k][3];
-				finalballs[9 + stripecnt][4] = balls[k][4];
-				finalballs[9 + stripecnt][5] = balls[k][5];
-				finalballs[9 + stripecnt][6] = balls[k][6];
-				finalballs[9 + stripecnt][7] = balls[k][7];
-				finalposition[9 + stripecnt][0] = realposition[k][0];
-				finalposition[9 + stripecnt][1] = realposition[k][1];
-
 				stripecnt = stripecnt + 1;
-				if(stripecnt > 7){
+
+				balls[k][6] = 9; // stripe 
+				finalballs[8 + stripecnt][0] = balls[k][0];
+				finalballs[8 + stripecnt][1] = balls[k][1];
+				finalballs[8 + stripecnt][2] = balls[k][2];
+				finalballs[8 + stripecnt][3] = balls[k][3];
+				finalballs[8 + stripecnt][4] = balls[k][4];
+				finalballs[8 + stripecnt][5] = balls[k][5];
+				finalballs[8 + stripecnt][6] = balls[k][6];
+				finalposition[8 + stripecnt][0] = realposition[k][0];
+				finalposition[8 + stripecnt][1] = realposition[k][1];
+
+				if(stripecnt > 6){
 					solidcnt = 0;	//TODO MAKE THAT NOT WIPE BALLS
 				}
 			}else if(balls[k][5] < 8){
+				solidcnt = solidcnt + 1;
 				balls[k][6] = 2; // solid 
-				finalballs[0+solidcnt][1] = balls[k][1];
+				finalballs[0 + solidcnt][0] = balls[k][0];
+				finalballs[0 + solidcnt][1] = balls[k][1];
 				finalballs[0 + solidcnt][2] = balls[k][2];
 				finalballs[0 + solidcnt][3] = balls[k][3];
 				finalballs[0 + solidcnt][4] = balls[k][4];
 				finalballs[0 + solidcnt][5] = balls[k][5];
 				finalballs[0 + solidcnt][6] = balls[k][6];
-				finalballs[0 + solidcnt][7] = balls[k][7];
 				finalposition[0 + solidcnt][0] = realposition[k][0];
 				finalposition[0 + solidcnt][1] = realposition[k][1];
-				solidcnt = solidcnt + 1;
-				if (solidcnt > 7) { solidcnt = 1; }
+				
+				if(solidcnt > 6){
+					solidcnt = 0;
+				}
 			}
 		}
 	}
 	balls = finalballs; 
 
-	myfile.open("C:\\Users\\Max\\Capstone\\Capstone-Project\\resources\\TableState.csv");
+	remove("../../resources/TableState.csv");
+	myfile.open("../../resources/TableState.csv");
 	for(int k = 0; k < 16; k++){
-		myfile << (finalposition[k][1] * 0.001) - OFFSETX << "," << (finalposition[k][0] * 0.001) - OFFSETY << endl;
+		resultx = (finalposition[k][1] * 0.001) - OFFSETX;
+		resulty = (finalposition[k][0] * 0.001) - OFFSETY;
+		if(resultx < 0 || resulty < 0){
+			resultx = -1;
+			resulty = -1;
+		}
+
+		myfile << resultx << "," << resulty << endl;
 	}
 	myfile.close();
 
@@ -123,16 +131,16 @@ int main(){
 	};
 	ifstream text;
 	std::string s1, temp = "";
-	string s2 = "\"C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\TableStateVR\\TESTER.jpg\"",
-			s3 = "C:\\Users\\Max\\Capstone\\Capstone-Project\\resources\\TableImage.jpg",
+	string s2 = "../../resources/tester.jpg",
+			s3 = "../../resources/TableImage.jpg",
 			commd, commd2;
-	int balls[16][7];//stored as x,y,B,G,R,#ofwhitepixels,ballid.
-	int deciderarray[3], linedirection[20000] = { 0 };// so far: 0 ignore line, 1 vertical line, 2 horizontal line.
-	int hueValue = 0, hueRange = 15, minSaturation = 175, minValue = 50, mintilt, M = 0,
-			tempwhitepix = 0, tempnotwhite = 0, ballfound = 0, mindistfromedge = 80;
+	int linedirection[20000];
+	int M = 0, hueValue = 0, hueRange = 15, minSaturation = 175, minValue = 50,
+			mintilt, tempwhitepix, tempnotwhite, ballfound, mindistfromedge;
 	char next = 'a';
-	bool ignorel = false, whitechecker = false;
+	bool ignorel, whitechecker;
 
+	system("adb reconnect");
 	system("adb shell input keyevent KEYCODE_POWER");
 	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 	system("adb shell input keyevent KEYCODE_POWER");
@@ -144,12 +152,12 @@ int main(){
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	system("adb shell input keyevent 27");
 	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-	system("ADB ls sdcard/DCIM/Camera >> \"C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\TableStateVR\\PICTURES.txt\"");
+	system("adb ls sdcard/DCIM/Camera > ../../resources/pictures.txt");
 
-	text.open("C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\TableStateVR\\PICTURES.txt");
+	text.open("../../resources/pictures.txt");
 	
 	while(std::getline(text, s1)){
-		if(size(s1) > 5){
+		if(s1.length() > 5){
 			temp = s1;
 		}
 	}
@@ -162,20 +170,19 @@ int main(){
 	const char *formatcomm = commd.c_str();
 	const char *formatcomm2 = commd2.c_str();
 
-	if(size(temp) > 5){
+	if(temp.length() > 5){
 		system(formatcomm);
 	}
 
-	imgOriginal = cv::imread("C:\\Users\\Max\\Documents\\Visual Studio 2015\\Projects\\TableStateVR\\TESTER.jpg");
+	imgOriginal = cv::imread("../../resources/tester.jpg");
 
 	if(imgOriginal.empty()){                                  	// if unable to open image
-		std::cout << "error: image not read from file\n\n";     // show error message on command line
-		_getch();                                               // may have to modify this line if not using Windows
-		return(0);                                              // and exit program
+		std::cout << "error: image not read from file\n";     	// show error message on command line
+		return 0;                                              // and exit program
 	}
+
 	cv::cvtColor(imgOriginal, imgGrayscale, CV_BGR2GRAY);       // convert to grayscale
 	cv::cvtColor(imgOriginal, imgforwhitedetection, CV_BGR2Lab);
-
 
 	cv::Canny(imgGrayscale, imgCanny, 80, 180);
 	cv::cvtColor(imgOriginal, imgHSV, CV_BGR2HSV);	//NEW LINE DETECTION 
@@ -225,16 +232,16 @@ int main(){
 		for(int k = 1; k < r; k++){
 			others = lines[r - k];
 
-			if(int(l[0]) > int(others[0] - 20) && int(l[0] < int(others[0]) + 20){
+			if(int(l[0]) > int(others[0] - 20) && int(l[0]) < int(others[0]) + 20){
 				linedirection[r] = 0;
 			}
-			if(int(l[1]) > int(others[1] - 20) && int(l[1] < int(others[1]) + 20){
+			if(int(l[1]) > int(others[1] - 20) && int(l[1]) < int(others[1]) + 20){
 				linedirection[r] = 0;
 			}
 			if(int(l[2]) > int(others[2] - 20) && int(l[2]) < int(others[2]) + 20){
 				linedirection[r] = 0;
 			}
-			if(int(l[3]) > int(others[3] - 20) && int(l[3] < int(others[3]) + 20){
+			if(int(l[3]) > int(others[3] - 20) && int(l[3]) < int(others[3]) + 20){
 				linedirection[r] = 0;
 			}
 
@@ -262,6 +269,13 @@ int main(){
 	}
 
 	cv::HoughCircles(imgGrayscale, output, CV_HOUGH_GRADIENT, 5, 116, 65, 120, 59, 65);
+	int balls[16][7];//stored as x,y,B,G,R,#ofwhitepixels,ballid.
+	int deciderarray[3];
+	tempwhitepix = 0;
+	tempnotwhite = 0;
+	whitechecker = false;
+	ballfound = 0;
+	mindistfromedge = 80;
 
 	/*
 	* Beginning of circle detection
@@ -388,6 +402,16 @@ int main(){
 		}
 	}
 	ballinfo(balls, finallines, ballfound);
-	
+
+	// declare windows
+	//cv::namedWindow("hueMask", CV_WINDOW_NORMAL);
+	cv::namedWindow("imgOriginal", CV_WINDOW_AUTOSIZE);     // note: you can use CV_WINDOW_NORMAL which allows resizing the window
+	//cv::namedWindow("imgCanny", CV_WINDOW_NORMAL);        // or CV_WINDOW_AUTOSIZE for a fixed size window matching the resolution of the image
+	// CV_WINDOW_AUTOSIZE is the default
+	//cv::imshow("hueMask", imgOriginal);
+	cv::imshow("imgOriginal", imgOriginal);     // show windows
+	//cv::imshow("imgCanny", imgCanny);
+	cv::waitKey(0);                 // hold windows open until user presses a key
+
 	return 0;
 }//main()
